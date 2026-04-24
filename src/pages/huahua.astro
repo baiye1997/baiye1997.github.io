@@ -195,30 +195,34 @@ import Layout from '../layouts/Layout.astro';
 
       const data = await response.json();
 
+      const isDark = document.documentElement.classList.contains('dark');
+      const cardBg = isDark ? '#2C2C2E' : '#F2F2F7';
+      const labelColor = isDark ? '#98989D' : '#8E8E93';
+
       document.getElementById('huahua-stats-content').innerHTML = `
-        <div class="text-center p-4 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
-          <div class="text-2xl font-bold text-[#4169E1] dark:text-[#6495ED]">${data.today_visit_count ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-1">今日访问</div>
+        <div class="text-center p-4 rounded-xl" style="background-color:${cardBg}">
+          <div class="text-2xl font-bold text-[#4169E1]">${data.today_visit_count ?? '--'}</div>
+          <div class="text-xs mt-1" style="color:${labelColor}">今日访问</div>
         </div>
-        <div class="text-center p-4 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
-          <div class="text-2xl font-bold text-[#6495ED] dark:text-[#4169E1]">${data.today_logged_in_users ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-1">今日登录</div>
+        <div class="text-center p-4 rounded-xl" style="background-color:${cardBg}">
+          <div class="text-2xl font-bold text-[#6495ED]">${data.today_logged_in_users ?? '--'}</div>
+          <div class="text-xs mt-1" style="color:${labelColor}">今日登录</div>
         </div>
-        <div class="text-center p-4 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
-          <div class="text-2xl font-bold text-[#4169E1] dark:text-[#6495ED]">${data.today_visitor_users ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-1">今日访客</div>
+        <div class="text-center p-4 rounded-xl" style="background-color:${cardBg}">
+          <div class="text-2xl font-bold text-[#4169E1]">${data.today_visitor_users ?? '--'}</div>
+          <div class="text-xs mt-1" style="color:${labelColor}">今日访客</div>
         </div>
-        <div class="text-center p-4 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
-          <div class="text-2xl font-bold text-[#6495ED] dark:text-[#4169E1]">${data.total_users ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-1">总用户</div>
+        <div class="text-center p-4 rounded-xl" style="background-color:${cardBg}">
+          <div class="text-2xl font-bold text-[#6495ED]">${data.total_users ?? '--'}</div>
+          <div class="text-xs mt-1" style="color:${labelColor}">总用户</div>
         </div>
-        <div class="text-center p-4 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
+        <div class="text-center p-4 rounded-xl" style="background-color:${cardBg}">
           <div class="text-2xl font-bold text-[#F06292]">${data.total_pro_users ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-1">Pro 用户</div>
+          <div class="text-xs mt-1" style="color:${labelColor}">Pro 用户</div>
         </div>
-        <div class="text-center p-4 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
+        <div class="text-center p-4 rounded-xl" style="background-color:${cardBg}">
           <div class="text-2xl font-bold text-[#F06292]">${data.total_vip_users ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-1">VIP 用户</div>
+          <div class="text-xs mt-1" style="color:${labelColor}">VIP 用户</div>
         </div>
       `;
     } catch (e) {

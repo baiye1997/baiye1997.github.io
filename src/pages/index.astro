@@ -156,31 +156,36 @@ const sections = [
 
       const data = await response.json();
 
+      // 检测当前主题
+      const isDark = document.documentElement.classList.contains('dark');
+      const cardBg = isDark ? '#2C2C2E' : '#F2F2F7';
+      const labelColor = isDark ? '#98989D' : '#8E8E93';
+
       // 更新统计卡片
       document.getElementById('huahua-stats-content').innerHTML = `
-        <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
           <div class="text-xl font-bold text-[#4169E1]">${data.today_visit_count ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] mt-0.5">今日访问</div>
+          <div class="text-xs mt-0.5" style="color:${labelColor}">今日访问</div>
         </div>
-        <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
           <div class="text-xl font-bold text-[#6495ED]">${data.today_logged_in_users ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] mt-0.5">今日登录</div>
+          <div class="text-xs mt-0.5" style="color:${labelColor}">今日登录</div>
         </div>
-        <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
           <div class="text-xl font-bold text-[#4169E1]">${data.today_visitor_users ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] mt-0.5">今日访客</div>
+          <div class="text-xs mt-0.5" style="color:${labelColor}">今日访客</div>
         </div>
-        <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
           <div class="text-xl font-bold text-[#6495ED]">${data.total_users ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] mt-0.5">总用户</div>
+          <div class="text-xs mt-0.5" style="color:${labelColor}">总用户</div>
         </div>
-        <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
           <div class="text-xl font-bold text-[#F06292]">${data.total_pro_users ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] mt-0.5">Pro 用户</div>
+          <div class="text-xs mt-0.5" style="color:${labelColor}">Pro 用户</div>
         </div>
-        <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
           <div class="text-xl font-bold text-[#F06292]">${data.total_vip_users ?? '--'}</div>
-          <div class="text-xs text-[#8E8E93] mt-0.5">VIP 用户</div>
+          <div class="text-xs mt-0.5" style="color:${labelColor}">VIP 用户</div>
         </div>
       `;
     } catch (e) {
