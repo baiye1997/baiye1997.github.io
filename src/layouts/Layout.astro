@@ -7,7 +7,7 @@ interface Props {
 }
 
 const { title, description = '白也的个人主页' } = Astro.props;
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
 ---
 
 <!DOCTYPE html>
