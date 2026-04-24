@@ -9,15 +9,42 @@ const notes = Object.entries(noteFiles)
     const parts = path.split('/');
     const category = parts[parts.length - 2] || '其他';
     const filename = parts.pop()?.replace('.md', '') || 'Untitled';
+    
+    // 去掉分类名中的 emoji 前缀（如 "📰 山水邸报" → "山水邸报"）
+    const categoryClean = category.replace(/^[^\u4e00-\u9fff]+/, '').trim() || category;
     const slug = `${category}/${filename}`;
+    
+    // 格式化日期
+    let dateStr = module.frontmatter?.date || '';
+    if (dateStr) {
+      try {
+        const d = new Date(dateStr);
+        if (!isNaN(d.getTime())) {
+          const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+          dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} 星期${weekdays[d.getDay()]}`;
+        }
+      } catch {}
+    }
+    
+    // 改进摘要提取
+    let excerpt = '';
+    const raw = module.raw || '';
+    if (raw) {
+      // 跳过 frontmatter，取第一段有意义的文本
+      const content = raw.replace(/^---[\s\S]*?---\s*/, '').trim();
+      const lines = content.split('\n').filter((l: string) => l.trim() && !l.startsWith('#') && !l.startsWith('!['));
+      excerpt = lines.slice(0, 2).join(' ').replace(/[#*\-_>`\[\]]/g, '').trim().slice(0, 120);
+      if (excerpt.length >= 120) excerpt += '...';
+    }
     
     return {
       title: module.frontmatter?.title || filename,
-      date: module.frontmatter?.date || '',
+      date: dateStr,
       tags: module.frontmatter?.tags || [],
-      excerpt: (module.raw || '').slice(0, 120).replace(/[#*\-_>`]/g, '').trim() + '...',
+      excerpt,
       slug,
-      category,
+      category: categoryClean,
+      categoryRaw: category,
     };
   })
   .sort((a: any, b: any) => (b.date > a.date ? 1 : -1));
@@ -28,6 +55,8 @@ const categoryIcons: Record<string, string> = {
   '本周必读': '📖',
   '学海无涯': '📝',
   '金精铜钱': '💰',
+  '夜航船': '⛵',
+  '撼山拳谱': '📜',
 };
 ---
 
