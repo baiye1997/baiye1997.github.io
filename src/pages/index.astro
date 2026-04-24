@@ -2,12 +2,42 @@
 import Layout from '../layouts/Layout.astro';
 
 const noteFiles = import.meta.glob('../../src/content/notes/**/*.md', { eager: true });
-const noteCount = Object.keys(noteFiles).filter(path => {
-  if (path.includes('二掌柜')) return false;
-  const f = path.split('/').pop() || '';
-  if (f === 'README.md' || f.includes('归档规范') || f.includes('排版规范') || f.includes('模板') || f.startsWith('.')) return false;
-  return true;
-}).length;
+
+// Collect valid notes with metadata
+interface NoteMeta {
+  title: string;
+  date: string;
+  category: string;
+  slug: string;
+  readingTime: number;
+}
+
+const allNotes: NoteMeta[] = Object.entries(noteFiles)
+  .filter(([path]) => {
+    if (path.includes('二掌柜')) return false;
+    const f = path.split('/').pop() || '';
+    if (f === 'README.md' || f.includes('归档规范') || f.includes('排版规范') || f.includes('模板') || f.startsWith('.')) return false;
+    return true;
+  })
+  .map(([path, mod]: [string, any]) => {
+    const fm = mod.frontmatter || {};
+    const parts = path.split('/');
+    const category = parts[parts.length - 2] || '';
+    const categoryClean = category.replace(/^[^\u4e00-\u9fff\w]+/, '').trim() || category;
+    const wordCount = (mod.compiledContent?.() || '').length || 0;
+    const readingTime = Math.max(1, Math.round(wordCount / 400));
+    return {
+      title: fm.title || path.split('/').pop()?.replace(/\.md$/, '') || '',
+      date: fm.date || '',
+      category: categoryClean,
+      slug: path,
+      readingTime,
+    };
+  })
+  .sort((a, b) => (b.date > a.date ? 1 : -1));
+
+const recentNotes = allNotes.slice(0, 4);
+const noteCount = allNotes.length;
 
 let repoCount = 0;
 try {
@@ -22,24 +52,64 @@ try {
 
 const hour = new Date().getHours();
 const greeting = hour < 6 ? '夜深了' : hour < 12 ? '早上好' : hour < 18 ? '下午好' : '晚上好';
+
+function formatDate(dateStr: string): string {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return `${d.getMonth() + 1}月${d.getDate()}日`;
+}
+
+const categoryColors: Record<string, string> = {
+  '夜航船': 'var(--accent)',
+  '山水邸报': 'var(--sage)',
+  '金精铜钱': '#C9A84C',
+};
 ---
 
 <Layout title="白也 - 个人主页">
-  <!-- Hero -->
-  <section class="mb-12 reveal">
-    <p class="text-sm mb-3" style="color: var(--text-tertiary);">
-      {greeting} <span class="inline-block" style="animation: wiggle 2s ease-in-out infinite;">👋</span>
-    </p>
-    <h1 class="font-serif text-[40px] sm:text-[52px] font-bold leading-[1.1] tracking-tight mb-4" style="color: var(--text-primary);">
-      我是白也<span style="color: var(--accent);">.</span>
-    </h1>
-    <p class="text-base sm:text-lg leading-relaxed max-w-lg" style="color: var(--text-secondary);">
-      安装造价工程师，业余时间用 AI 搭各种好玩的东西。养了一只叫花花的猫，它才是这个家的主人。
+
+  <!-- ===== HERO ===== -->
+  <section class="relative mb-16 reveal" style="padding-top: 2rem;">
+    <!-- Decorative gradient orb -->
+    <div class="absolute -top-8 -right-12 w-[320px] h-[320px] rounded-full pointer-events-none opacity-30"
+         style="background: radial-gradient(circle, var(--accent) 0%, transparent 70%); filter: blur(60px);"
+         aria-hidden="true"></div>
+
+    <div class="relative flex items-start gap-6 sm:gap-8">
+      <!-- Avatar with glow -->
+      <div class="relative flex-shrink-0">
+        <img
+          src="/avatar.jpg"
+          alt="白也"
+          class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl object-cover"
+          style="border: 2px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.08);"
+          loading="eager"
+        />
+      </div>
+
+      <div class="flex-1 min-w-0">
+        <p class="text-sm mb-2" style="color: var(--text-tertiary);">
+          {greeting} <span class="inline-block" style="animation: wiggle 2s ease-in-out infinite;">👋</span>
+        </p>
+        <h1 class="font-serif text-[36px] sm:text-[48px] font-bold leading-[1.1] tracking-tight mb-3" style="color: var(--text-primary);">
+          我是白也<span style="color: var(--accent);">.</span>
+        </h1>
+        <p class="text-sm sm:text-base leading-relaxed max-w-md" style="color: var(--text-secondary);">
+          安装造价工程师，业余时间用 AI 搭各种好玩的东西。养了一只叫花花的猫，它才是这个家的主人。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUOTE / MOTTO ===== -->
+  <section class="mb-14 reveal reveal-delay-1">
+    <p class="font-serif italic text-center text-lg sm:text-xl leading-relaxed" style="color: var(--text-secondary);">
+      「用代码记录生活，用 AI 探索可能。」
     </p>
   </section>
 
-  <!-- Stats — editorial inline style -->
-  <section class="mb-12 reveal reveal-delay-1">
+  <!-- ===== STATS ===== -->
+  <section class="mb-14 reveal reveal-delay-1">
     <div class="flex items-baseline gap-1.5 flex-wrap">
       <span class="font-serif text-3xl font-bold" style="color: var(--accent);">{noteCount}</span>
       <span class="text-sm" style="color: var(--text-tertiary);">篇笔记</span>
@@ -49,8 +119,65 @@ const greeting = hour < 6 ? '夜深了' : hour < 12 ? '早上好' : hour < 18 ? 
     </div>
   </section>
 
-  <!-- 花花日记 — single featured link, no card -->
-  <a href="/huahua" class="group block mb-12 reveal reveal-delay-2">
+  <!-- ===== LATEST NOTES ===== -->
+  {recentNotes.length > 0 && (
+    <section class="mb-14 reveal reveal-delay-2">
+      <div class="dot-divider mb-6">最近写的东西</div>
+      <div class="space-y-0">
+        {recentNotes.map((note) => {
+          const dotColor = categoryColors[note.category] || 'var(--text-tertiary)';
+          return (
+            <div class="flex items-center gap-3 py-3.5 group" style="border-bottom: 1px solid var(--border);">
+              <span
+                class="w-2 h-2 rounded-full flex-shrink-0"
+                style={`background: ${dotColor};`}
+              ></span>
+              <span class="text-sm font-medium flex-1 min-w-0 truncate group-hover:text-[var(--accent)] transition-colors" style="color: var(--text-primary);">
+                {note.title}
+              </span>
+              <span class="text-xs flex-shrink-0" style="color: var(--text-tertiary);">
+                {formatDate(note.date)}
+              </span>
+              <span class="text-xs flex-shrink-0 hidden sm:inline" style="color: var(--text-tertiary);">
+                {note.readingTime} min
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      <a href="/notes" class="inline-flex items-center gap-1.5 mt-4 text-sm font-medium transition-colors hover:text-[var(--accent)]" style="color: var(--text-tertiary);">
+        查看全部笔记
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </section>
+  )}
+
+  <!-- ===== CURRENTLY ===== -->
+  <section class="mb-14 reveal reveal-delay-3">
+    <div class="dot-divider mb-6">正在做的事</div>
+    <div class="flex flex-wrap gap-x-8 gap-y-3 text-sm" style="color: var(--text-secondary);">
+      <div class="flex items-center gap-2">
+        <span style="color: var(--text-tertiary);">📖</span>
+        <span>正在读</span>
+        <span class="font-medium" style="color: var(--text-primary);">《置身事内》</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span style="color: var(--text-tertiary);">🧠</span>
+        <span>正在学</span>
+        <span class="font-medium" style="color: var(--text-primary);">AI Agent 开发</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span style="color: var(--text-tertiary);">🔨</span>
+        <span>正在做</span>
+        <span class="font-medium" style="color: var(--text-primary);">花花日记 v2</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 花花日记 ===== -->
+  <a href="/huahua" class="group block mb-14 reveal reveal-delay-3">
     <div class="flex items-center gap-4 mb-3">
       <img src="/huahua-logo.jpg" alt="花花日记" class="w-12 h-12 rounded-xl object-cover" loading="lazy" />
       <div class="flex-1">
@@ -80,8 +207,8 @@ const greeting = hour < 6 ? '夜深了' : hour < 12 ? '早上好' : hour < 18 ? 
     </div>
   </a>
 
-  <!-- Navigation — numbered list, MiMo editorial style -->
-  <nav class="mb-12 reveal reveal-delay-3">
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="mb-14 reveal reveal-delay-4">
     <a href="/notes" class="flex items-center gap-4 py-4 group" style="border-bottom: 1px solid var(--border);">
       <span class="text-xs font-mono" style="color: var(--text-tertiary);">01</span>
       <div class="flex-1">
@@ -114,7 +241,7 @@ const greeting = hour < 6 ? '夜深了' : hour < 12 ? '早上好' : hour < 18 ? 
     </a>
   </nav>
 
-  <!-- About — editorial style, no card -->
+  <!-- ===== ABOUT ===== -->
   <section class="reveal">
     <div class="dot-divider mb-8">关于</div>
     <div class="flex items-start gap-5">
@@ -144,7 +271,7 @@ const greeting = hour < 6 ? '夜深了' : hour < 12 ? '早上好' : hour < 18 ? 
 
 <script is:inline>
   const HUAHUA_API_URL = 'https://huahua.preview.aliyun-zeabur.cn/api/public/blog-stats';
-  const HUAHUA_API_KEY='hf_blog_stats_2026_4vF8kQm2Zr7Lp9Nx6Tw3Yc1Hd5Sa';
+  const HUAHUA_API_KEY='hf_blo...d5Sa';
   let _huahuaData = null;
 
   function renderStats(containerId) {

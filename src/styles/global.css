@@ -364,3 +364,148 @@ img:not([loading="lazy"]) {
   z-index: 9998;
   transition: width 0.1s linear;
 }
+
+/* === Gradient Orb === */
+.gradient-orb {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+}
+.gradient-orb-accent {
+  background: var(--accent);
+}
+.gradient-orb-sage {
+  background: var(--sage);
+}
+.dark .gradient-orb {
+  opacity: 0.08;
+}
+
+/* === Timeline === */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  bottom: 8px;
+  width: 1.5px;
+  background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  padding-bottom: 24px;
+}
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+.timeline-dot {
+  position: absolute;
+  left: -24px;
+  top: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+}
+
+/* === Currently Section === */
+.currently-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+.currently-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  min-width: 48px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* === Editorial Quote === */
+.editorial-quote {
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-style: italic;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 24px 0;
+  position: relative;
+}
+.editorial-quote::before {
+  content: '\201C';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 3rem;
+  color: var(--accent);
+  opacity: 0.2;
+  font-style: normal;
+  line-height: 1;
+}
+
+/* === Note List Item === */
+.note-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+.note-list-item:hover {
+  padding-left: 8px;
+}
+.note-list-item:last-child {
+  border-bottom: none;
+}
+
+/* === Float Animation === */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* === Interest Pill === */
+.interest-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+.interest-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* === Page Transition === */
+main {
+  animation: page-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
