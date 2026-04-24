@@ -14,7 +14,6 @@ function isPublicNote(path: string): boolean {
   return true;
 }
 
-// Build notes data
 const allNotes: Record<string, any> = {};
 const notesList: any[] = [];
 for (const [path, module] of Object.entries(noteFiles)) {
@@ -36,10 +35,8 @@ for (const [path, module] of Object.entries(noteFiles)) {
   notesList.push(noteData);
 }
 
-// Sort by date descending
 notesList.sort((a: any, b: any) => (b.date > a.date ? 1 : -1));
 
-// Generate static paths
 export function getStaticPaths() {
   const noteFiles = import.meta.glob('../../../src/content/notes/**/*.md', { eager: true });
   const paths: { params: { slug: string } }[] = [];
@@ -64,70 +61,68 @@ if (!note) {
   return Astro.redirect('/notes');
 }
 
-// Find prev/next
 const currentIndex = notesList.findIndex((n: any) => n.slug === slug);
 const prevNote = currentIndex < notesList.length - 1 ? notesList[currentIndex + 1] : null;
 const nextNote = currentIndex > 0 ? notesList[currentIndex - 1] : null;
 
-const categoryIcons: Record<string, string> = {
-  '山水邸报': '📰',
-  '本周必读': '📖',
-  '学海无涯': '📝',
-  '金精铜钱': '💰',
-  '夜航船': '⛵',
-  '撼山拳谱': '📜',
+const categoryColors: Record<string, string> = {
+  '山水邸报': 'var(--accent)',
+  '夜航船': 'var(--sage)',
+  '本周必读': '#7C5CFC',
+  '学海无涯': '#D4A03A',
+  '金精铜钱': '#D4A03A',
 };
 ---
 
 <Layout title={`${note.title} - 白也`}>
   <!-- Back button -->
-  <a href="/notes" class="inline-flex items-center gap-1 text-sm text-[#8E8E93] hover:text-[#4169E1] dark:text-[#98989D] dark:hover:text-[#6495ED] transition-colors mb-4">
+  <a href="/notes" class="inline-flex items-center gap-1.5 text-sm mb-6 transition-colors hover:text-[var(--accent)]" style="color: var(--text-tertiary);">
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7" />
     </svg>
     返回笔记
   </a>
 
   <!-- Note header -->
-  <article class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-5 sm:p-6 shadow-sm mb-4">
-    <div class="flex items-center gap-2 text-sm text-[#8E8E93] dark:text-[#98989D] mb-2">
-      <span class="px-2 py-0.5 rounded-full bg-[#4169E1]/10 dark:bg-[#4169E1]/20 text-[#4169E1] dark:text-[#6495ED] text-xs font-medium">
-        {categoryIcons[note.category] || '📄'} {note.category}
-      </span>
-      {note.date && <span>{note.date}</span>}
+  <article class="card p-6 sm:p-8 mb-6">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="inline-block w-2 h-2 rounded-full" style={`background: ${categoryColors[note.category] || 'var(--text-tertiary)'};`}></span>
+      <span class="text-xs font-medium" style="color: var(--text-tertiary);">{note.category}</span>
+      {note.date && <span class="text-xs" style="color: var(--border);">·</span>}
+      {note.date && <span class="text-xs" style="color: var(--text-tertiary);">{note.date}</span>}
     </div>
     
-    <h1 class="text-[22px] sm:text-[28px] font-bold tracking-tight mb-3 leading-tight dark:text-white">{note.title}</h1>
+    <h1 class="font-serif text-[24px] sm:text-[30px] font-bold tracking-tight mb-4 leading-tight" style="color: var(--text-primary);">{note.title}</h1>
     
     {note.tags.length > 0 && (
-      <div class="flex flex-wrap gap-1.5 mb-5">
+      <div class="flex flex-wrap gap-1.5 mb-6">
         {note.tags.map((tag: string) => (
-          <span class="px-2 py-0.5 rounded-full bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[#8E8E93] dark:text-[#98989D] text-xs">
-            {tag}
+          <span class="tag text-[11px] py-0 px-2">
+            #{tag}
           </span>
         ))}
       </div>
     )}
     
     <!-- Note content -->
-    <div class="note-content text-[#3C3C43] dark:text-[#EBEBF5] leading-relaxed">
+    <div class="note-content leading-relaxed" style="color: var(--text-primary);">
       <Fragment set:html={note.content} />
     </div>
   </article>
 
   <!-- Prev/Next navigation -->
   {(prevNote || nextNote) && (
-    <div class="grid grid-cols-2 gap-3 mb-6">
+    <div class="grid grid-cols-2 gap-3 mb-8">
       {prevNote ? (
-        <a href={`/notes/${prevNote.slug}`} class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow group">
-          <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mb-1">← 上一篇</div>
-          <div class="text-sm font-medium group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors line-clamp-2 dark:text-[#EBEBF5]">{prevNote.title}</div>
+        <a href={`/notes/${prevNote.slug}`} class="card p-4 group">
+          <div class="text-xs mb-1" style="color: var(--text-tertiary);">← 上一篇</div>
+          <div class="text-sm font-medium group-hover:text-[var(--accent)] transition-colors line-clamp-2" style="color: var(--text-primary);">{prevNote.title}</div>
         </a>
       ) : <div />}
       {nextNote ? (
-        <a href={`/notes/${nextNote.slug}`} class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow group text-right">
-          <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mb-1">下一篇 →</div>
-          <div class="text-sm font-medium group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors line-clamp-2 dark:text-[#EBEBF5]">{nextNote.title}</div>
+        <a href={`/notes/${nextNote.slug}`} class="card p-4 group text-right">
+          <div class="text-xs mb-1" style="color: var(--text-tertiary);">下一篇 →</div>
+          <div class="text-sm font-medium group-hover:text-[var(--accent)] transition-colors line-clamp-2" style="color: var(--text-primary);">{nextNote.title}</div>
         </a>
       ) : <div />}
     </div>
@@ -135,28 +130,29 @@ const categoryIcons: Record<string, string> = {
 </Layout>
 
 <style is:global>
-  /* === Note Content - Mobile First === */
   .note-content {
     font-size: 15px;
     line-height: 1.75;
   }
 
-  /* Headings */
   .note-content h1 {
+    font-family: 'Crimson Pro', 'Noto Serif SC', Georgia, serif;
     font-size: 1.4rem;
     font-weight: 700;
     margin: 2rem 0 0.75rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid #F2F2F7;
+    border-bottom: 1px solid var(--border);
   }
   .note-content h2 {
+    font-family: 'Crimson Pro', 'Noto Serif SC', Georgia, serif;
     font-size: 1.2rem;
     font-weight: 600;
     margin: 1.75rem 0 0.75rem;
     padding-bottom: 0.4rem;
-    border-bottom: 1px solid #F2F2F7;
+    border-bottom: 1px solid var(--border);
   }
   .note-content h3 {
+    font-family: 'Crimson Pro', 'Noto Serif SC', Georgia, serif;
     font-size: 1.05rem;
     font-weight: 600;
     margin: 1.25rem 0 0.5rem;
@@ -167,12 +163,10 @@ const categoryIcons: Record<string, string> = {
     margin: 1rem 0 0.5rem;
   }
 
-  /* Paragraphs */
   .note-content p {
     margin: 0.75rem 0;
   }
 
-  /* Lists - better spacing for mobile */
   .note-content ul, .note-content ol {
     margin: 0.75rem 0;
     padding-left: 1.25rem;
@@ -185,38 +179,36 @@ const categoryIcons: Record<string, string> = {
     margin: 0.25rem 0;
   }
 
-  /* Links */
   .note-content a {
-    color: #4169E1;
+    color: var(--accent);
     text-decoration: underline;
     text-underline-offset: 2px;
-    text-decoration-color: #4169E1/30;
+    text-decoration-color: color-mix(in srgb, var(--accent) 30%, transparent);
     transition: text-decoration-color 0.2s;
   }
   .note-content a:hover {
-    text-decoration-color: #4169E1;
+    text-decoration-color: var(--accent);
   }
 
-  /* Inline code */
   .note-content code {
-    background: #F2F2F7;
+    background: var(--bg-elevated);
     padding: 0.15rem 0.4rem;
     border-radius: 0.25rem;
     font-size: 0.85em;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    color: #E45858;
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
+    color: var(--accent);
   }
 
-  /* Code blocks */
   .note-content pre {
-    background: #1a1a2e;
-    color: #e0e0e0;
+    background: #1A1816;
+    color: #E0DCD8;
     padding: 1rem;
     border-radius: 0.75rem;
     overflow-x: auto;
     margin: 1rem 0;
     font-size: 0.85rem;
     line-height: 1.6;
+    border: 1px solid var(--border);
     -webkit-overflow-scrolling: touch;
   }
   .note-content pre code {
@@ -226,21 +218,19 @@ const categoryIcons: Record<string, string> = {
     font-size: inherit;
   }
 
-  /* Blockquotes */
   .note-content blockquote {
-    border-left: 3px solid #4169E1;
+    border-left: 3px solid var(--accent);
     padding: 0.75rem 1rem;
     margin: 1rem 0;
-    background: #F8F9FF;
+    background: var(--bg-elevated);
     border-radius: 0 0.5rem 0.5rem 0;
-    color: #636366;
+    color: var(--text-secondary);
     font-size: 0.9em;
   }
   .note-content blockquote p {
     margin: 0.25rem 0;
   }
 
-  /* Tables - mobile scroll */
   .note-content table {
     width: 100%;
     border-collapse: collapse;
@@ -251,48 +241,43 @@ const categoryIcons: Record<string, string> = {
     -webkit-overflow-scrolling: touch;
   }
   .note-content th, .note-content td {
-    border: 1px solid #E5E5EA;
+    border: 1px solid var(--border);
     padding: 0.5rem 0.75rem;
     text-align: left;
     white-space: nowrap;
   }
   .note-content th {
-    background: #F2F2F7;
+    background: var(--bg-elevated);
     font-weight: 600;
     position: sticky;
     left: 0;
   }
   .note-content tr:nth-child(even) {
-    background: #FAFAFA;
+    background: var(--bg-elevated);
   }
 
-  /* Images */
   .note-content img {
     max-width: 100%;
     border-radius: 0.75rem;
     margin: 1rem 0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px hsl(var(--shadow-color) / 0.08);
   }
 
-  /* Horizontal rule */
   .note-content hr {
     border: none;
-    border-top: 1px solid #E5E5EA;
+    border-top: 1px solid var(--border);
     margin: 1.5rem 0;
   }
 
-  /* Strong */
   .note-content strong {
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--text-primary);
   }
 
-  /* Em */
   .note-content em {
-    color: #636366;
+    color: var(--text-secondary);
   }
 
-  /* Line clamp */
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;

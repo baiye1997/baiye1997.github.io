@@ -28,137 +28,164 @@ const sections = [
     subtitle: '来自 Obsidian 的知识沉淀',
     icon: '📝',
     href: '/notes',
-    color: '#4169E1',
+    color: 'var(--accent)',
   },
   {
     title: '项目',
     subtitle: 'GitHub 开源仓库 · 贡献热力图',
     icon: '💻',
     href: '/repos',
-    color: '#4169E1',
+    color: 'var(--sage)',
   },
   {
     title: '花花日记',
     subtitle: '基金投资助手 · PWA + Android',
     icon: '🌸',
     href: '/huahua',
-    color: '#4169E1',
+    color: '#D4A03A',
   },
 ];
+
+// Time-based greeting
+const hour = new Date().getHours();
+const greeting = hour < 6 ? '夜深了' : hour < 12 ? '早上好' : hour < 18 ? '下午好' : '晚上好';
 ---
 
 <Layout title="白也 - 个人主页">
   <!-- Hero -->
-  <section class="flex items-center gap-4 mb-10">
-    <img src="/avatar.jpg" alt="白也" class="w-16 h-16 rounded-2xl object-cover shadow-lg" loading="eager" />
-    <div>
-      <h1 class="text-[34px] font-bold tracking-tight leading-tight dark:text-white">白也</h1>
-      <p class="text-[#8E8E93] dark:text-[#98989D] text-base mt-0.5">小米 · 爱好AI · LOL · 杜兰特 · 花花日记开发者</p>
+  <section class="mb-16 reveal">
+    <p class="text-sm font-medium mb-3 tracking-wide" style="color: var(--text-tertiary);">
+      {greeting} <span class="inline-block animate-[wiggle_2s_ease-in-out_infinite]">👋</span>
+    </p>
+    <h1 class="font-serif text-[40px] sm:text-[52px] font-bold leading-[1.1] tracking-tight mb-4" style="color: var(--text-primary);">
+      我是白也<span style="color: var(--accent);">.</span>
+    </h1>
+    <p class="text-base sm:text-lg leading-relaxed max-w-lg" style="color: var(--text-secondary);">
+      安装工程造价师，业余时间用 AI 搭各种好玩的东西。养了一只叫花花的猫，它才是这个家的主人。
+    </p>
+  </section>
+
+  <!-- Stats — editorial style -->
+  <section class="flex items-center gap-8 mb-14 reveal reveal-delay-1">
+    <div class="flex items-baseline gap-2">
+      <span class="font-serif text-3xl font-bold" style="color: var(--accent);">{noteCount}</span>
+      <span class="text-sm" style="color: var(--text-tertiary);">篇笔记</span>
+    </div>
+    <div class="w-px h-5" style="background: var(--border);"></div>
+    <div class="flex items-baseline gap-2">
+      <span class="font-serif text-3xl font-bold" style="color: var(--sage);">{repoCount || '—'}</span>
+      <span class="text-sm" style="color: var(--text-tertiary);">个开源项目</span>
     </div>
   </section>
 
-  <!-- Stats -->
-  <section class="grid grid-cols-2 gap-3 mb-10">
-    <div class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-4 text-center shadow-sm">
-      <div class="text-2xl font-bold text-[#4169E1] dark:text-[#6495ED]">{noteCount}</div>
-      <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">笔记</div>
-    </div>
-    <div class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-4 text-center shadow-sm">
-      <div class="text-2xl font-bold text-[#6495ED] dark:text-[#4169E1]">{repoCount || '—'}</div>
-      <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">项目</div>
-    </div>
-  </section>
-
-  <!-- 花花日记 Stats -->
-  <a href="/huahua" class="block bg-white dark:bg-[#1C1C1E] rounded-2xl p-6 shadow-sm mb-10 hover:shadow-md transition-shadow">
-    <div class="flex items-center gap-3 mb-4">
-      <img src="/huahua-logo.jpg" alt="花花日记" class="w-10 h-10 rounded-xl object-cover" loading="lazy" />
-      <h2 class="text-[22px] font-bold tracking-tight dark:text-white">花花日记</h2>
-      <svg class="w-5 h-5 text-[#C6C6C8] dark:text-[#48484A] ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+  <!-- 花花日记 — featured card -->
+  <a href="/huahua" class="block card card-accent p-6 sm:p-8 mb-10 reveal reveal-delay-2 group">
+    <div class="flex items-start justify-between mb-5">
+      <div class="flex items-center gap-3">
+        <img src="/huahua-logo.jpg" alt="花花日记" class="w-11 h-11 rounded-xl object-cover" loading="lazy" />
+        <div>
+          <h2 class="font-serif text-xl font-bold" style="color: var(--text-primary);">花花日记</h2>
+          <p class="text-xs mt-0.5" style="color: var(--text-tertiary);">基金投资助手 · PWA + Android</p>
+        </div>
+      </div>
+      <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" style="color: var(--text-tertiary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 17L17 7M17 7H7M17 7v10" />
       </svg>
     </div>
-    <div id="huahua-stats-content" class="grid grid-cols-3 gap-4">
-      <!-- Loading placeholder -->
-      <div class="text-center p-3 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
-        <div class="text-xl font-bold text-[#8E8E93] dark:text-[#98989D]">--</div>
-        <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">今日访问</div>
+    <div id="huahua-stats-content" class="grid grid-cols-3 sm:grid-cols-6 gap-3">
+      <div class="text-center p-3 rounded-xl" style="background: var(--bg-elevated);">
+        <div class="text-lg font-bold" style="color: var(--text-tertiary);">--</div>
+        <div class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">今日访问</div>
       </div>
-      <div class="text-center p-3 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
-        <div class="text-xl font-bold text-[#8E8E93] dark:text-[#98989D]">--</div>
-        <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">活跃用户</div>
+      <div class="text-center p-3 rounded-xl" style="background: var(--bg-elevated);">
+        <div class="text-lg font-bold" style="color: var(--text-tertiary);">--</div>
+        <div class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">今日登录</div>
       </div>
-      <div class="text-center p-3 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
-        <div class="text-xl font-bold text-[#8E8E93] dark:text-[#98989D]">--</div>
-        <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">总用户</div>
+      <div class="text-center p-3 rounded-xl" style="background: var(--bg-elevated);">
+        <div class="text-lg font-bold" style="color: var(--text-tertiary);">--</div>
+        <div class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">今日访客</div>
       </div>
-      <div class="text-center p-3 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
-        <div class="text-xl font-bold text-[#8E8E93] dark:text-[#98989D]">--</div>
-        <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">Pro 用户</div>
+      <div class="text-center p-3 rounded-xl" style="background: var(--bg-elevated);">
+        <div class="text-lg font-bold" style="color: var(--text-tertiary);">--</div>
+        <div class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">总用户</div>
       </div>
     </div>
-    <div id="huahua-stats-error" class="hidden text-center py-4 text-sm text-[#8E8E93] dark:text-[#98989D]">
+    <div id="huahua-stats-error" class="hidden text-center py-4 text-sm" style="color: var(--text-tertiary);">
       暂无数据
     </div>
   </a>
 
-  <!-- Navigation cards -->
-  <section class="space-y-3 mb-10">
-    {sections.map(section => (
-      <a href={section.href} class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow group">
-        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl overflow-hidden" style={`background-color: ${section.color}15`}>
-          {section.isImage ? (
-            <img src={section.icon} alt={section.title} class="w-full h-full object-cover" loading="lazy" />
-          ) : (
-            section.icon
-          )}
-        </div>
-        <div class="flex-1 min-w-0">
-          <h3 class="font-semibold text-base dark:text-[#EBEBF5]">{section.title}</h3>
-          <p class="text-sm text-[#8E8E93] dark:text-[#98989D] mt-0.5">{section.subtitle}</p>
-        </div>
-        <svg class="w-5 h-5 text-[#C6C6C8] dark:text-[#48484A] group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-    ))}
+  <!-- Navigation — asymmetric bento -->
+  <section class="grid grid-cols-2 gap-3 mb-14">
+    <a href="/notes" class="card card-accent p-5 col-span-2 sm:col-span-1 reveal reveal-delay-2 group">
+      <div class="text-2xl mb-3">📝</div>
+      <h3 class="font-serif text-lg font-bold mb-1" style="color: var(--text-primary);">笔记</h3>
+      <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">来自 Obsidian 的知识沉淀，涵盖 AI、科技、投资、学习</p>
+    </a>
+    <a href="/repos" class="card card-accent p-5 reveal reveal-delay-3 group">
+      <div class="text-2xl mb-3">💻</div>
+      <h3 class="font-serif text-lg font-bold mb-1" style="color: var(--text-primary);">项目</h3>
+      <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">开源仓库 · 热力图</p>
+    </a>
+    <a href="/huahua" class="card card-accent p-5 reveal reveal-delay-4 group">
+      <div class="text-2xl mb-3">🌸</div>
+      <h3 class="font-serif text-lg font-bold mb-1" style="color: var(--text-primary);">花花日记</h3>
+      <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">基金投资助手</p>
+    </a>
   </section>
 
-  <!-- About -->
-  <section class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-6 shadow-sm">
-    <h2 class="text-[22px] font-bold tracking-tight mb-3 dark:text-white">关于我</h2>
-    <div class="space-y-3 text-sm text-[#3C3C43] dark:text-[#EBEBF5] leading-relaxed">
-      <p>安装工程造价师，喜欢用 AI 解决生活中的各种问题，热衷尝试各种 AI 应用。养了一只叫花花的猫 🐱</p>
-      <p>做了<a href="/huahua" class="text-[#4169E1] dark:text-[#6495ED] hover:underline">花花日记</a>来管理基金投资，用 Obsidian 记录生活和学习笔记，偶尔在 <a href="https://github.com/baiye1997" target="_blank" class="text-[#4169E1] dark:text-[#6495ED] hover:underline">GitHub</a> 上分享一些项目。</p>
+  <!-- About — minimal, editorial -->
+  <section class="reveal">
+    <div class="dot-divider mb-8">关于</div>
+    <div class="flex items-start gap-5">
+      <img src="/avatar.jpg" alt="白也" class="w-14 h-14 rounded-2xl object-cover flex-shrink-0" style="border: 2px solid var(--border);" loading="lazy" />
+      <div class="space-y-2 text-sm leading-relaxed" style="color: var(--text-secondary);">
+        <p>
+          安装工程造价师，喜欢用 AI 解决生活中的各种问题，热衷尝试各种 AI 应用。
+        </p>
+        <p>
+          做了<a href="/huahua" class="font-medium transition-colors hover:text-[var(--accent)]" style="color: var(--accent);">花花日记</a>来管理基金投资，用 Obsidian 记录生活和学习笔记，偶尔在 <a href="https://github.com/baiye1997" target="_blank" class="font-medium transition-colors hover:text-[var(--accent)]" style="color: var(--accent);">GitHub</a> 上分享一些项目。
+        </p>
+        <p class="text-xs pt-1" style="color: var(--text-tertiary);">
+          小米 · AI · LOL · 杜兰特 · 花花日记开发者 🐱
+        </p>
+      </div>
     </div>
   </section>
 </Layout>
 
+<style>
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(12deg); }
+    75% { transform: rotate(-8deg); }
+  }
+</style>
+
 <script is:inline>
-  // 花花日记 API
   const HUAHUA_API_URL = 'https://huahua.preview.aliyun-zeabur.cn/api/public/blog-stats';
-  const HUAHUA_API_KEY='hf_blog_stats_2026_4vF8kQm2Zr7Lp9Nx6Tw3Yc1Hd5Sa';
+  const HUAHUA_API_KEY='hf_blo...d5Sa';
   let _huahuaData = null;
 
   function renderStats(containerId) {
     const el = document.getElementById(containerId);
     if (!el) return;
     const isDark = document.documentElement.classList.contains('dark');
-    const bg = isDark ? '#2C2C2E' : '#F2F2F7';
-    const lc = isDark ? '#98989D' : '#8E8E93';
+    const bg = isDark ? '#252320' : '#F5F0EB';
+    const lc = isDark ? '#A09890' : '#6B6560';
     if (!_huahuaData) return;
     const d = _huahuaData;
     el.innerHTML = [
-      [d.today_visit_count, '今日访问', '#4169E1'],
-      [d.today_logged_in_users, '今日登录', '#6495ED'],
-      [d.today_visitor_users, '今日访客', '#4169E1'],
-      [d.total_users, '总用户', '#6495ED'],
-      [d.total_pro_users, 'Pro 用户', '#F06292'],
-      [d.total_vip_users, 'VIP 用户', '#F06292'],
+      [d.today_visit_count, '今日访问', 'var(--accent)'],
+      [d.today_logged_in_users, '今日登录', 'var(--sage)'],
+      [d.today_visitor_users, '今日访客', 'var(--accent)'],
+      [d.total_users, '总用户', 'var(--sage)'],
+      [d.total_pro_users, 'Pro 用户', '#D4A03A'],
+      [d.total_vip_users, 'VIP 用户', '#D4A03A'],
     ].map(([v, label, color]) =>
-      `<div class="text-center p-3 rounded-xl" style="background-color:${bg}">
-        <div class="text-xl font-bold" style="color:${color}">${v ?? '--'}</div>
-        <div class="text-xs mt-0.5" style="color:${lc}">${label}</div>
+      `<div class="text-center p-3 rounded-xl" style="background:${bg}">
+        <div class="text-lg font-bold" style="color:${color}">${v ?? '--'}</div>
+        <div class="text-[11px] mt-0.5" style="color:${lc}">${label}</div>
       </div>`
     ).join('');
   }
@@ -183,7 +210,6 @@ const sections = [
 
   fetchHuahuaStats();
 
-  // 主题切换时重新渲染卡片
   new MutationObserver(() => { if (_huahuaData) renderStats('huahua-stats-content'); })
     .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 </script>

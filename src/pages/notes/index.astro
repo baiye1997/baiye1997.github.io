@@ -7,7 +7,6 @@ const notes = Object.entries(noteFiles)
   .filter(([path]) => {
     if (path.includes('二掌柜')) return false;
     const filename = path.split('/').pop() || '';
-    // 过滤内部文件
     if (filename === 'README.md') return false;
     if (filename.includes('归档规范')) return false;
     if (filename.includes('排版规范')) return false;
@@ -66,42 +65,60 @@ const categoryIcons: Record<string, string> = {
   '夜航船': '⛵',
   '撼山拳谱': '📜',
 };
+
+const categoryColors: Record<string, string> = {
+  '山水邸报': 'var(--accent)',
+  '夜航船': 'var(--sage)',
+  '本周必读': '#7C5CFC',
+  '学海无涯': '#D4A03A',
+  '金精铜钱': '#D4A03A',
+};
 ---
 
 <Layout title="笔记 - 白也">
-  <section class="mb-6">
-    <h1 class="text-[34px] font-bold tracking-tight mb-2 dark:text-white">笔记</h1>
-    <p class="text-[#8E8E93] dark:text-[#98989D]">来自 Obsidian 的知识沉淀</p>
+  <!-- Header -->
+  <section class="mb-10 reveal">
+    <h1 class="font-serif text-[36px] sm:text-[44px] font-bold tracking-tight mb-2" style="color: var(--text-primary);">
+      笔记<span style="color: var(--accent);">.</span>
+    </h1>
+    <p class="text-sm" style="color: var(--text-tertiary);">来自 Obsidian 的知识沉淀，共 {notes.length} 篇</p>
   </section>
 
   {notes.length === 0 ? (
-    <div class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-8 text-center shadow-sm">
+    <div class="card p-10 text-center reveal reveal-delay-1">
       <div class="text-4xl mb-3">📭</div>
-      <p class="text-[#8E8E93] dark:text-[#98989D]">还没有笔记，正在同步中...</p>
+      <p style="color: var(--text-tertiary);">还没有笔记，正在同步中...</p>
     </div>
   ) : (
     <!-- Search -->
-    <div class="mb-4">
+    <div class="mb-5 reveal reveal-delay-1">
       <div class="relative">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8E8E93] dark:text-[#98989D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style="color: var(--text-tertiary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         <input
           type="text"
           id="search-input"
-          placeholder="搜索笔记标题、内容..."
-          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E] text-sm outline-none focus:ring-2 focus:ring-[#4169E1]/20 transition-shadow dark:text-white dark:placeholder-[#636366]"
+          placeholder="搜索笔记..."
+          class="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm outline-none transition-all duration-200"
+          style="background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border);"
+          onfocus="this.style.borderColor='var(--accent)'; this.style.boxShadow='0 0 0 3px var(--accent-soft)'"
+          onblur="this.style.borderColor='var(--border)'; this.style.boxShadow='none'"
         />
       </div>
     </div>
 
     <!-- Category filter -->
-    <div class="flex gap-1.5 mb-3 overflow-x-auto scrollbar-hide pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap">
-      <button class="category-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[#636366] dark:text-[#AEAEB2] active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-category="all">
+    <div class="flex gap-1.5 mb-3 overflow-x-auto scrollbar-hide pb-1 -mx-5 px-5 sm:mx-0 sm:px-0 sm:flex-wrap reveal reveal-delay-2">
+      <button class="category-filter px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap"
+              style="background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border);"
+              data-category="all">
         全部
       </button>
       {categories.map((category: string) => (
-        <button class="category-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[#636366] dark:text-[#AEAEB2] active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-category={category}>
+        <button class="category-filter px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap"
+                style="background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border);"
+                data-category={category}>
           {categoryIcons[category] || '📄'} {category}
         </button>
       ))}
@@ -109,9 +126,9 @@ const categoryIcons: Record<string, string> = {
 
     <!-- Tag filter -->
     {allTags.length > 0 && (
-      <div class="flex gap-1 mb-5 overflow-x-auto scrollbar-hide pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap">
+      <div class="flex gap-1.5 mb-6 overflow-x-auto scrollbar-hide pb-1 -mx-5 px-5 sm:mx-0 sm:px-0 sm:flex-wrap reveal reveal-delay-3">
         {allTags.slice(0, 15).map((tag: string) => (
-          <button class="tag-filter px-2 py-0.5 rounded-md bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[#8E8E93] dark:text-[#98989D] text-xs active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-tag={tag}>
+          <button class="tag-filter tag transition-all duration-200" data-tag={tag}>
             #{tag}
           </button>
         ))}
@@ -120,10 +137,11 @@ const categoryIcons: Record<string, string> = {
 
     <!-- Notes list -->
     <div class="space-y-3" id="notes-list">
-      {notes.map((note: any) => (
+      {notes.map((note: any, i: number) => (
         <a
           href={`/notes/${note.slug}`}
-          class="note-card bg-white dark:bg-[#1C1C1E] rounded-2xl p-5 block shadow-sm hover:shadow-md transition-shadow group"
+          class="note-card card card-accent p-5 block group"
+          style={`transition-delay: ${Math.min(i * 30, 200)}ms`}
           data-category={note.category}
           data-tags={note.tags.join(',')}
           data-title={note.title.toLowerCase()}
@@ -132,37 +150,38 @@ const categoryIcons: Record<string, string> = {
         >
           <div class="flex items-start justify-between gap-3">
             <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs text-[#8E8E93] dark:text-[#98989D]">{categoryIcons[note.category] || '📄'} {note.category}</span>
-                {note.date && <span class="text-xs text-[#C6C6C8] dark:text-[#48484A]">·</span>}
-                {note.date && <span class="text-xs text-[#8E8E93] dark:text-[#98989D]">{note.date}</span>}
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="inline-block w-1.5 h-1.5 rounded-full" style={`background: ${categoryColors[note.category] || 'var(--text-tertiary)'};`}></span>
+                <span class="text-xs font-medium" style="color: var(--text-tertiary);">{note.category}</span>
+                {note.date && <span class="text-xs" style="color: var(--border);">·</span>}
+                {note.date && <span class="text-xs" style="color: var(--text-tertiary);">{note.date}</span>}
               </div>
-              <h3 class="font-semibold text-base mb-1 group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors note-title dark:text-[#EBEBF5]">
+              <h3 class="font-medium text-[15px] mb-1 group-hover:text-[var(--accent)] transition-colors duration-200" style="color: var(--text-primary);">
                 {note.title}
               </h3>
-              <p class="text-sm text-[#8E8E93] dark:text-[#98989D] line-clamp-2 note-excerpt">{note.excerpt}</p>
+              <p class="text-sm line-clamp-2 note-excerpt" style="color: var(--text-secondary);">{note.excerpt}</p>
               {note.tags.length > 0 && (
-                <div class="flex flex-wrap gap-1.5 mt-2">
+                <div class="flex flex-wrap gap-1.5 mt-2.5">
                   {note.tags.slice(0, 3).map((tag: string) => (
-                    <span class="note-tag px-2 py-0.5 rounded-full bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[#8E8E93] dark:text-[#98989D] text-xs cursor-pointer hover:bg-[#E8E8ED] dark:hover:bg-[#3A3A3C] transition-colors" data-tag={tag}>
+                    <span class="note-tag tag text-[11px] py-0 px-2" data-tag={tag}>
                       #{tag}
                     </span>
                   ))}
                 </div>
               )}
             </div>
-            <svg class="w-5 h-5 text-[#C6C6C8] dark:text-[#48484A] group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors flex-shrink-0 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            <svg class="w-4 h-4 flex-shrink-0 mt-2 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]" style="color: var(--border);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
           </div>
         </a>
       ))}
     </div>
 
-    <!-- Empty state for search/filter -->
-    <div id="no-results" class="hidden bg-white dark:bg-[#1C1C1E] rounded-2xl p-8 text-center shadow-sm">
+    <!-- Empty state -->
+    <div id="no-results" class="hidden card p-10 text-center">
       <div class="text-4xl mb-3">🔍</div>
-      <p class="text-[#8E8E93] dark:text-[#98989D]">没有找到匹配的笔记</p>
+      <p style="color: var(--text-tertiary);">没有找到匹配的笔记</p>
     </div>
   )}
 </Layout>
@@ -195,19 +214,19 @@ const categoryIcons: Record<string, string> = {
     document.getElementById('no-results')?.classList.toggle('hidden', visibleCount > 0);
   }
 
-  // Helper: set active state on filter buttons
-  function setActive(btns, activeBtn) {
+  function setActive(btns: NodeListOf<Element>, activeBtn: Element | null) {
     btns.forEach(b => {
-      b.classList.remove('bg-[#4169E1]', 'text-white');
-      b.classList.add('bg-[#F2F2F7]', 'text-[#636366]');
+      (b as HTMLElement).style.background = 'var(--bg-elevated)';
+      (b as HTMLElement).style.color = 'var(--text-secondary)';
+      (b as HTMLElement).style.borderColor = 'var(--border)';
     });
     if (activeBtn) {
-      activeBtn.classList.remove('bg-[#F2F2F7]', 'text-[#636366]');
-      activeBtn.classList.add('bg-[#4169E1]', 'text-white');
+      (activeBtn as HTMLElement).style.background = 'var(--accent)';
+      (activeBtn as HTMLElement).style.color = '#fff';
+      (activeBtn as HTMLElement).style.borderColor = 'var(--accent)';
     }
   }
 
-  // Category filter
   const catBtns = document.querySelectorAll('.category-filter');
   catBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -217,7 +236,6 @@ const categoryIcons: Record<string, string> = {
     });
   });
 
-  // Tag filter (top bar)
   const tagBtns = document.querySelectorAll('.tag-filter');
   tagBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -233,7 +251,6 @@ const categoryIcons: Record<string, string> = {
     });
   });
 
-  // Tag click on note card
   document.querySelectorAll('.note-tag').forEach(tag => {
     tag.addEventListener('click', (e) => {
       e.preventDefault();
@@ -246,6 +263,5 @@ const categoryIcons: Record<string, string> = {
     });
   });
 
-  // Search
   document.getElementById('search-input')?.addEventListener('input', filterNotes);
 </script>
