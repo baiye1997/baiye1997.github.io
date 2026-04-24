@@ -92,50 +92,7 @@ img:not([loading="lazy"]) {
   opacity: 1;
 }
 
-/* === Dark mode card backgrounds === */
-.dark .bg-white {
-  background-color: #1C1C1E;
-}
-.dark .bg-\[\#F2F2F7\] {
-  background-color: #2C2C2E;
-}
-
-/* Dark mode text colors */
-.dark .text-\[\#3C3C43\] {
-  color: #EBEBF5;
-}
-.dark .text-\[\#8E8E93\] {
-  color: #98989D;
-}
-.dark .text-\[\#C6C6C8\] {
-  color: #636366;
-}
-.dark .text-\[\#636366\] {
-  color: #AEAEB2;
-}
-
-/* Dark mode borders */
-.dark .border-\[\#C6C6C8\]\/30 {
-  border-color: rgba(56, 56, 58, 0.5);
-}
-.dark .border-\[\#E5E5EA\] {
-  border-color: #38383A;
-}
-
-/* Dark mode shadows */
-.dark .shadow-sm {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-/* Dark mode active filter buttons */
-.dark .bg-\[\#4169E1\] {
-  background-color: #4169E1;
-}
-.dark .bg-\[\#F2F2F7\].dark\:bg-\[\#2C2C2E\] {
-  background-color: #2C2C2E;
-}
-
-/* Dark mode code blocks */
+/* === Dark mode overrides for note-content (can't use Tailwind here) === */
 .dark .note-content pre {
   background: #0D1117;
 }
