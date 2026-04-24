@@ -1,0 +1,102 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = '白也的个人主页' } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+</head>
+<body class="min-h-screen">
+  <!-- iOS-style navigation bar -->
+  <nav class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-ios-separator/30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-14">
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-2 font-bold text-lg tracking-tight">
+          <span class="w-8 h-8 rounded-lg gradient-blue flex items-center justify-center text-white text-sm">B</span>
+          <span class="hidden sm:inline">白也</span>
+        </a>
+        
+        <!-- Navigation links -->
+        <div class="flex items-center gap-1">
+          <a href="/" class:list={[
+            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            currentPath === "/" 
+              ? "bg-ios-blue/10 text-ios-blue" 
+              : "text-ios-secondary-label hover:bg-black/5"
+          ]}>
+            首页
+          </a>
+          <a href="/notes" class:list={[
+            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            currentPath.startsWith("/notes") 
+              ? "bg-ios-blue/10 text-ios-blue" 
+              : "text-ios-secondary-label hover:bg-black/5"
+          ]}>
+            笔记
+          </a>
+          <a href="/repos" class:list={[
+            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            currentPath === "/repos" 
+              ? "bg-ios-blue/10 text-ios-blue" 
+              : "text-ios-secondary-label hover:bg-black/5"
+          ]}>
+            项目
+          </a>
+          <a href="/about" class:list={[
+            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            currentPath === "/about" 
+              ? "bg-ios-blue/10 text-ios-blue" 
+              : "text-ios-secondary-label hover:bg-black/5"
+          ]}>
+            关于
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 animate-fade-in">
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-5xl mx-auto px-4 sm:px-6 py-8 mt-12 border-t border-ios-separator/30">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-ios-gray">
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/baiye1997" target="_blank" rel="noopener" class="hover:text-ios-blue transition-colors">
+          GitHub
+        </a>
+        <span class="text-ios-separator">·</span>
+        <span id="busuanzi_container_site_uv" class="flex items-center gap-1">
+          <span class="text-ios-gray">访客</span>
+          <span id="busuanzi_value_site_uv" class="font-medium text-ios-secondary-label">--</span>
+        </span>
+        <span class="text-ios-separator">·</span>
+        <span id="busuanzi_container_site_pv" class="flex items-center gap-1">
+          <span class="text-ios-gray">浏览</span>
+          <span id="busuanzi_value_site_pv" class="font-medium text-ios-secondary-label">--</span>
+        </span>
+      </div>
+      <div class="text-ios-gray">
+        © 2026 白也 · Made with Astro
+      </div>
+    </div>
+  </footer>
+
+  <!-- 不蒜子统计 -->
+  <script is:inline async src="https://busuanzi.ibruce.info/busuanzi/3/busuanziCounter/busuanzi.pure.min.js"></script>
+</body>
+</html>

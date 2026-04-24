@@ -1,0 +1,123 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Featured sections for the homepage
+const sections = [
+  {
+    title: '📝 笔记',
+    subtitle: '来自 Obsidian 的知识沉淀',
+    description: '投资、技术、学习、生活的记录与思考',
+    gradient: 'gradient-blue',
+    icon: '📝',
+    href: '/notes',
+  },
+  {
+    title: '💻 项目',
+    subtitle: 'GitHub 开源仓库',
+    description: '花花日记、工具脚本、有趣的实验',
+    gradient: 'gradient-green',
+    icon: '💻',
+    href: '/repos',
+  },
+  {
+    title: '📊 热力图',
+    subtitle: 'GitHub 贡献记录',
+    description: '看看我这一年写了多少代码',
+    gradient: 'gradient-purple',
+    icon: '📊',
+    href: '/repos#heatmap',
+  },
+  {
+    title: '🐱 花花日记',
+    subtitle: '基金投资助手',
+    description: 'PWA + Android，帮你管好每一分钱',
+    gradient: 'gradient-orange',
+    icon: '🐱',
+    href: '/about#huahua',
+  },
+];
+
+// Quick stats
+const quickStats = [
+  { label: '笔记', value: '4', icon: '📄', color: 'text-ios-blue' },
+  { label: '项目', value: '—', icon: '📦', color: 'text-ios-green' },
+  { label: '今日访客', value: '—', icon: '👁️', color: 'text-ios-purple' },
+];
+---
+
+<Layout title="白也 - 个人主页">
+  <!-- Hero section -->
+  <section class="mb-8">
+    <div class="flex items-center gap-4 mb-2">
+      <div class="w-16 h-16 rounded-2xl gradient-blue flex items-center justify-center text-3xl shadow-lg shadow-ios-blue/20">
+        B
+      </div>
+      <div>
+        <h1 class="ios-large-title">白也</h1>
+        <p class="text-ios-gray text-base mt-0.5">开发者 · 投资者 · 成都</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick stats -->
+  <section class="grid grid-cols-3 gap-3 mb-8">
+    {quickStats.map(stat => (
+      <div class="ios-card p-4 text-center">
+        <div class="text-2xl mb-1">{stat.icon}</div>
+        <div class={`text-2xl font-bold ${stat.color}`}>
+          {stat.label === '今日访客' ? (
+            <span id="busuanzi_value_site_uv">--</span>
+          ) : stat.value}
+        </div>
+        <div class="text-xs text-ios-gray mt-0.5">{stat.label}</div>
+      </div>
+    ))}
+  </section>
+
+  <!-- Featured sections - iOS App Store style cards -->
+  <section class="mb-8">
+    <h2 class="ios-section-header mb-4">探索</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {sections.map(section => (
+        <a href={section.href} class="ios-card overflow-hidden group">
+          <div class={`${section.gradient} p-6 text-white`}>
+            <div class="text-4xl mb-3">{section.icon}</div>
+            <h3 class="text-xl font-bold mb-1">{section.title}</h3>
+            <p class="text-white/80 text-sm">{section.subtitle}</p>
+          </div>
+          <div class="p-4">
+            <p class="text-sm text-ios-secondary-label">{section.description}</p>
+            <div class="mt-2 text-ios-blue text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+              查看更多
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- About preview -->
+  <section class="ios-card p-6">
+    <h2 class="ios-section-header mb-3">关于我</h2>
+    <div class="space-y-3 text-sm text-ios-secondary-label leading-relaxed">
+      <p>
+        成都开发者，白天写代码，晚上看基金。养了一只叫花花的猫 🐱
+      </p>
+      <p>
+        做了<a href="/about#huahua" class="text-ios-blue hover:underline">花花日记</a>来管理基金投资，
+        用 Obsidian 记录生活和技术笔记，
+        偶尔在 <a href="https://github.com/baiye1997" target="_blank" class="text-ios-blue hover:underline">GitHub</a> 上搞点开源。
+      </p>
+      <div class="flex flex-wrap gap-2 pt-2">
+        <span class="px-3 py-1 rounded-full bg-ios-blue/10 text-ios-blue text-xs font-medium">TypeScript</span>
+        <span class="px-3 py-1 rounded-full bg-ios-green/10 text-ios-green text-xs font-medium">React</span>
+        <span class="px-3 py-1 rounded-full bg-ios-orange/10 text-ios-orange text-xs font-medium">Vue</span>
+        <span class="px-3 py-1 rounded-full bg-ios-purple/10 text-ios-purple text-xs font-medium">Python</span>
+        <span class="px-3 py-1 rounded-full bg-ios-pink/10 text-ios-pink text-xs font-medium">Capacitor</span>
+      </div>
+    </div>
+  </section>
+</Layout>

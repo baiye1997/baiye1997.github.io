@@ -1,0 +1,76 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// Use Vite's import.meta.glob to read markdown files
+const noteFiles = import.meta.glob('../../../src/content/notes/**/*.md', { eager: true });
+
+// Filter out 二掌柜的酒铺 and process notes
+const notes = Object.entries(noteFiles)
+  .filter(([path]) => !path.includes('二掌柜'))
+  .map(([path, module]: [string, any]) => {
+    const parts = path.split('/');
+    const category = parts[parts.length - 2] || '其他';
+    const filename = parts.pop()?.replace('.md', '') || 'Untitled';
+    
+    return {
+      title: module.frontmatter?.title || filename,
+      date: module.frontmatter?.date || module.frontmatter?.created || '',
+      tags: module.frontmatter?.tags || [],
+      excerpt: (module.raw || '').slice(0, 150).replace(/[#*\-_>`]/g, '').trim() + '...',
+      filepath: path,
+      category,
+    };
+  })
+  .sort((a: any, b: any) => (b.date > a.date ? 1 : -1));
+
+// Group by category
+const categories = [...new Set(notes.map((n: any) => n.category))];
+---
+
+<Layout title="笔记 - 白也">
+  <section class="mb-6">
+    <h1 class="ios-large-title mb-2">笔记</h1>
+    <p class="text-ios-gray">来自 Obsidian 的知识沉淀</p>
+  </section>
+
+  {notes.length === 0 ? (
+    <div class="ios-card p-8 text-center">
+      <div class="text-4xl mb-3">📭</div>
+      <p class="text-ios-gray">还没有笔记，正在同步中...</p>
+      <p class="text-sm text-ios-gray mt-2">笔记会从 Obsidian vault 自动同步到这里</p>
+    </div>
+  ) : (
+    categories.map((category: string) => (
+      <section class="mb-8">
+        <h2 class="ios-section-header mb-3">{category}</h2>
+        <div class="space-y-3">
+          {notes.filter((n: any) => n.category === category).map((note: any) => (
+            <div class="ios-card p-4 block group">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-semibold text-base mb-1 group-hover:text-ios-blue transition-colors truncate">
+                    {note.title}
+                  </h3>
+                  <p class="text-sm text-ios-gray line-clamp-2">{note.excerpt}</p>
+                  <div class="flex items-center gap-2 mt-2">
+                    {note.date && (
+                      <span class="text-xs text-ios-gray">{note.date}</span>
+                    )}
+                    {note.tags.slice(0, 3).map((tag: string) => (
+                      <span class="px-2 py-0.5 rounded-full bg-ios-blue/10 text-ios-blue text-xs">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <svg class="w-5 h-5 text-ios-gray group-hover:text-ios-blue transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))
+  )}
+</Layout>
