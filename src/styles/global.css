@@ -14,14 +14,23 @@ body {
 
 /* iOS style scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+ width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+ background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C6C6C8;
-  border-radius: 3px;
+ background: #C6C6C8;
+ border-radius: 3px;
+}
+
+/* Hide scrollbar for navigation */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Smooth page transitions */

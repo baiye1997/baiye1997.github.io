@@ -73,12 +73,12 @@ const categoryIcons: Record<string, string> = {
     </div>
   ) : (
     <!-- Category filter -->
-    <div class="flex flex-wrap gap-2 mb-6">
-      <button class="category-filter px-3 py-1.5 rounded-full text-sm font-medium bg-[#4169E1] text-white transition-all" data-category="all">
+    <div class="flex gap-2 mb-6 overflow-x-auto scrollbar-hide pb-2 -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap">
+      <button class="category-filter px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-[#4169E1] text-white transition-all whitespace-nowrap" data-category="all">
         全部
       </button>
       {categories.map((category: string) => (
-        <button class="category-filter px-3 py-1.5 rounded-full text-sm font-medium bg-white text-[#3C3C43] hover:bg-[#F2F2F7] transition-all shadow-sm" data-category={category}>
+        <button class="category-filter px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-white text-[#3C3C43] hover:bg-[#F2F2F7] transition-all shadow-sm whitespace-nowrap" data-category={category}>
           {categoryIcons[category] || '📄'} {category}
         </button>
       ))}

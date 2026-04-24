@@ -25,13 +25,13 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
 <body class="min-h-screen">
   <!-- Navigation -->
   <nav class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-[#C6C6C8]/30">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between h-14">
-        <a href="/" class="font-bold text-lg tracking-tight">🏠 白也的小窝</a>
+    <div class="max-w-3xl mx-auto px-3 sm:px-6">
+      <div class="flex items-center justify-between h-12 sm:h-14">
+        <a href="/" class="font-bold text-base sm:text-lg tracking-tight whitespace-nowrap">🏠 白也的小窝</a>
         
-        <div class="flex items-center gap-1">
+        <div class="flex items-center gap-0.5 sm:gap-1 overflow-x-auto scrollbar-hide">
           <a href="/" class:list={[
-            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
             currentPath === "/" 
               ? "bg-[#4169E1]/10 text-[#4169E1]" 
               : "text-[#3C3C43] hover:bg-black/5"
@@ -39,7 +39,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
             首页
           </a>
           <a href="/notes" class:list={[
-            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
             currentPath.startsWith("/notes") 
               ? "bg-[#4169E1]/10 text-[#4169E1]" 
               : "text-[#3C3C43] hover:bg-black/5"
@@ -47,7 +47,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
             笔记
           </a>
           <a href="/repos" class:list={[
-            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
             currentPath === "/repos" 
               ? "bg-[#4169E1]/10 text-[#4169E1]" 
               : "text-[#3C3C43] hover:bg-black/5"
@@ -55,7 +55,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
             项目
           </a>
           <a href="/huahua" class:list={[
-            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
             currentPath === "/huahua" 
               ? "bg-[#F06292]/10 text-[#F06292]" 
               : "text-[#3C3C43] hover:bg-black/5"
@@ -63,7 +63,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
             花花日记
           </a>
           <a href="/about" class:list={[
-            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
             currentPath === "/about" 
               ? "bg-[#4169E1]/10 text-[#4169E1]" 
               : "text-[#3C3C43] hover:bg-black/5"
@@ -76,7 +76,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
   </nav>
 
   <!-- Main content -->
-  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
+  <main class="max-w-3xl mx-auto px-3 sm:px-6 py-6 sm:py-8 animate-fade-in">
     <slot />
   </main>
 
