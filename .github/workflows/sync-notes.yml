@@ -4,13 +4,11 @@ on:
   schedule:
     # 每天凌晨 2 点同步
     - cron: '0 2 * * *'
-  workflow_dispatch: # 允许手动触发
-  repository_dispatch: # vault 有新内容时触发
+  workflow_dispatch:
+  repository_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   sync:
@@ -19,54 +17,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
       - name: Sync notes from Obsidian vault
         env:
           OBSIDIAN_VAULT_REPO: ${{ secrets.OBSIDIAN_VAULT_REPO }}
           OBSIDIAN_VAULT_TOKEN: ${{ secrets.OBSIDIAN_VAULT_TOKEN }}
         run: |
-          # 克隆 Obsidian vault（私有仓库需要 token）
           if [ -n "$OBSIDIAN_VAULT_REPO" ] && [ -n "$OBSIDIAN_VAULT_TOKEN" ]; then
             git clone "https://x-access-token:${OBSIDIAN_VAULT_TOKEN}@github.com/${OBSIDIAN_VAULT_REPO}" /tmp/obsidian-vault --depth 1
+            
+            rm -rf src/content/notes/*
+            
+            for dir in /tmp/obsidian-vault/*/; do
+              dirname=$(basename "$dir")
+              if [[ "$dirname" == *"二掌柜"* ]] || [[ "$dirname" == ".*" ]]; then
+                echo "⏭️ 跳过: $dirname"
+                continue
+              fi
+              if ls "$dir"*.md 1>/dev/null 2>&1; then
+                echo "📝 同步: $dirname"
+                mkdir -p "src/content/notes/$dirname"
+                find "$dir" -name "*.md" -maxdepth 1 | while read f; do
+                  fname=$(basename "$f")
+                  if [[ "$fname" == "README.md" ]] || [[ "$fname" == *"归档规范"* ]] || [[ "$fname" == *"排版规范"* ]] || [[ "$fname" == *"模板"* ]]; then
+                    continue
+                  fi
+                  cp "$f" "src/content/notes/$dirname/"
+                done
+              fi
+            done
+            
+            note_count=$(find src/content/notes -name "*.md" | wc -l)
+            echo "✅ 同步完成，共 $note_count 篇笔记"
           else
-            echo "⚠️ Obsidian vault 未配置，跳过同步"
-            exit 0
+            echo "⚠️ Obsidian vault 未配置"
           fi
 
-          # 清理旧笔记
-          rm -rf src/content/notes/*
-
-          # 复制笔记（排除二掌柜的酒铺）
-          for dir in /tmp/obsidian-vault/*/; do
-            dirname=$(basename "$dir")
-            # 跳过二掌柜的酒铺和其他不需要的目录
-            if [[ "$dirname" == *"二掌柜"* ]] || [[ "$dirname" == ".*" ]]; then
-              echo "⏭️ 跳过: $dirname"
-              continue
-            fi
-            
-            # 只复制包含 .md 文件的目录
-            if ls "$dir"*.md 1>/dev/null 2>&1; then
-              echo "📝 同步: $dirname"
-              mkdir -p "src/content/notes/$dirname"
-              # 复制 markdown 文件，保留目录结构
-              find "$dir" -name "*.md" -maxdepth 1 | while read f; do
-                cp "$f" "src/content/notes/$dirname/"
-              done
-            fi
-          done
-
-          # 统计同步结果
-          note_count=$(find src/content/notes -name "*.md" | wc -l)
-          echo "✅ 同步完成，共 $note_count 篇笔记"
       - name: Commit synced notes
         run: |
           git config user.name "github-actions[bot]"
@@ -78,22 +63,3 @@ jobs:
             git commit -m "chore: sync Obsidian notes ($(date -u +%Y-%m-%d))"
             git push
           fi
-
-      - name: Build
-        run: npm run build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: sync
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
