@@ -4,9 +4,21 @@ import Layout from '../../layouts/Layout.astro';
 // Get all markdown files
 const noteFiles = import.meta.glob('../../../src/content/notes/**/*.md', { eager: true });
 
+function isPublicNote(path: string): boolean {
+  if (path.includes('二掌柜')) return false;
+  const filename = path.split('/').pop() || '';
+  if (filename === 'README.md') return false;
+  if (filename.includes('归档规范')) return false;
+  if (filename.includes('排版规范')) return false;
+  if (filename.includes('模板')) return false;
+  if (filename.startsWith('.')) return false;
+  return true;
+}
+
 // Build notes data
 const allNotes: Record<string, any> = {};
 for (const [path, module] of Object.entries(noteFiles)) {
+  if (!isPublicNote(path)) continue;
   const parts = path.split('/');
   const category = parts[parts.length - 2] || '其他';
   const filename = parts.pop()?.replace('.md', '') || 'index';
@@ -27,6 +39,7 @@ export function getStaticPaths() {
   const paths: { params: { slug: string } }[] = [];
   
   for (const path of Object.keys(noteFiles)) {
+    if (!isPublicNote(path)) continue;
     const parts = path.split('/');
     const category = parts[parts.length - 2] || '其他';
     const filename = parts.pop()?.replace('.md', '') || 'index';

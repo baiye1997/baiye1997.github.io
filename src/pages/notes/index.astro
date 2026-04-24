@@ -4,7 +4,17 @@ import Layout from '../../layouts/Layout.astro';
 const noteFiles = import.meta.glob('../../../src/content/notes/**/*.md', { eager: true });
 
 const notes = Object.entries(noteFiles)
-  .filter(([path]) => !path.includes('二掌柜'))
+  .filter(([path]) => {
+    if (path.includes('二掌柜')) return false;
+    const filename = path.split('/').pop() || '';
+    // 过滤内部文件
+    if (filename === 'README.md') return false;
+    if (filename.includes('归档规范')) return false;
+    if (filename.includes('排版规范')) return false;
+    if (filename.includes('模板')) return false;
+    if (filename.startsWith('.')) return false;
+    return true;
+  })
   .map(([path, module]: [string, any]) => {
     const parts = path.split('/');
     const category = parts[parts.length - 2] || '其他';
