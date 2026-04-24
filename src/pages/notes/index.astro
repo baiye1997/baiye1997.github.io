@@ -95,12 +95,12 @@ const categoryIcons: Record<string, string> = {
     </div>
 
     <!-- Category filter -->
-    <div class="flex gap-2 mb-4 overflow-x-auto scrollbar-hide pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap">
-      <button class="category-filter px-3 py-1.5 rounded-full text-xs font-medium bg-[#4169E1] text-white transition-all whitespace-nowrap" data-category="all">
+    <div class="flex gap-1.5 mb-3 overflow-x-auto scrollbar-hide pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap">
+      <button class="category-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-[#F2F2F7] text-[#636366] active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-category="all">
         全部
       </button>
       {categories.map((category: string) => (
-        <button class="category-filter px-3 py-1.5 rounded-full text-xs font-medium bg-white text-[#636366] hover:bg-[#F2F2F7] transition-all shadow-sm whitespace-nowrap" data-category={category}>
+        <button class="category-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-[#F2F2F7] text-[#636366] active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-category={category}>
           {categoryIcons[category] || '📄'} {category}
         </button>
       ))}
@@ -108,9 +108,9 @@ const categoryIcons: Record<string, string> = {
 
     <!-- Tag filter -->
     {allTags.length > 0 && (
-      <div class="flex gap-1.5 mb-5 overflow-x-auto scrollbar-hide pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap">
+      <div class="flex gap-1 mb-5 overflow-x-auto scrollbar-hide pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap">
         {allTags.slice(0, 15).map((tag: string) => (
-          <button class="tag-filter px-2 py-0.5 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-xs hover:bg-[#E8E8ED] transition-colors" data-tag={tag}>
+          <button class="tag-filter px-2 py-0.5 rounded-md bg-[#F2F2F7] text-[#8E8E93] text-xs active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-tag={tag}>
             #{tag}
           </button>
         ))}
@@ -192,36 +192,39 @@ const categoryIcons: Record<string, string> = {
     document.getElementById('no-results')?.classList.toggle('hidden', visibleCount > 0);
   }
 
+  // Helper: set active state on filter buttons
+  function setActive(btns, activeBtn) {
+    btns.forEach(b => {
+      b.classList.remove('bg-[#4169E1]', 'text-white');
+      b.classList.add('bg-[#F2F2F7]', 'text-[#636366]');
+    });
+    if (activeBtn) {
+      activeBtn.classList.remove('bg-[#F2F2F7]', 'text-[#636366]');
+      activeBtn.classList.add('bg-[#4169E1]', 'text-white');
+    }
+  }
+
   // Category filter
-  document.querySelectorAll('.category-filter').forEach(btn => {
+  const catBtns = document.querySelectorAll('.category-filter');
+  catBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       activeCategory = btn.dataset.category;
-      document.querySelectorAll('.category-filter').forEach(b => {
-        b.classList.remove('bg-[#4169E1]', 'text-white');
-        b.classList.add('bg-white', 'text-[#636366]');
-      });
-      btn.classList.remove('bg-white', 'text-[#636366]');
-      btn.classList.add('bg-[#4169E1]', 'text-white');
+      setActive(catBtns, btn);
       filterNotes();
     });
   });
 
   // Tag filter (top bar)
-  document.querySelectorAll('.tag-filter').forEach(btn => {
+  const tagBtns = document.querySelectorAll('.tag-filter');
+  tagBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const tag = btn.dataset.tag;
       if (activeTag === tag) {
         activeTag = '';
-        btn.classList.remove('bg-[#4169E1]', 'text-white');
-        btn.classList.add('bg-[#F2F2F7]', 'text-[#8E8E93]');
+        setActive(tagBtns, null);
       } else {
         activeTag = tag;
-        document.querySelectorAll('.tag-filter').forEach(b => {
-          b.classList.remove('bg-[#4169E1]', 'text-white');
-          b.classList.add('bg-[#F2F2F7]', 'text-[#8E8E93]');
-        });
-        btn.classList.remove('bg-[#F2F2F7]', 'text-[#8E8E93]');
-        btn.classList.add('bg-[#4169E1]', 'text-white');
+        setActive(tagBtns, btn);
       }
       filterNotes();
     });
@@ -232,17 +235,9 @@ const categoryIcons: Record<string, string> = {
     tag.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const tagName = tag.dataset.tag;
-      activeTag = tagName;
-      document.querySelectorAll('.tag-filter').forEach(b => {
-        if (b.dataset.tag === tagName) {
-          b.classList.remove('bg-[#F2F2F7]', 'text-[#8E8E93]');
-          b.classList.add('bg-[#4169E1]', 'text-white');
-        } else {
-          b.classList.remove('bg-[#4169E1]', 'text-white');
-          b.classList.add('bg-[#F2F2F7]', 'text-[#8E8E93]');
-        }
-      });
+      activeTag = tag.dataset.tag;
+      const matchBtn = [...tagBtns].find(b => b.dataset.tag === activeTag);
+      setActive(tagBtns, matchBtn);
       filterNotes();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
