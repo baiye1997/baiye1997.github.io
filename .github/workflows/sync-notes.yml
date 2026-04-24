@@ -5,6 +5,7 @@ on:
     # 每天凌晨 2 点同步
     - cron: '0 2 * * *'
   workflow_dispatch: # 允许手动触发
+  repository_dispatch: # vault 有新内容时触发
 
 permissions:
   contents: read
