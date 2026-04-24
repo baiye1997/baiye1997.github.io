@@ -39,11 +39,13 @@ export function getStaticPaths() {
   const paths: { params: { slug: string } }[] = [];
   
   for (const path of Object.keys(noteFiles)) {
-    if (!isPublicNote(path)) continue;
+    if (path.includes('二掌柜')) continue;
+    const filename = path.split('/').pop() || '';
+    if (filename === 'README.md' || filename.includes('归档规范') || filename.includes('排版规范') || filename.includes('模板') || filename.startsWith('.')) continue;
     const parts = path.split('/');
     const category = parts[parts.length - 2] || '其他';
-    const filename = parts.pop()?.replace('.md', '') || 'index';
-    paths.push({ params: { slug: `${category}/${filename}` } });
+    const fname = parts.pop()?.replace('.md', '') || 'index';
+    paths.push({ params: { slug: `${category}/${fname}` } });
   }
   
   return paths;
