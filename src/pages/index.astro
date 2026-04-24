@@ -65,10 +65,13 @@ const sections = [
   </section>
 
   <!-- 花花日记 Stats -->
-  <section id="huahua-stats" class="bg-white rounded-2xl p-6 shadow-sm mb-10">
+  <a href="/huahua" class="block bg-white rounded-2xl p-6 shadow-sm mb-10 hover:shadow-md transition-shadow">
     <div class="flex items-center gap-3 mb-4">
       <span class="text-2xl">🐱</span>
       <h2 class="text-[22px] font-bold tracking-tight">花花日记</h2>
+      <svg class="w-5 h-5 text-[#C6C6C8] ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
     </div>
     <div id="huahua-stats-content" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <!-- Loading placeholder -->
@@ -92,7 +95,7 @@ const sections = [
     <div id="huahua-stats-error" class="hidden text-center py-4 text-sm text-[#8E8E93]">
       暂无数据
     </div>
-  </section>
+  </a>
 
   <!-- Navigation cards -->
   <section class="space-y-3 mb-10">
@@ -116,17 +119,8 @@ const sections = [
   <section class="bg-white rounded-2xl p-6 shadow-sm">
     <h2 class="text-[22px] font-bold tracking-tight mb-3">关于我</h2>
     <div class="space-y-3 text-sm text-[#3C3C43] leading-relaxed">
-      <p>
-        成都开发者，白天写代码，晚上看基金。养了一只叫花花的猫 🐱
       <p>成都人，喜欢用 AI 解决生活中的各种问题，热衷尝试各种 AI 应用。养了一只叫花花的猫 🐱</p>
-      <p>做了<a href="/about#huahua" class="text-[#4169E1] hover:underline">花花日记</a>来管理基金投资，用 Obsidian 记录生活和学习笔记，偶尔在 <a href="https://github.com/baiye1997" target="_blank" class="text-[#4169E1] hover:underline">GitHub</a> 上分享一些项目。</p>
-      <div class="flex flex-wrap gap-2 pt-2">
-        <span class="px-3 py-1 rounded-full bg-[#4169E1]/10 text-[#4169E1] text-xs font-medium">TypeScript</span>
-        <span class="px-3 py-1 rounded-full bg-[#6495ED]/10 text-[#6495ED] text-xs font-medium">React</span>
-        <span class="px-3 py-1 rounded-full bg-[#4169E1]/10 text-[#4169E1] text-xs font-medium">Vue</span>
-        <span class="px-3 py-1 rounded-full bg-[#6495ED]/10 text-[#6495ED] text-xs font-medium">Python</span>
-        <span class="px-3 py-1 rounded-full bg-[#F06292]/10 text-[#F06292] text-xs font-medium">Capacitor</span>
-      </div>
+      <p>做了<a href="/huahua" class="text-[#4169E1] hover:underline">花花日记</a>来管理基金投资，用 Obsidian 记录生活和学习笔记，偶尔在 <a href="https://github.com/baiye1997" target="_blank" class="text-[#4169E1] hover:underline">GitHub</a> 上分享一些项目。</p>
     </div>
   </section>
 </Layout>
