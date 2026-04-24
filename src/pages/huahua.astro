@@ -161,7 +161,7 @@ import Layout from '../layouts/Layout.astro';
 
     try {
       const response = await fetch(HUAHUA_API_URL, {
-        headers: { 'X-API-Key': HUAHUA_API_KEY },
+        headers: { 'Authorization': `Bearer ${HUAHUA_API_KEY}` },
       });
 
       if (!response.ok) throw new Error('API request failed');
