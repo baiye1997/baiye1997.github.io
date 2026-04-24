@@ -46,14 +46,6 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
           ]}>
             笔记
           </a>
-          <a href="/huahua" class:list={[
-            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
-            currentPath === "/huahua" 
-              ? "bg-[#F06292]/10 text-[#F06292]" 
-              : "text-[#3C3C43] hover:bg-black/5"
-          ]}>
-            花花日记
-          </a>
           <a href="/repos" class:list={[
             "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
             currentPath === "/repos" 
@@ -61,6 +53,14 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
               : "text-[#3C3C43] hover:bg-black/5"
           ]}>
             项目
+          </a>
+          <a href="/huahua" class:list={[
+            "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+            currentPath === "/huahua" 
+              ? "bg-[#F06292]/10 text-[#F06292]" 
+              : "text-[#3C3C43] hover:bg-black/5"
+          ]}>
+            花花日记
           </a>
           <a href="/about" class:list={[
             "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
