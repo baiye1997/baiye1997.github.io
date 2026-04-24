@@ -1,0 +1,80 @@
+name: Sync Obsidian Notes
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+  repository_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync notes from Obsidian vault
+        env:
+          OBSIDIAN_VAULT_REPO: ${{ secrets.OBSIDIAN_VAULT_REPO }}
+          OBSIDIAN_VAULT_TOKEN: ${{ secrets.OBSIDIAN_VAULT_TOKEN }}
+        run: |
+          if [ -z "$OBSIDIAN_VAULT_REPO" ] || [ -z "$OBSIDIAN_VAULT_TOKEN" ]; then
+            echo "⚠️ Vault 未配置，跳过同步"
+            exit 0
+          fi
+
+          echo "📥 克隆 Obsidian vault..."
+          if ! git clone "https://x-access-token:${OBSIDIAN_VAULT_TOKEN}@github.com/${OBSIDIAN_VAULT_REPO}" /tmp/obsidian-vault --depth 1 2>&1; then
+            echo "❌ Vault 克隆失败"
+            exit 1
+          fi
+
+          # 清理旧笔记
+          rm -rf src/content/notes/*
+
+          # 复制笔记（排除私密和内部文件）
+          for dir in /tmp/obsidian-vault/*/; do
+            dirname=$(basename "$dir")
+            if [[ "$dirname" == *"二掌柜"* ]] || [[ "$dirname" == ".*" ]]; then
+              echo "⏭️ 跳过私密: $dirname"
+              continue
+            fi
+            find "$dir" -name "*.md" ! -name "README.md" | while read f; do
+              fname=$(basename "$f")
+              if [[ "$fname" == *"归档规范"* ]] || [[ "$fname" == *"排版规范"* ]] || [[ "$fname" == *"模板"* ]]; then
+                continue
+              fi
+              relpath="${f#/tmp/obsidian-vault/}"
+              mkdir -p "src/content/notes/$(dirname "$relpath")"
+              cp "$f" "src/content/notes/$relpath"
+            done
+          done
+
+          # 脱敏：移除个人收益数据
+          echo "🔒 脱敏处理..."
+          find src/content/notes -name "*.md" -exec sed -i \
+            -e '/^## 💰 收益概览/,/^## [^#]/d' \
+            -e '/^## 💰 今日收益明细/,/^## [^#]/d' \
+            -e '/^### 持仓明细/,/^## [^#]/d' \
+            -e '/^## 🔮 盘前走势预测/,/^## [^#]/d' \
+            -e '/^## 📝 投资总结/,/^## [^#]/d' \
+            -e '/^## 📊 热点复盘/,/^## [^#]/d' \
+            {} +
+
+          note_count=$(find src/content/notes -name "*.md" | wc -l)
+          echo "✅ 同步完成，共 $note_count 篇笔记（已脱敏）"
+
+      - name: Commit synced notes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/content/notes/
+          if git diff --cached --quiet; then
+            echo "📝 没有新笔记需要提交"
+          else
+            git commit -m "chore: sync Obsidian notes ($(date -u +%Y-%m-%d))"
+            git push
+          fi
