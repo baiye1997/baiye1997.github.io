@@ -1,0 +1,195 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="花花日记 - 白也">
+  <!-- Hero -->
+  <section class="bg-white rounded-2xl overflow-hidden shadow-sm mb-6">
+    <div class="bg-[#F06292] p-8 text-white">
+      <div class="text-5xl mb-3">🐱</div>
+      <h1 class="text-[34px] font-bold tracking-tight mb-2">花花日记</h1>
+      <p class="text-white/80 text-base">基金投资管理助手</p>
+    </div>
+    <div class="p-6">
+      <p class="text-sm text-[#3C3C43] leading-relaxed">
+        花花日记是一个帮助你管理基金投资的工具。支持 PWA 和 Android 端，帮你追踪持仓、计算收益、查看行情。
+      </p>
+      <div class="flex flex-wrap gap-2 mt-4">
+        <span class="px-3 py-1 rounded-full bg-[#6495ED]/10 text-[#6495ED] text-xs font-medium">PWA</span>
+        <span class="px-3 py-1 rounded-full bg-[#4169E1]/10 text-[#4169E1] text-xs font-medium">Android</span>
+        <span class="px-3 py-1 rounded-full bg-[#F06292]/10 text-[#F06292] text-xs font-medium">AI 辅助开发</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section id="huahua-stats" class="bg-white rounded-2xl p-6 shadow-sm mb-6">
+    <h2 class="text-[22px] font-bold tracking-tight mb-4">实时数据</h2>
+    <div id="huahua-stats-content" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="text-center p-4 rounded-xl bg-[#F2F2F7]">
+        <div class="text-2xl font-bold text-[#4169E1]">--</div>
+        <div class="text-xs text-[#8E8E93] mt-1">今日访问</div>
+      </div>
+      <div class="text-center p-4 rounded-xl bg-[#F2F2F7]">
+        <div class="text-2xl font-bold text-[#6495ED]">--</div>
+        <div class="text-xs text-[#8E8E93] mt-1">活跃用户</div>
+      </div>
+      <div class="text-center p-4 rounded-xl bg-[#F2F2F7]">
+        <div class="text-2xl font-bold text-[#4169E1]">--</div>
+        <div class="text-xs text-[#8E8E93] mt-1">总用户</div>
+      </div>
+      <div class="text-center p-4 rounded-xl bg-[#F2F2F7]">
+        <div class="text-2xl font-bold text-[#F06292]">--</div>
+        <div class="text-xs text-[#8E8E93] mt-1">Pro 用户</div>
+      </div>
+    </div>
+    <div id="huahua-stats-error" class="hidden text-center py-4 text-sm text-[#8E8E93]">
+      暂无数据
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="bg-white rounded-2xl p-6 shadow-sm mb-6">
+    <h2 class="text-[22px] font-bold tracking-tight mb-4">功能特性</h2>
+    <div class="space-y-4">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-[#4169E1]/10 flex items-center justify-center flex-shrink-0">
+          <span class="text-lg">📊</span>
+        </div>
+        <div>
+          <h3 class="font-semibold text-sm mb-0.5">持仓追踪</h3>
+          <p class="text-xs text-[#8E8E93]">实时查看基金持仓、成本、收益，一目了然</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-[#6495ED]/10 flex items-center justify-center flex-shrink-0">
+          <span class="text-lg">💰</span>
+        </div>
+        <div>
+          <h3 class="font-semibold text-sm mb-0.5">收益计算</h3>
+          <p class="text-xs text-[#8E8E93]">自动计算持有收益、年化收益率、盈亏明细</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-[#F06292]/10 flex items-center justify-center flex-shrink-0">
+          <span class="text-lg">📈</span>
+        </div>
+        <div>
+          <h3 class="font-semibold text-sm mb-0.5">行情查看</h3>
+          <p class="text-xs text-[#8E8E93]">基金净值、大盘走势、板块热点</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-[#4169E1]/10 flex items-center justify-center flex-shrink-0">
+          <span class="text-lg">📱</span>
+        </div>
+        <div>
+          <h3 class="font-semibold text-sm mb-0.5">多端支持</h3>
+          <p class="text-xs text-[#8E8E93]">PWA 网页版 + Android App，随时随地查看</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech -->
+  <section class="bg-white rounded-2xl p-6 shadow-sm mb-6">
+    <h2 class="text-[22px] font-bold tracking-tight mb-4">技术栈</h2>
+    <div class="grid grid-cols-2 gap-3">
+      <div class="flex items-center gap-2 p-3 rounded-xl bg-[#F2F2F7]">
+        <span class="text-lg">⚛️</span>
+        <span class="text-sm font-medium">React</span>
+      </div>
+      <div class="flex items-center gap-2 p-3 rounded-xl bg-[#F2F2F7]">
+        <span class="text-lg">📱</span>
+        <span class="text-sm font-medium">Capacitor</span>
+      </div>
+      <div class="flex items-center gap-2 p-3 rounded-xl bg-[#F2F2F7]">
+        <span class="text-lg">🤖</span>
+        <span class="text-sm font-medium">AI 辅助开发</span>
+      </div>
+      <div class="flex items-center gap-2 p-3 rounded-xl bg-[#F2F2F7]">
+        <span class="text-lg">🌐</span>
+        <span class="text-sm font-medium">PWA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download -->
+  <section class="bg-white rounded-2xl p-6 shadow-sm">
+    <h2 class="text-[22px] font-bold tracking-tight mb-4">下载体验</h2>
+    <div class="space-y-3">
+      <a href="https://huahuadaily.preview.aliyun-zeabur.cn" target="_blank" class="flex items-center gap-3 p-4 rounded-xl bg-[#F2F2F7] hover:bg-[#E8E8ED] transition-colors group">
+        <div class="w-10 h-10 rounded-xl bg-[#4169E1] flex items-center justify-center text-white">
+          <span class="text-lg">🌐</span>
+        </div>
+        <div class="flex-1">
+          <div class="text-sm font-medium group-hover:text-[#4169E1] transition-colors">网页版 (PWA)</div>
+          <div class="text-xs text-[#8E8E93]">直接在浏览器中使用</div>
+        </div>
+        <svg class="w-5 h-5 text-[#C6C6C8] group-hover:text-[#4169E1] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
+      <a href="https://1812237070.share.123pan.cn/123pan/k8yrVv-CyFhd" target="_blank" class="flex items-center gap-3 p-4 rounded-xl bg-[#F2F2F7] hover:bg-[#E8E8ED] transition-colors group">
+        <div class="w-10 h-10 rounded-xl bg-[#34C759] flex items-center justify-center text-white">
+          <span class="text-lg">📱</span>
+        </div>
+        <div class="flex-1">
+          <div class="text-sm font-medium group-hover:text-[#4169E1] transition-colors">Android App</div>
+          <div class="text-xs text-[#8E8E93]">下载 APK 安装到手机</div>
+        </div>
+        <svg class="w-5 h-5 text-[#C6C6C8] group-hover:text-[#4169E1] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<script is:inline>
+  const HUAHUA_API_URL = 'https://huahua.preview.aliyun-zeabur.cn/api/public/blog-stats';
+  const HUAHUA_API_KEY = 'hf_blog_stats_2026_4vF8kQm2Zr7Lp9Nx6Tw3Yc1Hd5Sa';
+
+  async function fetchHuahuaStats() {
+    if (!HUAHUA_API_URL || !HUAHUA_API_KEY) {
+      document.getElementById('huahua-stats-error').classList.remove('hidden');
+      document.getElementById('huahua-stats-content').classList.add('hidden');
+      return;
+    }
+
+    try {
+      const response = await fetch(HUAHUA_API_URL, {
+        headers: { 'X-API-Key': HUAHUA_API_KEY },
+      });
+
+      if (!response.ok) throw new Error('API request failed');
+
+      const data = await response.json();
+
+      document.getElementById('huahua-stats-content').innerHTML = `
+        <div class="text-center p-4 rounded-xl bg-[#F2F2F7]">
+          <div class="text-2xl font-bold text-[#4169E1]">${data.today_visit_count ?? '--'}</div>
+          <div class="text-xs text-[#8E8E93] mt-1">今日访问</div>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-[#F2F2F7]">
+          <div class="text-2xl font-bold text-[#6495ED]">${data.today_logged_in_users ?? '--'}</div>
+          <div class="text-xs text-[#8E8E93] mt-1">活跃用户</div>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-[#F2F2F7]">
+          <div class="text-2xl font-bold text-[#4169E1]">${data.total_users ?? '--'}</div>
+          <div class="text-xs text-[#8E8E93] mt-1">总用户</div>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-[#F2F2F7]">
+          <div class="text-2xl font-bold text-[#F06292]">${data.total_pro_users ?? '--'}</div>
+          <div class="text-xs text-[#8E8E93] mt-1">Pro 用户</div>
+        </div>
+      `;
+    } catch (e) {
+      console.error('Failed to fetch Huahua stats:', e);
+      document.getElementById('huahua-stats-error').classList.remove('hidden');
+      document.getElementById('huahua-stats-content').classList.add('hidden');
+    }
+  }
+
+  fetchHuahuaStats();
+</script>
