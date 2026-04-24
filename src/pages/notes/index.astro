@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
+
 const noteFiles = import.meta.glob('../../../src/content/notes/**/*.md', { eager: true });
 
 const notes = Object.entries(noteFiles)
@@ -34,12 +35,13 @@ const notes = Object.entries(noteFiles)
     }
     
     let excerpt = '';
-    const raw = module.raw || '';
-    if (raw) {
-      const content = raw.replace(/^---[\s\S]*?---\s*/, '').trim();
-      const lines = content.split('\n').filter((l: string) => l.trim() && !l.startsWith('#') && !l.startsWith('!['));
-      excerpt = lines.slice(0, 2).join(' ').replace(/[#*\-_>`\[\]]/g, '').trim().slice(0, 120);
-      if (excerpt.length >= 120) excerpt += '...';
+    let textLen = 0;
+    const rawContent = typeof module.rawContent === 'function' ? module.rawContent() : (module.rawContent || '');
+    if (rawContent.length > 10) {
+      const text = rawContent.replace(/^---[\s\S]*?---\s*/, '').replace(/<[^>]*>/g, '').replace(/[#*_\->`\[\]!|]/g, '').replace(/\s+/g, ' ').trim();
+      textLen = text.length;
+      excerpt = text.slice(0, 120);
+      if (text.length > 120) excerpt += '...';
     }
     
     return {
@@ -47,8 +49,8 @@ const notes = Object.entries(noteFiles)
       date: dateStr,
       tags: module.frontmatter?.tags || [],
       excerpt,
-      fullText: raw.replace(/^---[\s\S]*?---\s*/, '').replace(/[#*_\->`\[\]!|]/g, '').trim().toLowerCase().slice(0, 500),
-      readingTime: Math.max(1, Math.ceil(raw.replace(/^---[\s\S]*?---\s*/, '').replace(/[#*_\->`\[\]!|]/g, '').trim().length / 400)),
+      fullText: '',
+      readingTime: Math.max(1, Math.ceil(textLen / 400)),
       slug,
       category: categoryClean,
       categoryRaw: category,
