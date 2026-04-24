@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  repository_dispatch:
 
 permissions:
   contents: read
@@ -27,16 +28,18 @@ jobs:
           OBSIDIAN_VAULT_TOKEN: ${{ secrets.OBSIDIAN_VAULT_TOKEN }}
         run: |
           if [ -n "$OBSIDIAN_VAULT_REPO" ] && [ -n "$OBSIDIAN_VAULT_TOKEN" ]; then
+            echo "📥 克隆 Obsidian vault..."
             git clone "https://x-access-token:${OBSIDIAN_VAULT_TOKEN}@github.com/${OBSIDIAN_VAULT_REPO}" /tmp/obsidian-vault --depth 1
             
             # 清理旧笔记
             rm -rf src/content/notes/*
             
-            # 复制笔记（排除二掌柜的酒铺和内部文件）
+            # 复制笔记（排除私密和内部文件）
             for dir in /tmp/obsidian-vault/*/; do
               dirname=$(basename "$dir")
+              # 跳过私密文件夹
               if [[ "$dirname" == *"二掌柜"* ]] || [[ "$dirname" == ".*" ]]; then
-                echo "⏭️ 跳过: $dirname"
+                echo "⏭️ 跳过私密: $dirname"
                 continue
               fi
               if ls "$dir"*.md 1>/dev/null 2>&1; then
@@ -44,9 +47,8 @@ jobs:
                 mkdir -p "src/content/notes/$dirname"
                 find "$dir" -name "*.md" -maxdepth 1 | while read f; do
                   fname=$(basename "$f")
-                  # 跳过 README、归档规范等内部文件
+                  # 跳过内部文件
                   if [[ "$fname" == "README.md" ]] || [[ "$fname" == *"归档规范"* ]] || [[ "$fname" == *"排版规范"* ]] || [[ "$fname" == *"模板"* ]]; then
-                    echo "  ⏭️ 跳过内部文件: $fname"
                     continue
                   fi
                   cp "$f" "src/content/notes/$dirname/"
@@ -54,8 +56,23 @@ jobs:
               fi
             done
             
+            # 脱敏：移除收益相关段落
+            echo "🔒 脱敏处理：移除个人收益数据..."
+            find src/content/notes -name "*.md" | while read f; do
+              # 移除收益概览段落（从 ## 💰 到下一个 ## 或 ---）
+              sed -i '/^## 💰 收益概览/,/^## \|^---$/d' "$f"
+              # 移除收益明细段落
+              sed -i '/^## 💰 今日收益明细/,/^## \|^---$/d' "$f"
+              # 移除持仓明细表格
+              sed -i '/^### 持仓明细/,/^## \|^---$/d' "$f"
+              # 移除盘前走势预测中的具体收益数据
+              sed -i '/^## 🔮 盘前走势预测/,/^## \|^---$/d' "$f"
+              # 移除投资总结中的收益归因
+              sed -i '/^## 📝 投资总结/,/^## \|^---$/d' "$f"
+            done
+            
             note_count=$(find src/content/notes -name "*.md" | wc -l)
-            echo "✅ 同步完成，共 $note_count 篇笔记"
+            echo "✅ 同步完成，共 $note_count 篇笔记（已脱敏）"
           else
             echo "⚠️ Obsidian vault 未配置，使用已有笔记"
           fi
