@@ -47,7 +47,8 @@ const notes = Object.entries(noteFiles)
       date: dateStr,
       tags: module.frontmatter?.tags || [],
       excerpt,
-      fullText: raw.replace(/^---[\s\S]*?---\s*/, '').replace(/[#*\-_>`\[\]!|]/g, '').trim().toLowerCase().slice(0, 500),
+      fullText: raw.replace(/^---[\s\S]*?---\s*/, '').replace(/[#*_\->`\[\]!|]/g, '').trim().toLowerCase().slice(0, 500),
+      readingTime: Math.max(1, Math.ceil(raw.replace(/^---[\s\S]*?---\s*/, '').replace(/[#*_\->`\[\]!|]/g, '').trim().length / 400)),
       slug,
       category: categoryClean,
       categoryRaw: category,
@@ -155,6 +156,8 @@ const categoryColors: Record<string, string> = {
                 <span class="text-xs font-medium" style="color: var(--text-tertiary);">{note.category}</span>
                 {note.date && <span class="text-xs" style="color: var(--border);">·</span>}
                 {note.date && <span class="text-xs" style="color: var(--text-tertiary);">{note.date}</span>}
+                <span class="text-xs" style="color: var(--border);">·</span>
+                <span class="text-xs" style="color: var(--text-tertiary);">约 {note.readingTime} 分钟</span>
               </div>
               <h3 class="font-medium text-[15px] mb-1 group-hover:text-[var(--accent)] transition-colors duration-200" style="color: var(--text-primary);">
                 {note.title}

@@ -98,9 +98,13 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
           GitHub
         </a>
         <a href="/rss.xml" target="_blank"
-           class="text-sm transition-colors hover:text-[var(--accent)]"
-           style="color: var(--text-tertiary);">
-          RSS
+           class="inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg transition-all hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]"
+           style="color: var(--accent); background-color: var(--accent-soft);">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="6.18" cy="17.82" r="2.18"/>
+            <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+          </svg>
+          订阅
         </a>
       </div>
       <div class="text-xs" style="color: var(--text-tertiary);">
@@ -165,6 +169,31 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
         img.setAttribute('loading', 'lazy');
       });
     }
+  </script>
+
+  <!-- Back to top button -->
+  <button id="back-to-top" aria-label="回到顶部"
+    style="position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;opacity:0;transform:translateY(20px);transition:opacity .3s,transform .3s;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.15);">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+  <script is:inline>
+    (function() {
+      const btn = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          btn.style.opacity = '1';
+          btn.style.transform = 'translateY(0)';
+        } else {
+          btn.style.opacity = '0';
+          btn.style.transform = 'translateY(20px)';
+        }
+      }, { passive: true });
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
   </script>
 </body>
 </html>
