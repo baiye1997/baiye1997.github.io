@@ -46,14 +46,14 @@ jobs:
               echo "⏭️ 跳过私密: $dirname"
               continue
             fi
+            # 展平子目录：所有 md 文件直接放到分类文件夹下
+            mkdir -p "src/content/notes/$dirname"
             find "$dir" -name "*.md" ! -name "README.md" | while read f; do
               fname=$(basename "$f")
               if [[ "$fname" == *"归档规范"* ]] || [[ "$fname" == *"排版规范"* ]] || [[ "$fname" == *"模板"* ]]; then
                 continue
               fi
-              relpath="${f#/tmp/obsidian-vault/}"
-              mkdir -p "src/content/notes/$(dirname "$relpath")"
-              cp "$f" "src/content/notes/$relpath"
+              cp "$f" "src/content/notes/$dirname/$fname"
             done
           done
 
