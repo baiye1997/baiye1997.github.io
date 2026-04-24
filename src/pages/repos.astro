@@ -32,7 +32,7 @@ const langColors: Record<string, string> = {
 
 <Layout title="项目 - 白也">
   <section class="mb-8 reveal">
-    <h1 class="text-[34px] font-bold tracking-tight mb-2 font-serif dark:text-white">项目</h1>
+    <h1 class="font-serif text-[36px] sm:text-[44px] font-bold tracking-tight mb-2" style="color: var(--text-primary);">项目</h1>
     <p style="color: var(--text-tertiary)">GitHub 上的开源仓库</p>
   </section>
 
@@ -44,7 +44,7 @@ const langColors: Record<string, string> = {
       {repos.map((repo: any) => (
         <a href={repo.html_url} target="_blank" rel="noopener" class="card group hover:shadow-md transition-shadow">
           <div class="flex items-start justify-between gap-2 mb-2">
-            <h3 class="font-semibold text-base group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors truncate dark:text-[#EBEBF5]">
+            <h3 class="font-semibold text-base group-hover:text-[var(--accent)] transition-colors truncate" style="color: var(--text-primary);">
               {repo.name}
             </h3>
             <div class="flex items-center gap-1 text-sm flex-shrink-0" style="color: var(--text-tertiary)">
@@ -84,9 +84,9 @@ const langColors: Record<string, string> = {
   <div class="dot-divider">·</div>
 
   <!-- Heatmap -->
-  <section id="heatmap" class="card p-6 reveal">
-    <h2 class="text-[22px] font-bold tracking-tight mb-4 font-serif dark:text-white">贡献热力图</h2>
-    <p class="text-sm mb-4" style="color: var(--text-tertiary)">过去一年的 GitHub 贡献记录</p>
+  <section id="heatmap" class="reveal">
+    <h2 class="font-serif text-lg font-bold mb-4" style="color: var(--text-primary);">贡献热力图</h2>
+    <p class="text-sm mb-4" style="color: var(--text-tertiary);">过去一年的 GitHub 贡献记录</p>
     
     <div id="heatmap-container" class="overflow-x-auto pb-2">
       <div class="flex items-end gap-[3px] min-w-[720px]"></div>

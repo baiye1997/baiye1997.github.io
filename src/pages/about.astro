@@ -3,67 +3,74 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="关于 - 白也">
-  <section class="flex items-center gap-4 mb-8 reveal">
-    <img src="/avatar.jpg" alt="白也" class="w-20 h-20 rounded-2xl object-cover shadow-lg" loading="eager" />
+  <!-- Hero -->
+  <section class="flex items-center gap-5 mb-10 reveal">
+    <img src="/avatar.jpg" alt="白也" class="w-20 h-20 rounded-2xl object-cover" style="border: 2px solid var(--border);" loading="eager" />
     <div>
-      <h1 class="text-[34px] font-bold tracking-tight font-serif">白也</h1>
-      <p style="color: var(--text-tertiary)">baiye1997</p>
+      <h1 class="font-serif text-[32px] font-bold tracking-tight" style="color: var(--text-primary);">白也</h1>
+      <p class="text-sm mt-0.5" style="color: var(--text-tertiary);">baiye1997</p>
     </div>
   </section>
 
-  <!-- About -->
-  <section class="card p-6 mb-6 reveal">
-    <h2 class="text-[22px] font-bold tracking-tight mb-3 font-serif">关于我</h2>
-    <div class="space-y-3 text-sm leading-relaxed" style="color: var(--text-secondary)">
+  <!-- About — editorial, no card -->
+  <section class="mb-10 reveal reveal-delay-1">
+    <div class="space-y-3 text-sm leading-relaxed" style="color: var(--text-secondary);">
       <p>安装工程造价师，喜欢用 AI 解决生活中的各种问题，热衷尝试各种 AI 应用。养了一只叫花花的猫 🐱</p>
-      <p>做了<a href="/huahua" class="hover:underline" style="color: var(--accent)">花花日记</a>来管理基金投资，用 Obsidian 记录生活和学习笔记，偶尔在 <a href="https://github.com/baiye1997" target="_blank" class="hover:underline" style="color: var(--accent)">GitHub</a> 上分享一些项目。</p>
+      <p>做了<a href="/huahua" class="font-medium transition-colors hover:text-[var(--accent)]" style="color: var(--accent);">花花日记</a>来管理基金投资，用 Obsidian 记录生活和学习笔记，偶尔在 <a href="https://github.com/baiye1997" target="_blank" class="font-medium transition-colors hover:text-[var(--accent)]" style="color: var(--accent);">GitHub</a> 上分享一些项目。</p>
     </div>
   </section>
 
-  <div class="dot-divider my-6"><span>·</span></div>
+  <!-- Divider -->
+  <div class="dot-divider my-8"></div>
 
-  <!-- Tools -->
-  <section class="card p-6 mb-6 reveal">
-    <h2 class="text-[22px] font-bold tracking-tight mb-3 font-serif">我用的工具</h2>
+  <!-- Tools — simple list, no card -->
+  <section class="mb-10 reveal reveal-delay-2">
+    <h2 class="font-serif text-lg font-bold mb-5" style="color: var(--text-primary);">我用的工具</h2>
     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-      <div class="flex items-center gap-2 p-3 rounded-xl" style="background: var(--bg-elevated)">
-        <span class="text-lg">🤖</span>
-        <span class="text-sm font-medium">Claude</span>
+      <div class="flex items-center gap-2.5 py-2">
+        <span>🤖</span>
+        <span class="text-sm" style="color: var(--text-primary);">Claude</span>
       </div>
-      <div class="flex items-center gap-2 p-3 rounded-xl" style="background: var(--bg-elevated)">
-        <span class="text-lg">🧠</span>
-        <span class="text-sm font-medium">ChatGPT</span>
+      <div class="flex items-center gap-2.5 py-2">
+        <span>🧠</span>
+        <span class="text-sm" style="color: var(--text-primary);">ChatGPT</span>
       </div>
-      <div class="flex items-center gap-2 p-3 rounded-xl" style="background: var(--bg-elevated)">
-        <span class="text-lg">📝</span>
-        <span class="text-sm font-medium">Obsidian</span>
+      <div class="flex items-center gap-2.5 py-2">
+        <span>📝</span>
+        <span class="text-sm" style="color: var(--text-primary);">Obsidian</span>
       </div>
-      <div class="flex items-center gap-2 p-3 rounded-xl" style="background: var(--bg-elevated)">
-        <span class="text-lg">🐙</span>
-        <span class="text-sm font-medium">GitHub</span>
+      <div class="flex items-center gap-2.5 py-2">
+        <span>🐙</span>
+        <span class="text-sm" style="color: var(--text-primary);">GitHub</span>
       </div>
-      <div class="flex items-center gap-2 p-3 rounded-xl" style="background: var(--bg-elevated)">
-        <span class="text-lg">🎨</span>
-        <span class="text-sm font-medium">广联达</span>
+      <div class="flex items-center gap-2.5 py-2">
+        <span>🎨</span>
+        <span class="text-sm" style="color: var(--text-primary);">广联达</span>
       </div>
-      <div class="flex items-center gap-2 p-3 rounded-xl" style="background: var(--bg-elevated)">
-        <span class="text-lg">💻</span>
-        <span class="text-sm font-medium">宏业</span>
+      <div class="flex items-center gap-2.5 py-2">
+        <span>💻</span>
+        <span class="text-sm" style="color: var(--text-primary);">宏业</span>
       </div>
     </div>
   </section>
 
-  <div class="dot-divider my-6"><span>·</span></div>
+  <!-- Divider -->
+  <div class="dot-divider my-8"></div>
 
-  <!-- Contact -->
-  <section class="card p-6 reveal">
-    <h2 class="text-[22px] font-bold tracking-tight mb-3 font-serif">联系我</h2>
-    <a href="https://github.com/baiye1997" target="_blank" class="flex items-center gap-3 p-3 rounded-xl hover:transition-colors group">
-      <span class="text-2xl">🐙</span>
-      <div>
-        <div class="text-sm font-medium group-hover:transition-colors">GitHub</div>
-        <div class="text-xs" style="color: var(--text-tertiary)">@baiye1997</div>
+  <!-- Contact — simple link, no card -->
+  <section class="reveal reveal-delay-3">
+    <h2 class="font-serif text-lg font-bold mb-5" style="color: var(--text-primary);">联系我</h2>
+    <a href="https://github.com/baiye1997" target="_blank" class="flex items-center justify-between py-3.5 group" style="border-bottom: 1px solid var(--border);">
+      <div class="flex items-center gap-3">
+        <span>🐙</span>
+        <div>
+          <div class="text-sm font-medium group-hover:text-[var(--accent)] transition-colors" style="color: var(--text-primary);">GitHub</div>
+          <div class="text-xs" style="color: var(--text-tertiary);">@baiye1997</div>
+        </div>
       </div>
+      <svg class="w-4 h-4" style="color: var(--border);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+      </svg>
     </a>
   </section>
 </Layout>

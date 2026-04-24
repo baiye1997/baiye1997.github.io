@@ -3,185 +3,145 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="花花日记 - 白也">
-  <!-- Hero -->
-  <section class="card flex items-center gap-5 reveal">
-    <img src="/huahua-logo.jpg" alt="花花日记" class="w-20 h-20 rounded-2xl object-cover" loading="eager" />
-    <div class="flex-1 min-w-0">
-      <h1 class="text-[28px] font-bold tracking-tight mb-1 dark:text-white font-serif">花花日记</h1>
-      <p style="color: var(--text-tertiary)" class="text-sm">基金投资管理助手</p>
-      <div class="flex flex-wrap gap-1.5 mt-3">
-        <span class="px-2.5 py-0.5 rounded-full text-xs" style="background: var(--bg-elevated); color: var(--text-secondary)">PWA</span>
-        <span class="px-2.5 py-0.5 rounded-full text-xs" style="background: var(--bg-elevated); color: var(--text-secondary)">Android</span>
-        <span class="px-2.5 py-0.5 rounded-full text-xs" style="background: var(--bg-elevated); color: var(--text-secondary)">实时估值</span>
-      </div>
+  <!-- Hero — no card, just content on background -->
+  <section class="flex items-center gap-5 mb-10 reveal">
+    <img src="/huahua-logo.jpg" alt="花花日记" class="w-16 h-16 rounded-2xl object-cover" loading="eager" />
+    <div>
+      <h1 class="font-serif text-[28px] font-bold tracking-tight mb-1" style="color: var(--text-primary);">花花日记</h1>
+      <p class="text-sm" style="color: var(--text-tertiary);">基金投资管理助手</p>
     </div>
   </section>
 
-  <div class="dot-divider my-4"></div>
+  <!-- Tags -->
+  <div class="flex flex-wrap gap-2 mb-10 reveal reveal-delay-1">
+    <span class="tag">PWA</span>
+    <span class="tag">Android</span>
+    <span class="tag">实时估值</span>
+  </div>
 
-  <!-- Stats -->
-  <section id="huahua-stats" class="card reveal">
-    <h2 class="text-[22px] font-bold tracking-tight mb-4 dark:text-white font-serif">实时数据</h2>
+  <!-- Stats — inline, no card wrapper -->
+  <section id="huahua-stats" class="mb-10 reveal reveal-delay-2">
     <div id="huahua-stats-content" class="grid grid-cols-3 gap-4">
-      <div class="text-center p-4 rounded-xl" style="background: var(--bg-elevated)">
-        <div class="text-2xl font-bold" style="color: var(--accent)">--</div>
-        <div class="text-xs mt-1" style="color: var(--text-tertiary)">今日访问</div>
+      <div class="text-center p-4 rounded-xl" style="background: var(--bg-elevated);">
+        <div class="text-2xl font-bold" style="color: var(--accent);">--</div>
+        <div class="text-xs mt-1" style="color: var(--text-tertiary);">今日访问</div>
       </div>
-      <div class="text-center p-4 rounded-xl" style="background: var(--bg-elevated)">
-        <div class="text-2xl font-bold" style="color: var(--accent)">--</div>
-        <div class="text-xs mt-1" style="color: var(--text-tertiary)">活跃用户</div>
+      <div class="text-center p-4 rounded-xl" style="background: var(--bg-elevated);">
+        <div class="text-2xl font-bold" style="color: var(--sage);">--</div>
+        <div class="text-xs mt-1" style="color: var(--text-tertiary);">活跃用户</div>
       </div>
-      <div class="text-center p-4 rounded-xl" style="background: var(--bg-elevated)">
-        <div class="text-2xl font-bold" style="color: var(--accent)">--</div>
-        <div class="text-xs mt-1" style="color: var(--text-tertiary)">总用户</div>
-      </div>
-      <div class="text-center p-4 rounded-xl" style="background: var(--bg-elevated)">
-        <div class="text-2xl font-bold" style="color: #D4A03A">--</div>
-        <div class="text-xs mt-1" style="color: var(--text-tertiary)">Pro 用户</div>
+      <div class="text-center p-4 rounded-xl" style="background: var(--bg-elevated);">
+        <div class="text-2xl font-bold" style="color: var(--accent);">--</div>
+        <div class="text-xs mt-1" style="color: var(--text-tertiary);">总用户</div>
       </div>
     </div>
-    <div id="huahua-stats-error" class="hidden text-center py-4 text-sm" style="color: var(--text-tertiary)">
+    <div id="huahua-stats-error" class="hidden text-center py-4 text-sm" style="color: var(--text-tertiary);">
       暂无数据
     </div>
   </section>
 
-  <div class="dot-divider my-4"></div>
-
-  <!-- Features -->
-  <section class="card reveal">
-    <h2 class="text-[22px] font-bold tracking-tight mb-4 dark:text-white font-serif">核心功能</h2>
+  <!-- Features — clean list, no card, no icon backgrounds -->
+  <section class="mb-10 reveal reveal-delay-3">
+    <h2 class="font-serif text-lg font-bold mb-5" style="color: var(--text-primary);">核心功能</h2>
     <div class="space-y-4">
       <div class="flex items-start gap-3">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(212,160,58,0.1)">
-          <span class="text-lg">⚡</span>
-        </div>
+        <span class="text-base mt-0.5">⚡</span>
         <div>
-          <h3 class="font-semibold text-sm mb-0.5 dark:text-[#EBEBF5]">实时估值</h3>
-          <p class="text-xs" style="color: var(--text-tertiary)">盘中实时估算基金净值，人无我有的核心功能</p>
+          <h3 class="text-sm font-medium" style="color: var(--text-primary);">实时估值</h3>
+          <p class="text-sm mt-0.5" style="color: var(--text-tertiary);">盘中实时估算基金净值，人无我有的核心功能</p>
         </div>
       </div>
       <div class="flex items-start gap-3">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(65,105,225,0.1)">
-          <span class="text-lg">📊</span>
-        </div>
+        <span class="text-base mt-0.5">📊</span>
         <div>
-          <h3 class="font-semibold text-sm mb-0.5 dark:text-[#EBEBF5]">持仓追踪</h3>
-          <p class="text-xs" style="color: var(--text-tertiary)">实时查看基金持仓、成本、收益，一目了然</p>
+          <h3 class="text-sm font-medium" style="color: var(--text-primary);">持仓追踪</h3>
+          <p class="text-sm mt-0.5" style="color: var(--text-tertiary);">实时查看基金持仓、成本、收益，一目了然</p>
         </div>
       </div>
       <div class="flex items-start gap-3">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(100,149,237,0.1)">
-          <span class="text-lg">🔄</span>
-        </div>
+        <span class="text-base mt-0.5">🔄</span>
         <div>
-          <h3 class="font-semibold text-sm mb-0.5 dark:text-[#EBEBF5]">定投管理</h3>
-          <p class="text-xs" style="color: var(--text-tertiary)">支持设定定投计划，自动追踪定投收益</p>
+          <h3 class="text-sm font-medium" style="color: var(--text-primary);">定投管理</h3>
+          <p class="text-sm mt-0.5" style="color: var(--text-tertiary);">支持设定定投计划，自动追踪定投收益</p>
         </div>
       </div>
       <div class="flex items-start gap-3">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(52,199,89,0.1)">
-          <span class="text-lg">🏷️</span>
-        </div>
+        <span class="text-base mt-0.5">🏷️</span>
         <div>
-          <h3 class="font-semibold text-sm mb-0.5 dark:text-[#EBEBF5]">基金标签</h3>
-          <p class="text-xs" style="color: var(--text-tertiary)">自定义标签分类管理，灵活组织你的基金</p>
+          <h3 class="text-sm font-medium" style="color: var(--text-primary);">基金标签</h3>
+          <p class="text-sm mt-0.5" style="color: var(--text-tertiary);">自定义标签分类管理，灵活组织你的基金</p>
         </div>
       </div>
       <div class="flex items-start gap-3">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(255,149,0,0.1)">
-          <span class="text-lg">🌍</span>
-        </div>
+        <span class="text-base mt-0.5">🌍</span>
         <div>
-          <h3 class="font-semibold text-sm mb-0.5 dark:text-[#EBEBF5]">海外基金夜盘估算</h3>
-          <p class="text-xs" style="color: var(--text-tertiary)">支持 QDII 等海外基金，夜间也能看估值</p>
+          <h3 class="text-sm font-medium" style="color: var(--text-primary);">海外基金夜盘估算</h3>
+          <p class="text-sm mt-0.5" style="color: var(--text-tertiary);">支持 QDII 等海外基金，夜间也能看估值</p>
         </div>
       </div>
       <div class="flex items-start gap-3">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(175,82,222,0.1)">
-          <span class="text-lg">📸</span>
-        </div>
+        <span class="text-base mt-0.5">📸</span>
         <div>
-          <h3 class="font-semibold text-sm mb-0.5 dark:text-[#EBEBF5]">截图导入</h3>
-          <p class="text-xs" style="color: var(--text-tertiary)">截图导入持仓和交易记录，告别手动录入</p>
+          <h3 class="text-sm font-medium" style="color: var(--text-primary);">截图导入</h3>
+          <p class="text-sm mt-0.5" style="color: var(--text-tertiary);">截图导入持仓和交易记录，告别手动录入</p>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="dot-divider my-4"></div>
+  <!-- Divider -->
+  <div class="dot-divider my-8"></div>
 
-  <!-- JCTI -->
-  <a href="https://huahuadaily.preview.aliyun-zeabur.cn/?invite=82473898&jcti=1" target="_blank" class="block card hover:shadow-md transition-shadow reveal">
-    <div class="flex items-center gap-4">
-      <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background: rgba(255,107,107,0.1)">
-        <span class="text-2xl">🧬</span>
+  <!-- Download — simple links, not cards -->
+  <section class="mb-10 reveal">
+    <h2 class="font-serif text-lg font-bold mb-5" style="color: var(--text-primary);">下载体验</h2>
+    <div class="space-y-0">
+      <a href="https://huahuadaily.preview.aliyun-zeabur.cn" target="_blank" class="flex items-center justify-between py-3.5 group" style="border-bottom: 1px solid var(--border);">
+        <div class="flex items-center gap-3">
+          <span>🌐</span>
+          <div>
+            <div class="text-sm font-medium group-hover:text-[var(--accent)] transition-colors" style="color: var(--text-primary);">网页版 (PWA)</div>
+            <div class="text-xs" style="color: var(--text-tertiary);">直接在浏览器中使用</div>
+          </div>
+        </div>
+        <svg class="w-4 h-4" style="color: var(--border);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
+      <a href="https://1812237070.share.123pan.cn/123pan/k8yrVv-NjFhd" target="_blank" class="flex items-center justify-between py-3.5 group" style="border-bottom: 1px solid var(--border);">
+        <div class="flex items-center gap-3">
+          <span>📱</span>
+          <div>
+            <div class="text-sm font-medium group-hover:text-[var(--accent)] transition-colors" style="color: var(--text-primary);">Android App</div>
+            <div class="text-xs" style="color: var(--text-tertiary);">下载 APK 安装到手机</div>
+          </div>
+        </div>
+        <svg class="w-4 h-4" style="color: var(--border);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- JCTI — subtle callout, not a card -->
+  <a href="https://huahuadaily.preview.aliyun-zeabur.cn/?invite=82473898&jcti=1" target="_blank" class="block py-3.5 group reveal" style="border-bottom: 1px solid var(--border);">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span>🧬</span>
+        <div>
+          <div class="text-sm font-medium group-hover:text-[var(--accent)] transition-colors" style="color: var(--text-primary);">韭菜投资人格测试</div>
+          <div class="text-xs" style="color: var(--text-tertiary);">测测你是什么类型的投资者？3 分钟出结果</div>
+        </div>
       </div>
-      <div class="flex-1 min-w-0">
-        <h3 class="font-bold text-base mb-0.5 dark:text-[#EBEBF5]">韭菜投资人格测试</h3>
-        <p class="text-xs" style="color: var(--text-tertiary)">测测你是什么类型的投资者？3 分钟出结果</p>
-      </div>
-      <svg class="w-5 h-5 flex-shrink-0" style="color: var(--text-tertiary)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+      <svg class="w-4 h-4" style="color: var(--border);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
       </svg>
     </div>
   </a>
 
-  <div class="dot-divider my-4"></div>
-
-  <!-- Download -->
-  <section class="card reveal">
-    <h2 class="text-[22px] font-bold tracking-tight mb-4 dark:text-white font-serif">下载体验</h2>
-    <div class="space-y-3">
-      <a href="https://huahuadaily.preview.aliyun-zeabur.cn" target="_blank" class="flex items-center gap-3 p-4 rounded-xl transition-colors group" style="background: var(--bg-elevated)">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(65,105,225,0.1)">
-          <span class="text-lg">🌐</span>
-        </div>
-        <div class="flex-1">
-          <div class="text-sm font-medium transition-colors dark:text-[#EBEBF5]" style="color: var(--text-primary)">网页版 (PWA)</div>
-          <div class="text-xs" style="color: var(--text-tertiary)">直接在浏览器中使用</div>
-        </div>
-        <svg class="w-5 h-5 transition-colors" style="color: var(--text-tertiary)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-        </svg>
-      </a>
-      <a href="https://1812237070.share.123pan.cn/123pan/k8yrVv-NjFhd" target="_blank" class="flex items-center gap-3 p-4 rounded-xl transition-colors group" style="background: var(--bg-elevated)">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(52,199,89,0.1)">
-          <span class="text-lg">📱</span>
-        </div>
-        <div class="flex-1">
-          <div class="text-sm font-medium transition-colors dark:text-[#EBEBF5]" style="color: var(--text-primary)">Android App</div>
-          <div class="text-xs" style="color: var(--text-tertiary)">下载 APK 安装到手机</div>
-        </div>
-        <svg class="w-5 h-5 transition-colors" style="color: var(--text-tertiary)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-        </svg>
-      </a>
-    </div>
-  </section>
-
-  <div class="dot-divider my-4"></div>
-
-  <!-- Tech -->
-  <section class="card reveal">
-    <h2 class="text-[22px] font-bold tracking-tight mb-4 dark:text-white font-serif">技术栈</h2>
-    <div class="grid grid-cols-2 gap-3">
-      <div class="flex items-center gap-2 p-3 rounded-xl" style="background: var(--bg-elevated)">
-        <span class="text-lg">⚛️</span>
-        <span class="text-sm font-medium dark:text-[#EBEBF5]">React</span>
-      </div>
-      <div class="flex items-center gap-2 p-3 rounded-xl" style="background: var(--bg-elevated)">
-        <span class="text-lg">📱</span>
-        <span class="text-sm font-medium dark:text-[#EBEBF5]">Capacitor</span>
-      </div>
-      <div class="flex items-center gap-2 p-3 rounded-xl" style="background: var(--bg-elevated)">
-        <span class="text-lg">🤖</span>
-        <span class="text-sm font-medium dark:text-[#EBEBF5]">AI 辅助开发</span>
-      </div>
-      <div class="flex items-center gap-2 p-3 rounded-xl" style="background: var(--bg-elevated)">
-        <span class="text-lg">🌐</span>
-        <span class="text-sm font-medium dark:text-[#EBEBF5]">PWA</span>
-      </div>
-    </div>
+  <!-- Tech — just a line of text -->
+  <section class="mt-8 reveal">
+    <p class="text-xs" style="color: var(--text-tertiary);">技术栈：React · Capacitor · AI 辅助开发 · PWA</p>
   </section>
 </Layout>
 
@@ -194,15 +154,15 @@ import Layout from '../layouts/Layout.astro';
     const el = document.getElementById(containerId);
     if (!el) return;
     const isDark = document.documentElement.classList.contains('dark');
-    const bg = isDark ? 'var(--bg-elevated)' : 'var(--bg-elevated)';
-    const lc = 'var(--text-tertiary)';
+    const bg = isDark ? '#252320' : '#F5F0EB';
+    const lc = isDark ? '#A09890' : '#6B6560';
     if (!_huahuaData) return;
     const d = _huahuaData;
     el.innerHTML = [
       [d.today_visit_count, '今日访问', 'var(--accent)'],
-      [d.today_logged_in_users, '今日登录', 'var(--accent)'],
+      [d.today_logged_in_users, '今日登录', 'var(--sage)'],
       [d.today_visitor_users, '今日访客', 'var(--accent)'],
-      [d.total_users, '总用户', 'var(--accent)'],
+      [d.total_users, '总用户', 'var(--sage)'],
       [d.total_pro_users, 'Pro 用户', '#D4A03A'],
       [d.total_vip_users, 'VIP 用户', '#D4A03A'],
     ].map(([v, label, color]) =>
