@@ -33,13 +33,9 @@ body {
   display: none;
 }
 
-/* Smooth page transitions */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Smooth page transitions - handled by View Transitions */
 .animate-fade-in {
-  animation: fadeIn 0.4s ease-out;
+  /* Deprecated: using View Transitions instead */
 }
 
 /* Note card hover effect */

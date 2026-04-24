@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -21,6 +22,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
   <meta http-equiv="Expires" content="0" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>{title}</title>
+  <ViewTransitions />
 </head>
 <body class="min-h-screen">
   <!-- Navigation -->
@@ -76,7 +78,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
   </nav>
 
   <!-- Main content -->
-  <main class="max-w-3xl mx-auto px-3 sm:px-6 py-6 sm:py-8 animate-fade-in">
+  <main class="max-w-3xl mx-auto px-3 sm:px-6 py-6 sm:py-8">
     <slot />
   </main>
 
