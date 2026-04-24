@@ -133,80 +133,55 @@ const sections = [
 </Layout>
 
 <script is:inline>
-  // 花花日记 API 配置
+  // 花花日记 API
   const HUAHUA_API_URL = 'https://huahua.preview.aliyun-zeabur.cn/api/public/blog-stats';
-  const HUAHUA_API_KEY = 'hf_blog_stats_2026_4vF8kQm2Zr7Lp9Nx6Tw3Yc1Hd5Sa';
+  const HUAHUA_API_KEY='hf_blog_stats_2026_4vF8kQm2Zr7Lp9Nx6Tw3Yc1Hd5Sa';
+  let _huahuaData = null;
+
+  function renderStats(containerId) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    const isDark = document.documentElement.classList.contains('dark');
+    const bg = isDark ? '#2C2C2E' : '#F2F2F7';
+    const lc = isDark ? '#98989D' : '#8E8E93';
+    if (!_huahuaData) return;
+    const d = _huahuaData;
+    el.innerHTML = [
+      [d.today_visit_count, '今日访问', '#4169E1'],
+      [d.today_logged_in_users, '今日登录', '#6495ED'],
+      [d.today_visitor_users, '今日访客', '#4169E1'],
+      [d.total_users, '总用户', '#6495ED'],
+      [d.total_pro_users, 'Pro 用户', '#F06292'],
+      [d.total_vip_users, 'VIP 用户', '#F06292'],
+    ].map(([v, label, color]) =>
+      `<div class="text-center p-3 rounded-xl" style="background-color:${bg}">
+        <div class="text-xl font-bold" style="color:${color}">${v ?? '--'}</div>
+        <div class="text-xs mt-0.5" style="color:${lc}">${label}</div>
+      </div>`
+    ).join('');
+  }
 
   async function fetchHuahuaStats() {
     if (!HUAHUA_API_URL || !HUAHUA_API_KEY) {
-      // API 未配置，显示默认状态
-      document.getElementById('huahua-stats-error').classList.remove('hidden');
-      document.getElementById('huahua-stats-content').classList.add('hidden');
+      document.getElementById('huahua-stats-error')?.classList.remove('hidden');
+      document.getElementById('huahua-stats-content')?.classList.add('hidden');
       return;
     }
-
     try {
-      const response = await fetch(HUAHUA_API_URL, {
-        headers: {
-          'Authorization': `Bearer ${HUAHUA_API_KEY}`,
-        },
-      });
-
-      if (!response.ok) throw new Error('API request failed');
-
-      const data = await response.json();
-
-      // 检测当前主题
-      const isDark = document.documentElement.classList.contains('dark');
-      const cardBg = isDark ? '#2C2C2E' : '#F2F2F7';
-      const labelColor = isDark ? '#98989D' : '#8E8E93';
-
-      // 更新统计卡片
-      document.getElementById('huahua-stats-content').innerHTML = `
-        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
-          <div class="text-xl font-bold text-[#4169E1]">${data.today_visit_count ?? '--'}</div>
-          <div class="text-xs mt-0.5" style="color:${labelColor}">今日访问</div>
-        </div>
-        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
-          <div class="text-xl font-bold text-[#6495ED]">${data.today_logged_in_users ?? '--'}</div>
-          <div class="text-xs mt-0.5" style="color:${labelColor}">今日登录</div>
-        </div>
-        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
-          <div class="text-xl font-bold text-[#4169E1]">${data.today_visitor_users ?? '--'}</div>
-          <div class="text-xs mt-0.5" style="color:${labelColor}">今日访客</div>
-        </div>
-        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
-          <div class="text-xl font-bold text-[#6495ED]">${data.total_users ?? '--'}</div>
-          <div class="text-xs mt-0.5" style="color:${labelColor}">总用户</div>
-        </div>
-        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
-          <div class="text-xl font-bold text-[#F06292]">${data.total_pro_users ?? '--'}</div>
-          <div class="text-xs mt-0.5" style="color:${labelColor}">Pro 用户</div>
-        </div>
-        <div class="text-center p-3 rounded-xl" style="background-color:${cardBg}">
-          <div class="text-xl font-bold text-[#F06292]">${data.total_vip_users ?? '--'}</div>
-          <div class="text-xs mt-0.5" style="color:${labelColor}">VIP 用户</div>
-        </div>
-      `;
+      const res = await fetch(HUAHUA_API_URL, { headers: { 'Authorization': `Bearer ${HUAHUA_API_KEY}` } });
+      if (!res.ok) throw new Error('API failed');
+      _huahuaData = await res.json();
+      renderStats('huahua-stats-content');
     } catch (e) {
-      console.error('Failed to fetch Huahua stats:', e);
-      document.getElementById('huahua-stats-error').classList.remove('hidden');
-      document.getElementById('huahua-stats-content').classList.add('hidden');
+      console.error('Huahua stats error:', e);
+      document.getElementById('huahua-stats-error')?.classList.remove('hidden');
+      document.getElementById('huahua-stats-content')?.classList.add('hidden');
     }
   }
 
   fetchHuahuaStats();
 
-  // 监听主题切换，更新卡片颜色
-  const observer = new MutationObserver(() => {
-    const isDark = document.documentElement.classList.contains('dark');
-    const cardBg = isDark ? '#2C2C2E' : '#F2F2F7';
-    const labelColor = isDark ? '#98989D' : '#8E8E93';
-    document.querySelectorAll('#huahua-stats-content > div').forEach(card => {
-      card.style.backgroundColor = cardBg;
-      const label = card.querySelector('.text-xs');
-      if (label) label.style.color = labelColor;
-    });
-  });
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  // 主题切换时重新渲染卡片
+  new MutationObserver(() => { if (_huahuaData) renderStats('huahua-stats-content'); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 </script>
