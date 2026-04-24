@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Tailwind v4: use .dark class strategy instead of media query */
+@custom-variant dark (&:is(.dark *));
+
 /* === Dark Mode === */
 .dark {
   color-scheme: dark;
