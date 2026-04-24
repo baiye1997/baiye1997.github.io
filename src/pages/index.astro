@@ -1,6 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// Count public notes
+const noteFiles = import.meta.glob('../../../src/content/notes/**/*.md', { eager: true });
+const noteCount = Object.keys(noteFiles).filter(path => {
+  if (path.includes('二掌柜')) return false;
+  const f = path.split('/').pop() || '';
+  if (f === 'README.md' || f.includes('归档规范') || f.includes('排版规范') || f.includes('模板') || f.startsWith('.')) return false;
+  return true;
+}).length;
+
 // Fetch GitHub repos count at build time
 let repoCount = 0;
 try {
@@ -49,7 +58,7 @@ const sections = [
   <!-- Stats -->
   <section class="grid grid-cols-2 gap-3 mb-10">
     <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
-      <div class="text-2xl font-bold text-[#4169E1]">4</div>
+      <div class="text-2xl font-bold text-[#4169E1]">{noteCount}</div>
       <div class="text-xs text-[#8E8E93] mt-0.5">笔记</div>
     </div>
     <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
