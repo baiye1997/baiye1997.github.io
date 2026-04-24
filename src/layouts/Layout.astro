@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import { ClientRouter } from 'astro:transitions/client';
 
 interface Props {
   title: string;
@@ -17,12 +16,8 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>{title}</title>
-  <ClientRouter />
 </head>
 <body class="min-h-screen">
   <!-- Navigation -->
@@ -93,5 +88,26 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
       <div>© 2026 白也 · Made with Astro</div>
     </div>
   </footer>
+
+  <!-- Prefetch links for instant navigation -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const prefetched = new Set();
+      
+      // Prefetch on hover
+      document.querySelectorAll('a[href^="/"]').forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          const href = link.getAttribute('href');
+          if (href && !prefetched.has(href)) {
+            prefetched.add(href);
+            const a = document.createElement('a');
+            a.href = href;
+            a.rel = 'prefetch';
+            document.head.appendChild(a);
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
