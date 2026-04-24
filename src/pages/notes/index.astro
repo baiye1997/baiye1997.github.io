@@ -128,7 +128,7 @@ const categoryColors: Record<string, string> = {
     {allTags.length > 0 && (
       <div class="flex gap-1.5 mb-6 overflow-x-auto scrollbar-hide pb-1 -mx-5 px-5 sm:mx-0 sm:px-0 sm:flex-wrap reveal reveal-delay-3">
         {allTags.slice(0, 15).map((tag: string) => (
-          <button class="tag-filter tag transition-all duration-200 text-[11px] py-0.5 px-2" data-tag={tag}>
+          <button class="tag-filter tag transition-all duration-200 text-[11px] py-0.5 px-2 whitespace-nowrap flex-shrink-0" data-tag={tag}>
             #{tag}
           </button>
         ))}
@@ -163,7 +163,7 @@ const categoryColors: Record<string, string> = {
               {note.tags.length > 0 && (
                 <div class="flex flex-wrap gap-1.5 mt-2.5">
                   {note.tags.slice(0, 3).map((tag: string) => (
-                    <span class="note-tag tag text-[11px] py-0 px-2" data-tag={tag}>
+                    <span class="note-tag tag text-[11px] py-0 px-2 whitespace-nowrap" data-tag={tag}>
                       #{tag}
                     </span>
                   ))}
