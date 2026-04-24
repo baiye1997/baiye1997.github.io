@@ -9,19 +9,26 @@ const notes = Object.entries(noteFiles)
     const parts = path.split('/');
     const category = parts[parts.length - 2] || '其他';
     const filename = parts.pop()?.replace('.md', '') || 'Untitled';
+    const slug = `${category}/${filename}`;
     
     return {
       title: module.frontmatter?.title || filename,
-      date: module.frontmatter?.date || module.frontmatter?.created || '',
+      date: module.frontmatter?.date || '',
       tags: module.frontmatter?.tags || [],
-      excerpt: (module.raw || '').slice(0, 150).replace(/[#*\-_>`]/g, '').trim() + '...',
-      filepath: path,
+      excerpt: (module.raw || '').slice(0, 120).replace(/[#*\-_>`]/g, '').trim() + '...',
+      slug,
       category,
     };
   })
   .sort((a: any, b: any) => (b.date > a.date ? 1 : -1));
 
 const categories = [...new Set(notes.map((n: any) => n.category))];
+const categoryIcons: Record<string, string> = {
+  '山水邸报': '📰',
+  '本周必读': '📖',
+  '学海无涯': '📝',
+  '金精铜钱': '💰',
+};
 ---
 
 <Layout title="笔记 - 白也">
@@ -34,40 +41,77 @@ const categories = [...new Set(notes.map((n: any) => n.category))];
     <div class="bg-white rounded-2xl p-8 text-center shadow-sm">
       <div class="text-4xl mb-3">📭</div>
       <p class="text-[#8E8E93]">还没有笔记，正在同步中...</p>
-      <p class="text-sm text-[#8E8E93] mt-2">笔记会从 Obsidian vault 自动同步到这里</p>
     </div>
   ) : (
-    categories.map((category: string) => (
-      <section class="mb-8">
-        <h2 class="text-[22px] font-bold tracking-tight mb-3">{category}</h2>
-        <div class="space-y-3">
-          {notes.filter((n: any) => n.category === category).map((note: any) => (
-            <div class="bg-white rounded-2xl p-4 block group shadow-sm hover:shadow-md transition-shadow">
-              <div class="flex items-start justify-between gap-3">
-                <div class="flex-1 min-w-0">
-                  <h3 class="font-semibold text-base mb-1 group-hover:text-[#4169E1] transition-colors truncate">
-                    {note.title}
-                  </h3>
-                  <p class="text-sm text-[#8E8E93] line-clamp-2">{note.excerpt}</p>
-                  <div class="flex items-center gap-2 mt-2">
-                    {note.date && (
-                      <span class="text-xs text-[#8E8E93]">{note.date}</span>
-                    )}
-                    {note.tags.slice(0, 3).map((tag: string) => (
-                      <span class="px-2 py-0.5 rounded-full bg-[#4169E1]/10 text-[#4169E1] text-xs">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <svg class="w-5 h-5 text-[#C6C6C8] group-hover:text-[#4169E1] transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+    <!-- Category filter -->
+    <div class="flex flex-wrap gap-2 mb-6">
+      <button class="category-filter px-3 py-1.5 rounded-full text-sm font-medium bg-[#4169E1] text-white transition-all" data-category="all">
+        全部
+      </button>
+      {categories.map((category: string) => (
+        <button class="category-filter px-3 py-1.5 rounded-full text-sm font-medium bg-white text-[#3C3C43] hover:bg-[#F2F2F7] transition-all shadow-sm" data-category={category}>
+          {categoryIcons[category] || '📄'} {category}
+        </button>
+      ))}
+    </div>
+
+    <!-- Notes list -->
+    <div class="space-y-3" id="notes-list">
+      {notes.map((note: any) => (
+        <a href={`/notes/${note.slug}`} class="note-card bg-white rounded-2xl p-5 block shadow-sm hover:shadow-md transition-shadow group" data-category={note.category}>
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs text-[#8E8E93]">{categoryIcons[note.category] || '📄'} {note.category}</span>
+                {note.date && <span class="text-xs text-[#C6C6C8]">·</span>}
+                {note.date && <span class="text-xs text-[#8E8E93]">{note.date}</span>}
               </div>
+              <h3 class="font-semibold text-base mb-1 group-hover:text-[#4169E1] transition-colors">
+                {note.title}
+              </h3>
+              <p class="text-sm text-[#8E8E93] line-clamp-2">{note.excerpt}</p>
+              {note.tags.length > 0 && (
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  {note.tags.slice(0, 3).map((tag: string) => (
+                    <span class="px-2 py-0.5 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-xs">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
-          ))}
-        </div>
-      </section>
-    ))
+            <svg class="w-5 h-5 text-[#C6C6C8] group-hover:text-[#4169E1] transition-colors flex-shrink-0 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
   )}
 </Layout>
+
+<script is:inline>
+  // Category filter
+  document.querySelectorAll('.category-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const category = btn.dataset.category;
+      
+      // Update active button
+      document.querySelectorAll('.category-filter').forEach(b => {
+        b.classList.remove('bg-[#4169E1]', 'text-white');
+        b.classList.add('bg-white', 'text-[#3C3C43]');
+      });
+      btn.classList.remove('bg-white', 'text-[#3C3C43]');
+      btn.classList.add('bg-[#4169E1]', 'text-white');
+      
+      // Filter notes
+      document.querySelectorAll('.note-card').forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
