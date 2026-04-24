@@ -48,6 +48,7 @@ const notes = Object.entries(noteFiles)
       date: dateStr,
       tags: module.frontmatter?.tags || [],
       excerpt,
+      fullText: raw.replace(/^---[\s\S]*?---\s*/, '').replace(/[#*\-_>`\[\]!|]/g, '').trim().toLowerCase().slice(0, 500),
       slug,
       category: categoryClean,
       categoryRaw: category,
@@ -127,6 +128,7 @@ const categoryIcons: Record<string, string> = {
           data-tags={note.tags.join(',')}
           data-title={note.title.toLowerCase()}
           data-excerpt={note.excerpt.toLowerCase()}
+          data-fulltext={note.fullText}
         >
           <div class="flex items-start justify-between gap-3">
             <div class="flex-1 min-w-0">
@@ -179,7 +181,8 @@ const categoryIcons: Record<string, string> = {
       const matchSearch = !searchVal ||
         (card.dataset.title || '').includes(searchVal) ||
         (card.dataset.excerpt || '').includes(searchVal) ||
-        (card.dataset.tags || '').includes(searchVal);
+        (card.dataset.tags || '').includes(searchVal) ||
+        (card.dataset.fulltext || '').includes(searchVal);
 
       if (matchCategory && matchTag && matchSearch) {
         card.style.display = 'block';
