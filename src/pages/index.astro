@@ -196,4 +196,17 @@ const sections = [
   }
 
   fetchHuahuaStats();
+
+  // 监听主题切换，更新卡片颜色
+  const observer = new MutationObserver(() => {
+    const isDark = document.documentElement.classList.contains('dark');
+    const cardBg = isDark ? '#2C2C2E' : '#F2F2F7';
+    const labelColor = isDark ? '#98989D' : '#8E8E93';
+    document.querySelectorAll('#huahua-stats-content > div').forEach(card => {
+      card.style.backgroundColor = cardBg;
+      const label = card.querySelector('.text-xs');
+      if (label) label.style.color = labelColor;
+    });
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 </script>
