@@ -8,7 +8,7 @@ on:
   repository_dispatch: # vault 有新内容时触发
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -67,6 +67,17 @@ jobs:
           # 统计同步结果
           note_count=$(find src/content/notes -name "*.md" | wc -l)
           echo "✅ 同步完成，共 $note_count 篇笔记"
+      - name: Commit synced notes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/content/notes/
+          if git diff --cached --quiet; then
+            echo "📝 没有新笔记需要提交"
+          else
+            git commit -m "chore: sync Obsidian notes ($(date -u +%Y-%m-%d))"
+            git push
+          fi
 
       - name: Build
         run: npm run build
