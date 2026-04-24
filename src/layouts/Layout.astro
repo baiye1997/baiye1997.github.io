@@ -19,57 +19,76 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <meta name="description" content={description} />
+  <meta name="theme-color" content="#F2F2F7" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="alternate" type="application/rss+xml" title="白也的小窝" href="/rss.xml" />
   <title>{title}</title>
+  <script is:inline>
+    // Dark mode - respect system preference, allow manual toggle
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen transition-colors duration-300">
   <!-- Navigation -->
-  <nav class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-[#C6C6C8]/30">
+  <nav class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-[#1C1C1E]/80 border-b border-[#C6C6C8]/30 dark:border-[#38383A]/50">
     <div class="max-w-3xl mx-auto px-3 sm:px-6">
       <div class="flex items-center justify-between h-12 sm:h-14">
-        <a href="/" class="font-bold text-base sm:text-lg tracking-tight whitespace-nowrap">🏠 白也的小窝</a>
+        <a href="/" class="font-bold text-base sm:text-lg tracking-tight whitespace-nowrap dark:text-white">🏠 白也的小窝</a>
         
         <div class="flex items-center gap-0.5 sm:gap-1 overflow-x-auto scrollbar-hide">
           <a href="/" class:list={[
             "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
             currentPath === "/" 
-              ? "bg-[#4169E1]/10 text-[#4169E1]" 
-              : "text-[#3C3C43] hover:bg-black/5"
+              ? "bg-[#4169E1]/10 text-[#4169E1] dark:bg-[#4169E1]/20" 
+              : "text-[#3C3C43] dark:text-[#EBEBF5] hover:bg-black/5 dark:hover:bg-white/10"
           ]}>
             首页
           </a>
           <a href="/notes" class:list={[
             "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
             currentPath.startsWith("/notes") 
-              ? "bg-[#4169E1]/10 text-[#4169E1]" 
-              : "text-[#3C3C43] hover:bg-black/5"
+              ? "bg-[#4169E1]/10 text-[#4169E1] dark:bg-[#4169E1]/20" 
+              : "text-[#3C3C43] dark:text-[#EBEBF5] hover:bg-black/5 dark:hover:bg-white/10"
           ]}>
             笔记
           </a>
           <a href="/repos" class:list={[
             "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
             currentPath === "/repos" 
-              ? "bg-[#4169E1]/10 text-[#4169E1]" 
-              : "text-[#3C3C43] hover:bg-black/5"
+              ? "bg-[#4169E1]/10 text-[#4169E1] dark:bg-[#4169E1]/20" 
+              : "text-[#3C3C43] dark:text-[#EBEBF5] hover:bg-black/5 dark:hover:bg-white/10"
           ]}>
             项目
           </a>
           <a href="/huahua" class:list={[
             "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
             currentPath === "/huahua" 
-              ? "bg-[#F06292]/10 text-[#F06292]" 
-              : "text-[#3C3C43] hover:bg-black/5"
+              ? "bg-[#F06292]/10 text-[#F06292] dark:bg-[#F06292]/20" 
+              : "text-[#3C3C43] dark:text-[#EBEBF5] hover:bg-black/5 dark:hover:bg-white/10"
           ]}>
             花花日记
           </a>
           <a href="/about" class:list={[
             "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap",
             currentPath === "/about" 
-              ? "bg-[#4169E1]/10 text-[#4169E1]" 
-              : "text-[#3C3C43] hover:bg-black/5"
+              ? "bg-[#4169E1]/10 text-[#4169E1] dark:bg-[#4169E1]/20" 
+              : "text-[#3C3C43] dark:text-[#EBEBF5] hover:bg-black/5 dark:hover:bg-white/10"
           ]}>
             关于
           </a>
+          <!-- Dark mode toggle -->
+          <button id="theme-toggle" class="px-2 py-1.5 rounded-full text-xs hover:bg-black/5 dark:hover:bg-white/10 transition-colors" aria-label="切换深色模式">
+            <svg class="w-4 h-4 text-[#8E8E93] dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+            <svg class="w-4 h-4 text-[#FFD60A] hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -81,36 +100,65 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
   </main>
 
   <!-- Footer -->
-  <footer class="max-w-3xl mx-auto px-4 sm:px-6 py-8 mt-8 border-t border-[#C6C6C8]/30">
+  <footer class="max-w-3xl mx-auto px-4 sm:px-6 py-8 mt-8 border-t border-[#C6C6C8]/30 dark:border-[#38383A]/50">
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[#8E8E93]">
       <div class="flex items-center gap-4">
-        <a href="https://github.com/baiye1997" target="_blank" rel="noopener" class="hover:text-[#4169E1] transition-colors">
+        <a href="https://github.com/baiye1997" target="_blank" rel="noopener" class="hover:text-[#4169E1] dark:hover:text-[#6495ED] transition-colors">
           GitHub
+        </a>
+        <a href="/rss.xml" target="_blank" class="hover:text-[#4169E1] dark:hover:text-[#6495ED] transition-colors">
+          RSS
         </a>
       </div>
       <div>© 2026 白也 · Made with Astro</div>
     </div>
   </footer>
 
-  <!-- Prefetch links for instant navigation -->
+  <!-- Scripts -->
   <script is:inline>
-    document.addEventListener('DOMContentLoaded', () => {
-      const prefetched = new Set();
-      
-      // Prefetch on hover
-      document.querySelectorAll('a[href^="/"]').forEach(link => {
-        link.addEventListener('mouseenter', () => {
-          const href = link.getAttribute('href');
-          if (href && !prefetched.has(href)) {
-            prefetched.add(href);
-            const a = document.createElement('a');
-            a.href = href;
-            a.rel = 'prefetch';
-            document.head.appendChild(a);
-          }
-        });
+    // Dark mode toggle
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      // Update theme-color meta
+      document.querySelector('meta[name="theme-color"]').content = isDark ? '#1C1C1E' : '#F2F2F7';
+    });
+
+    // Prefetch links for instant navigation
+    const prefetched = new Set();
+    document.querySelectorAll('a[href^="/"]').forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        const href = link.getAttribute('href');
+        if (href && !prefetched.has(href)) {
+          prefetched.add(href);
+          const a = document.createElement('a');
+          a.href = href;
+          a.rel = 'prefetch';
+          document.head.appendChild(a);
+        }
       });
     });
+
+    // Image lazy loading with fade-in
+    if ('loading' in HTMLImageElement.prototype) {
+      // Browser supports native lazy loading
+      document.querySelectorAll('img:not([loading])').forEach(img => {
+        img.setAttribute('loading', 'lazy');
+      });
+    } else {
+      // Fallback: Intersection Observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src || img.src;
+            img.classList.add('loaded');
+            observer.unobserve(img);
+          }
+        });
+      }, { rootMargin: '200px' });
+      document.querySelectorAll('img[data-src]').forEach(img => observer.observe(img));
+    }
   </script>
 </body>
 </html>

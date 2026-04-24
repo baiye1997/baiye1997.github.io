@@ -81,7 +81,7 @@ const categoryIcons: Record<string, string> = {
 
 <Layout title={`${note.title} - 白也`}>
   <!-- Back button -->
-  <a href="/notes" class="inline-flex items-center gap-1 text-sm text-[#8E8E93] hover:text-[#4169E1] transition-colors mb-4">
+  <a href="/notes" class="inline-flex items-center gap-1 text-sm text-[#8E8E93] hover:text-[#4169E1] dark:text-[#98989D] dark:hover:text-[#6495ED] transition-colors mb-4">
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
     </svg>
@@ -89,20 +89,20 @@ const categoryIcons: Record<string, string> = {
   </a>
 
   <!-- Note header -->
-  <article class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm mb-4">
-    <div class="flex items-center gap-2 text-sm text-[#8E8E93] mb-2">
-      <span class="px-2 py-0.5 rounded-full bg-[#4169E1]/10 text-[#4169E1] text-xs font-medium">
+  <article class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-5 sm:p-6 shadow-sm mb-4">
+    <div class="flex items-center gap-2 text-sm text-[#8E8E93] dark:text-[#98989D] mb-2">
+      <span class="px-2 py-0.5 rounded-full bg-[#4169E1]/10 dark:bg-[#4169E1]/20 text-[#4169E1] dark:text-[#6495ED] text-xs font-medium">
         {categoryIcons[note.category] || '📄'} {note.category}
       </span>
       {note.date && <span>{note.date}</span>}
     </div>
     
-    <h1 class="text-[22px] sm:text-[28px] font-bold tracking-tight mb-3 leading-tight">{note.title}</h1>
+    <h1 class="text-[22px] sm:text-[28px] font-bold tracking-tight mb-3 leading-tight dark:text-white">{note.title}</h1>
     
     {note.tags.length > 0 && (
       <div class="flex flex-wrap gap-1.5 mb-5">
         {note.tags.map((tag: string) => (
-          <span class="px-2 py-0.5 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-xs">
+          <span class="px-2 py-0.5 rounded-full bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[#8E8E93] dark:text-[#98989D] text-xs">
             {tag}
           </span>
         ))}
@@ -110,7 +110,7 @@ const categoryIcons: Record<string, string> = {
     )}
     
     <!-- Note content -->
-    <div class="note-content text-[#3C3C43] leading-relaxed">
+    <div class="note-content text-[#3C3C43] dark:text-[#EBEBF5] leading-relaxed">
       <Fragment set:html={note.content} />
     </div>
   </article>
@@ -119,15 +119,15 @@ const categoryIcons: Record<string, string> = {
   {(prevNote || nextNote) && (
     <div class="grid grid-cols-2 gap-3 mb-6">
       {prevNote ? (
-        <a href={`/notes/${prevNote.slug}`} class="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow group">
-          <div class="text-xs text-[#8E8E93] mb-1">← 上一篇</div>
-          <div class="text-sm font-medium group-hover:text-[#4169E1] transition-colors line-clamp-2">{prevNote.title}</div>
+        <a href={`/notes/${prevNote.slug}`} class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow group">
+          <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mb-1">← 上一篇</div>
+          <div class="text-sm font-medium group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors line-clamp-2 dark:text-[#EBEBF5]">{prevNote.title}</div>
         </a>
       ) : <div />}
       {nextNote ? (
-        <a href={`/notes/${nextNote.slug}`} class="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow group text-right">
-          <div class="text-xs text-[#8E8E93] mb-1">下一篇 →</div>
-          <div class="text-sm font-medium group-hover:text-[#4169E1] transition-colors line-clamp-2">{nextNote.title}</div>
+        <a href={`/notes/${nextNote.slug}`} class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow group text-right">
+          <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mb-1">下一篇 →</div>
+          <div class="text-sm font-medium group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors line-clamp-2 dark:text-[#EBEBF5]">{nextNote.title}</div>
         </a>
       ) : <div />}
     </div>

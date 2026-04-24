@@ -48,54 +48,54 @@ const sections = [
 <Layout title="白也 - 个人主页">
   <!-- Hero -->
   <section class="flex items-center gap-4 mb-10">
-    <img src="/avatar.jpg" alt="白也" class="w-16 h-16 rounded-2xl object-cover shadow-lg" />
+    <img src="/avatar.jpg" alt="白也" class="w-16 h-16 rounded-2xl object-cover shadow-lg" loading="eager" />
     <div>
-      <h1 class="text-[34px] font-bold tracking-tight leading-tight">白也</h1>
-      <p class="text-[#8E8E93] text-base mt-0.5">小米 · 爱好AI · LOL · 杜兰特 · 花花日记开发者</p>
+      <h1 class="text-[34px] font-bold tracking-tight leading-tight dark:text-white">白也</h1>
+      <p class="text-[#8E8E93] dark:text-[#98989D] text-base mt-0.5">小米 · 爱好AI · LOL · 杜兰特 · 花花日记开发者</p>
     </div>
   </section>
 
   <!-- Stats -->
   <section class="grid grid-cols-2 gap-3 mb-10">
-    <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
-      <div class="text-2xl font-bold text-[#4169E1]">{noteCount}</div>
-      <div class="text-xs text-[#8E8E93] mt-0.5">笔记</div>
+    <div class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-4 text-center shadow-sm">
+      <div class="text-2xl font-bold text-[#4169E1] dark:text-[#6495ED]">{noteCount}</div>
+      <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">笔记</div>
     </div>
-    <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
-      <div class="text-2xl font-bold text-[#6495ED]">{repoCount || '—'}</div>
-      <div class="text-xs text-[#8E8E93] mt-0.5">项目</div>
+    <div class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-4 text-center shadow-sm">
+      <div class="text-2xl font-bold text-[#6495ED] dark:text-[#4169E1]">{repoCount || '—'}</div>
+      <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">项目</div>
     </div>
   </section>
 
   <!-- 花花日记 Stats -->
-  <a href="/huahua" class="block bg-white rounded-2xl p-6 shadow-sm mb-10 hover:shadow-md transition-shadow">
+  <a href="/huahua" class="block bg-white dark:bg-[#1C1C1E] rounded-2xl p-6 shadow-sm mb-10 hover:shadow-md transition-shadow">
     <div class="flex items-center gap-3 mb-4">
-      <img src="/huahua-logo.jpg" alt="花花日记" class="w-10 h-10 rounded-xl object-cover" />
-      <h2 class="text-[22px] font-bold tracking-tight">花花日记</h2>
-      <svg class="w-5 h-5 text-[#C6C6C8] ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <img src="/huahua-logo.jpg" alt="花花日记" class="w-10 h-10 rounded-xl object-cover" loading="lazy" />
+      <h2 class="text-[22px] font-bold tracking-tight dark:text-white">花花日记</h2>
+      <svg class="w-5 h-5 text-[#C6C6C8] dark:text-[#48484A] ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </div>
     <div id="huahua-stats-content" class="grid grid-cols-3 gap-4">
       <!-- Loading placeholder -->
-      <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
-        <div class="text-xl font-bold text-[#8E8E93]">--</div>
-        <div class="text-xs text-[#8E8E93] mt-0.5">今日访问</div>
+      <div class="text-center p-3 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
+        <div class="text-xl font-bold text-[#8E8E93] dark:text-[#98989D]">--</div>
+        <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">今日访问</div>
       </div>
-      <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
-        <div class="text-xl font-bold text-[#8E8E93]">--</div>
-        <div class="text-xs text-[#8E8E93] mt-0.5">活跃用户</div>
+      <div class="text-center p-3 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
+        <div class="text-xl font-bold text-[#8E8E93] dark:text-[#98989D]">--</div>
+        <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">活跃用户</div>
       </div>
-      <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
-        <div class="text-xl font-bold text-[#8E8E93]">--</div>
-        <div class="text-xs text-[#8E8E93] mt-0.5">总用户</div>
+      <div class="text-center p-3 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
+        <div class="text-xl font-bold text-[#8E8E93] dark:text-[#98989D]">--</div>
+        <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">总用户</div>
       </div>
-      <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
-        <div class="text-xl font-bold text-[#8E8E93]">--</div>
-        <div class="text-xs text-[#8E8E93] mt-0.5">Pro 用户</div>
+      <div class="text-center p-3 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E]">
+        <div class="text-xl font-bold text-[#8E8E93] dark:text-[#98989D]">--</div>
+        <div class="text-xs text-[#8E8E93] dark:text-[#98989D] mt-0.5">Pro 用户</div>
       </div>
     </div>
-    <div id="huahua-stats-error" class="hidden text-center py-4 text-sm text-[#8E8E93]">
+    <div id="huahua-stats-error" class="hidden text-center py-4 text-sm text-[#8E8E93] dark:text-[#98989D]">
       暂无数据
     </div>
   </a>
@@ -103,19 +103,19 @@ const sections = [
   <!-- Navigation cards -->
   <section class="space-y-3 mb-10">
     {sections.map(section => (
-      <a href={section.href} class="bg-white rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow group">
+      <a href={section.href} class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow group">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl overflow-hidden" style={`background-color: ${section.color}15`}>
           {section.isImage ? (
-            <img src={section.icon} alt={section.title} class="w-full h-full object-cover" />
+            <img src={section.icon} alt={section.title} class="w-full h-full object-cover" loading="lazy" />
           ) : (
             section.icon
           )}
         </div>
         <div class="flex-1 min-w-0">
-          <h3 class="font-semibold text-base">{section.title}</h3>
-          <p class="text-sm text-[#8E8E93] mt-0.5">{section.subtitle}</p>
+          <h3 class="font-semibold text-base dark:text-[#EBEBF5]">{section.title}</h3>
+          <p class="text-sm text-[#8E8E93] dark:text-[#98989D] mt-0.5">{section.subtitle}</p>
         </div>
-        <svg class="w-5 h-5 text-[#C6C6C8] group-hover:text-[#4169E1] transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 text-[#C6C6C8] dark:text-[#48484A] group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
       </a>
@@ -123,11 +123,11 @@ const sections = [
   </section>
 
   <!-- About -->
-  <section class="bg-white rounded-2xl p-6 shadow-sm">
-    <h2 class="text-[22px] font-bold tracking-tight mb-3">关于我</h2>
-    <div class="space-y-3 text-sm text-[#3C3C43] leading-relaxed">
+  <section class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-6 shadow-sm">
+    <h2 class="text-[22px] font-bold tracking-tight mb-3 dark:text-white">关于我</h2>
+    <div class="space-y-3 text-sm text-[#3C3C43] dark:text-[#EBEBF5] leading-relaxed">
       <p>安装工程造价师，喜欢用 AI 解决生活中的各种问题，热衷尝试各种 AI 应用。养了一只叫花花的猫 🐱</p>
-      <p>做了<a href="/huahua" class="text-[#4169E1] hover:underline">花花日记</a>来管理基金投资，用 Obsidian 记录生活和学习笔记，偶尔在 <a href="https://github.com/baiye1997" target="_blank" class="text-[#4169E1] hover:underline">GitHub</a> 上分享一些项目。</p>
+      <p>做了<a href="/huahua" class="text-[#4169E1] dark:text-[#6495ED] hover:underline">花花日记</a>来管理基金投资，用 Obsidian 记录生活和学习笔记，偶尔在 <a href="https://github.com/baiye1997" target="_blank" class="text-[#4169E1] dark:text-[#6495ED] hover:underline">GitHub</a> 上分享一些项目。</p>
     </div>
   </section>
 </Layout>

@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* === Dark Mode === */
+.dark {
+  color-scheme: dark;
+}
+
 /* Base styles */
 html {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
@@ -11,17 +16,24 @@ body {
   background-color: #F2F2F7;
   color: #000000;
 }
+.dark body {
+  background-color: #000000;
+  color: #EBEBF5;
+}
 
 /* iOS style scrollbar */
 ::-webkit-scrollbar {
- width: 6px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
- background: transparent;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
- background: #C6C6C8;
- border-radius: 3px;
+  background: #C6C6C8;
+  border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #48484A;
 }
 
 /* Hide scrollbar for navigation */
@@ -52,11 +64,6 @@ body {
   overflow: hidden;
 }
 
-/* Smooth page transitions - handled by View Transitions */
-.animate-fade-in {
-  /* Deprecated: using View Transitions instead */
-}
-
 /* Note card hover effect */
 .note-card {
   transition: all 0.2s ease;
@@ -64,4 +71,108 @@ body {
 .note-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
+}
+.dark .note-card:hover {
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+/* Image lazy loading fade-in */
+img {
+  transition: opacity 0.3s ease;
+}
+img[loading="lazy"] {
+  opacity: 0;
+}
+img[loading="lazy"].loaded,
+img[loading="lazy"]:not([data-src]) {
+  opacity: 1;
+}
+/* Ensure already-loaded images are visible */
+img:not([loading="lazy"]) {
+  opacity: 1;
+}
+
+/* === Dark mode card backgrounds === */
+.dark .bg-white {
+  background-color: #1C1C1E;
+}
+.dark .bg-\[\#F2F2F7\] {
+  background-color: #2C2C2E;
+}
+
+/* Dark mode text colors */
+.dark .text-\[\#3C3C43\] {
+  color: #EBEBF5;
+}
+.dark .text-\[\#8E8E93\] {
+  color: #98989D;
+}
+.dark .text-\[\#C6C6C8\] {
+  color: #636366;
+}
+.dark .text-\[\#636366\] {
+  color: #AEAEB2;
+}
+
+/* Dark mode borders */
+.dark .border-\[\#C6C6C8\]\/30 {
+  border-color: rgba(56, 56, 58, 0.5);
+}
+.dark .border-\[\#E5E5EA\] {
+  border-color: #38383A;
+}
+
+/* Dark mode shadows */
+.dark .shadow-sm {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode active filter buttons */
+.dark .bg-\[\#4169E1\] {
+  background-color: #4169E1;
+}
+.dark .bg-\[\#F2F2F7\].dark\:bg-\[\#2C2C2E\] {
+  background-color: #2C2C2E;
+}
+
+/* Dark mode code blocks */
+.dark .note-content pre {
+  background: #0D1117;
+}
+.dark .note-content code {
+  background: #2C2C2E;
+  color: #FF6B6B;
+}
+.dark .note-content pre code {
+  background: transparent;
+  color: #e0e0e0;
+}
+
+/* Dark mode blockquote */
+.dark .note-content blockquote {
+  background: #1C2836;
+  border-left-color: #6495ED;
+  color: #AEAEB2;
+}
+
+/* Dark mode table */
+.dark .note-content th {
+  background: #2C2C2E;
+}
+.dark .note-content td,
+.dark .note-content th {
+  border-color: #38383A;
+}
+.dark .note-content tr:nth-child(even) {
+  background: #1C1C1E;
+}
+
+/* Dark mode strong */
+.dark .note-content strong {
+  color: #FFFFFF;
+}
+
+/* Dark mode links */
+.dark .note-content a {
+  color: #6495ED;
 }

@@ -70,38 +70,38 @@ const categoryIcons: Record<string, string> = {
 
 <Layout title="笔记 - 白也">
   <section class="mb-6">
-    <h1 class="text-[34px] font-bold tracking-tight mb-2">笔记</h1>
-    <p class="text-[#8E8E93]">来自 Obsidian 的知识沉淀</p>
+    <h1 class="text-[34px] font-bold tracking-tight mb-2 dark:text-white">笔记</h1>
+    <p class="text-[#8E8E93] dark:text-[#98989D]">来自 Obsidian 的知识沉淀</p>
   </section>
 
   {notes.length === 0 ? (
-    <div class="bg-white rounded-2xl p-8 text-center shadow-sm">
+    <div class="bg-white dark:bg-[#1C1C1E] rounded-2xl p-8 text-center shadow-sm">
       <div class="text-4xl mb-3">📭</div>
-      <p class="text-[#8E8E93]">还没有笔记，正在同步中...</p>
+      <p class="text-[#8E8E93] dark:text-[#98989D]">还没有笔记，正在同步中...</p>
     </div>
   ) : (
     <!-- Search -->
     <div class="mb-4">
       <div class="relative">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8E8E93]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8E8E93] dark:text-[#98989D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         <input
           type="text"
           id="search-input"
           placeholder="搜索笔记标题、内容..."
-          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F2F2F7] text-sm outline-none focus:ring-2 focus:ring-[#4169E1]/20 transition-shadow"
+          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F2F2F7] dark:bg-[#2C2C2E] text-sm outline-none focus:ring-2 focus:ring-[#4169E1]/20 transition-shadow dark:text-white dark:placeholder-[#636366]"
         />
       </div>
     </div>
 
     <!-- Category filter -->
     <div class="flex gap-1.5 mb-3 overflow-x-auto scrollbar-hide pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap">
-      <button class="category-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-[#F2F2F7] text-[#636366] active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-category="all">
+      <button class="category-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[#636366] dark:text-[#AEAEB2] active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-category="all">
         全部
       </button>
       {categories.map((category: string) => (
-        <button class="category-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-[#F2F2F7] text-[#636366] active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-category={category}>
+        <button class="category-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[#636366] dark:text-[#AEAEB2] active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-category={category}>
           {categoryIcons[category] || '📄'} {category}
         </button>
       ))}
@@ -111,7 +111,7 @@ const categoryIcons: Record<string, string> = {
     {allTags.length > 0 && (
       <div class="flex gap-1 mb-5 overflow-x-auto scrollbar-hide pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap">
         {allTags.slice(0, 15).map((tag: string) => (
-          <button class="tag-filter px-2 py-0.5 rounded-md bg-[#F2F2F7] text-[#8E8E93] text-xs active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-tag={tag}>
+          <button class="tag-filter px-2 py-0.5 rounded-md bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[#8E8E93] dark:text-[#98989D] text-xs active:bg-[#4169E1] active:text-white transition-colors whitespace-nowrap" data-tag={tag}>
             #{tag}
           </button>
         ))}
@@ -123,7 +123,7 @@ const categoryIcons: Record<string, string> = {
       {notes.map((note: any) => (
         <a
           href={`/notes/${note.slug}`}
-          class="note-card bg-white rounded-2xl p-5 block shadow-sm hover:shadow-md transition-shadow group"
+          class="note-card bg-white dark:bg-[#1C1C1E] rounded-2xl p-5 block shadow-sm hover:shadow-md transition-shadow group"
           data-category={note.category}
           data-tags={note.tags.join(',')}
           data-title={note.title.toLowerCase()}
@@ -133,25 +133,25 @@ const categoryIcons: Record<string, string> = {
           <div class="flex items-start justify-between gap-3">
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs text-[#8E8E93]">{categoryIcons[note.category] || '📄'} {note.category}</span>
-                {note.date && <span class="text-xs text-[#C6C6C8]">·</span>}
-                {note.date && <span class="text-xs text-[#8E8E93]">{note.date}</span>}
+                <span class="text-xs text-[#8E8E93] dark:text-[#98989D]">{categoryIcons[note.category] || '📄'} {note.category}</span>
+                {note.date && <span class="text-xs text-[#C6C6C8] dark:text-[#48484A]">·</span>}
+                {note.date && <span class="text-xs text-[#8E8E93] dark:text-[#98989D]">{note.date}</span>}
               </div>
-              <h3 class="font-semibold text-base mb-1 group-hover:text-[#4169E1] transition-colors note-title">
+              <h3 class="font-semibold text-base mb-1 group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors note-title dark:text-[#EBEBF5]">
                 {note.title}
               </h3>
-              <p class="text-sm text-[#8E8E93] line-clamp-2 note-excerpt">{note.excerpt}</p>
+              <p class="text-sm text-[#8E8E93] dark:text-[#98989D] line-clamp-2 note-excerpt">{note.excerpt}</p>
               {note.tags.length > 0 && (
                 <div class="flex flex-wrap gap-1.5 mt-2">
                   {note.tags.slice(0, 3).map((tag: string) => (
-                    <span class="note-tag px-2 py-0.5 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-xs cursor-pointer hover:bg-[#E8E8ED] transition-colors" data-tag={tag}>
+                    <span class="note-tag px-2 py-0.5 rounded-full bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[#8E8E93] dark:text-[#98989D] text-xs cursor-pointer hover:bg-[#E8E8ED] dark:hover:bg-[#3A3A3C] transition-colors" data-tag={tag}>
                       #{tag}
                     </span>
                   ))}
                 </div>
               )}
             </div>
-            <svg class="w-5 h-5 text-[#C6C6C8] group-hover:text-[#4169E1] transition-colors flex-shrink-0 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-[#C6C6C8] dark:text-[#48484A] group-hover:text-[#4169E1] dark:group-hover:text-[#6495ED] transition-colors flex-shrink-0 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </div>
@@ -160,9 +160,9 @@ const categoryIcons: Record<string, string> = {
     </div>
 
     <!-- Empty state for search/filter -->
-    <div id="no-results" class="hidden bg-white rounded-2xl p-8 text-center shadow-sm">
+    <div id="no-results" class="hidden bg-white dark:bg-[#1C1C1E] rounded-2xl p-8 text-center shadow-sm">
       <div class="text-4xl mb-3">🔍</div>
-      <p class="text-[#8E8E93]">没有找到匹配的笔记</p>
+      <p class="text-[#8E8E93] dark:text-[#98989D]">没有找到匹配的笔记</p>
     </div>
   )}
 </Layout>
