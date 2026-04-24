@@ -29,7 +29,7 @@ jobs:
         run: |
           # 克隆 Obsidian vault（私有仓库需要 token）
           if [ -n "$OBSIDIAN_VAULT_REPO" ] && [ -n "$OBSIDIAN_VAULT_TOKEN" ]; then
-            git clone "https://x-access-token:${OBSIDIAN_VAULT_TOKEN}@${OBSIDIAN_VAULT_REPO}" /tmp/obsidian-vault --depth 1
+            git clone "https://x-access-token:${OBSIDIAN_VAULT_TOKEN}@github.com/${OBSIDIAN_VAULT_REPO}" /tmp/obsidian-vault --depth 1
           else
             echo "⚠️ Obsidian vault 未配置，跳过同步"
             exit 0
