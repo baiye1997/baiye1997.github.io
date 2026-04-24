@@ -1,6 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// Fetch GitHub repos count at build time
+let repoCount = 0;
+try {
+  const response = await fetch('https://api.github.com/users/baiye1997/repos?per_page=100');
+  const repos = await response.json();
+  repoCount = repos.filter((r: any) => !r.private).length;
+} catch (e) {
+  console.error('Failed to fetch repos:', e);
+}
+
 const sections = [
   {
     title: '笔记',
@@ -45,7 +55,7 @@ const sections = [
       <div class="text-xs text-[#8E8E93] mt-0.5">笔记</div>
     </div>
     <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
-      <div class="text-2xl font-bold text-[#6495ED]">—</div>
+      <div class="text-2xl font-bold text-[#6495ED]">{repoCount || '—'}</div>
       <div class="text-xs text-[#8E8E93] mt-0.5">项目</div>
     </div>
     <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
@@ -53,6 +63,36 @@ const sections = [
         <span id="busuanzi_value_site_uv">--</span>
       </div>
       <div class="text-xs text-[#8E8E93] mt-0.5">今日访客</div>
+    </div>
+  </section>
+
+  <!-- 花花日记 Stats -->
+  <section id="huahua-stats" class="bg-white rounded-2xl p-6 shadow-sm mb-10">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-2xl">🐱</span>
+      <h2 class="text-[22px] font-bold tracking-tight">花花日记</h2>
+    </div>
+    <div id="huahua-stats-content" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <!-- Loading placeholder -->
+      <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+        <div class="text-xl font-bold text-[#8E8E93]">--</div>
+        <div class="text-xs text-[#8E8E93] mt-0.5">今日访问</div>
+      </div>
+      <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+        <div class="text-xl font-bold text-[#8E8E93]">--</div>
+        <div class="text-xs text-[#8E8E93] mt-0.5">活跃用户</div>
+      </div>
+      <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+        <div class="text-xl font-bold text-[#8E8E93]">--</div>
+        <div class="text-xs text-[#8E8E93] mt-0.5">总用户</div>
+      </div>
+      <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+        <div class="text-xl font-bold text-[#8E8E93]">--</div>
+        <div class="text-xs text-[#8E8E93] mt-0.5">Pro 用户</div>
+      </div>
+    </div>
+    <div id="huahua-stats-error" class="hidden text-center py-4 text-sm text-[#8E8E93]">
+      暂无数据
     </div>
   </section>
 
@@ -96,3 +136,56 @@ const sections = [
     </div>
   </section>
 </Layout>
+
+<script is:inline>
+  // 花花日记 API 配置
+  const HUAHUA_API_URL = 'https://huahua.preview.aliyun-zeabur.cn/api/public/blog-stats';
+  const HUAHUA_API_KEY = 'YOUR_API_KEY_HERE'; // TODO: 替换为真实的 BLOG_STATS_API_KEY
+
+  async function fetchHuahuaStats() {
+    if (!HUAHUA_API_URL || !HUAHUA_API_KEY) {
+      // API 未配置，显示默认状态
+      document.getElementById('huahua-stats-error').classList.remove('hidden');
+      document.getElementById('huahua-stats-content').classList.add('hidden');
+      return;
+    }
+
+    try {
+      const response = await fetch(HUAHUA_API_URL, {
+        headers: {
+          'X-API-Key': HUAHUA_API_KEY,
+        },
+      });
+
+      if (!response.ok) throw new Error('API request failed');
+
+      const data = await response.json();
+
+      // 更新统计卡片
+      document.getElementById('huahua-stats-content').innerHTML = `
+        <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+          <div class="text-xl font-bold text-[#4169E1]">${data.today_visit_count ?? '--'}</div>
+          <div class="text-xs text-[#8E8E93] mt-0.5">今日访问</div>
+        </div>
+        <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+          <div class="text-xl font-bold text-[#6495ED]">${data.today_logged_in_users ?? '--'}</div>
+          <div class="text-xs text-[#8E8E93] mt-0.5">活跃用户</div>
+        </div>
+        <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+          <div class="text-xl font-bold text-[#4169E1]">${data.total_users ?? '--'}</div>
+          <div class="text-xs text-[#8E8E93] mt-0.5">总用户</div>
+        </div>
+        <div class="text-center p-3 rounded-xl bg-[#F2F2F7]">
+          <div class="text-xl font-bold text-[#F06292]">${data.total_pro_users ?? '--'}</div>
+          <div class="text-xs text-[#8E8E93] mt-0.5">Pro 用户</div>
+        </div>
+      `;
+    } catch (e) {
+      console.error('Failed to fetch Huahua stats:', e);
+      document.getElementById('huahua-stats-error').classList.remove('hidden');
+      document.getElementById('huahua-stats-content').classList.add('hidden');
+    }
+  }
+
+  fetchHuahuaStats();
+</script>
