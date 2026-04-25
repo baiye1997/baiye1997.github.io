@@ -126,7 +126,7 @@ const otherRepos = repos.slice(1);
   <section class="mb-10 reveal">
     <blockquote class="relative pl-6 py-2" style="border-left: 3px solid var(--accent);">
       <p class="font-serif text-xl sm:text-2xl italic leading-relaxed" style="color: var(--text-primary);">
-        "相信开源的力量，代码应该被分享。"
+        "vibe 和 idea 是一切生产的灵魂。"
       </p>
     </blockquote>
   </section>
@@ -189,7 +189,10 @@ const otherRepos = repos.slice(1);
       }
       if (currentWeek.length > 0) weeks.push(currentWeek);
       
-      const colors = ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'];
+      const isDark = document.documentElement.classList.contains('dark');
+      const colors = isDark 
+        ? ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353']
+        : ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'];
       
       container.innerHTML = weeks.map(week => `
         <div class="flex flex-col gap-[3px]">
@@ -209,4 +212,6 @@ const otherRepos = repos.slice(1);
   }
   
   renderHeatmap();
+  new MutationObserver(() => renderHeatmap())
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 </script>
