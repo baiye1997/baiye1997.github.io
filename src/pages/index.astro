@@ -73,7 +73,7 @@ const categoryColors: Record<string, string> = {
   <!-- ===== PIXEL SCENE ===== -->
   <section class="mb-10 reveal">
     <div class="pixel-scene-wrapper">
-      <canvas id="pixel-scene"></canvas>
+      <canvas id="pixel-scene" data-notes={JSON.stringify(recentNotes.map(n => n.title))}></canvas>
       <div id="pixel-tooltip" class="pixel-tooltip"></div>
     </div>
   </section>
@@ -343,7 +343,13 @@ function drawMonitor(t){
   rc(mx+mw/2-2,my+mh,4,6,C.monStand);rc(mx+mw/2-5,my+mh+5,10,2,C.monStand);
   rc(mx-2,my-2,mw+4,mh+4,C.monFrame);rc(mx-1,my-1,mw+2,mh+2,'#444');
   rc(mx,my,mw,mh,C.monScreen);
-  const ls=['# 白也的小窝','','> vibe & idea','> 是一切灵魂','','const cat = "花花";','function pet() {','  return "purrrr~";','}','','console.log("🐱");'];
+  // Dynamic lines: header + recent notes + code snippet
+  const noteTitles=window._pixelNotes||[];
+  const codeLines=['','const cat="花花";','function pet(){','  return"purrrr~";','}'];
+  const ls=['# 白也的小窝',''];
+  noteTitles.slice(0,3).forEach(t=>ls.push('> '+t.slice(0,14)));
+  ls.push('');
+  codeLines.forEach(l=>ls.push(l));
   const off=Math.floor(t/1200)%ls.length;
   c.save();c.beginPath();c.rect(mx*P,my*P,mw*P,mh*P);c.clip();
   for(let i=0;i<7;i++){
@@ -495,7 +501,23 @@ cv.addEventListener('click',e=>{
   }
 });
 
+// Read notes from data attribute
+window._pixelNotes=JSON.parse(cv.dataset.notes||'[]');
+
+// Performance: pause when not visible
+let animating=true;
+let lastFrame=0;
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&!animating){animating=true;lastFrame=0;requestAnimationFrame(render);}
+    else if(!e.isIntersecting)animating=false;
+  });
+},{threshold:0.1});
+observer.observe(cv);
+
 function render(t){
+  if(!animating)return;
+  if(!lastFrame)lastFrame=t;
   c.clearRect(0,0,cv.width,cv.height);
   drawRoom();drawRug();drawWindow(t);drawPicture();drawClock(t);drawNameTag();drawFloorPlant();
   drawDesk();drawMonitor(t);drawBookshelf();drawCat(t);

@@ -3,12 +3,116 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="404 - 页面不存在">
-  <div class="flex flex-col items-center justify-center min-h-[60vh] text-center">
-    <div class="text-6xl mb-4">🔍</div>
-    <h1 class="font-serif text-[28px] font-bold tracking-tight mb-2" style="color: var(--text-primary);">页面不存在</h1>
-    <p class="text-sm mb-6" style="color: var(--text-tertiary);">你迷路了，这个页面已经搬走了</p>
-    <a href="/" class="px-5 py-2.5 rounded-xl text-sm font-medium text-white transition-colors" style="background: var(--accent);">
+  <div class="flex flex-col items-center justify-center py-20">
+    <canvas id="pixel-404" class="mb-8"></canvas>
+    <h1 class="font-serif text-3xl font-bold mb-3" style="color: var(--text-primary);">页面不存在</h1>
+    <p class="text-sm mb-6" style="color: var(--text-tertiary);">你迷路了，花花也找不到路 🐱</p>
+    <a href="/" class="px-5 py-2.5 rounded-xl text-sm font-medium transition-all hover:opacity-90" style="background: var(--accent); color: #fff;">
       回到首页
     </a>
   </div>
 </Layout>
+
+<script is:inline>
+(function(){
+  const P=4,W=80,H=60;
+  const cv=document.getElementById('pixel-404');
+  if(!cv)return;
+  cv.width=W*P;cv.height=H*P;
+  const c=cv.getContext('2d');
+
+  const C={
+    bg:'#1B1B3A',star:'#D4B860',moon:'#E0D8C8',
+    catBody:'#E8A858',catDark:'#C4883A',catStripe:'#A06820',
+    catBelly:'#E8D0B0',catEye:'#5A8A5A',catPupil:'#1a1a1a',
+    catNose:'#D08080',catPaw:'#E8D0B0',
+    box:'#3A3A3A',boxLight:'#555',boxScreen:'#0F1729',
+    question:'#C05050',
+  };
+
+  function px(x,y,col){c.fillStyle=col;c.fillRect(x*P,y*P,P,P);}
+  function rc(x,y,w,h,col){c.fillStyle=col;c.fillRect(x*P,y*P,w*P,h*P);}
+
+  function drawStars(t){
+    [[5,5],[15,12],[25,3],[40,8],[55,15],[65,5],[72,18],[10,22],[35,20],[50,25]].forEach(([x,y])=>{
+      if(Math.sin(t/400+x*7)>0.2)px(x,y,C.star);
+    });
+    // Moon
+    rc(60,5,8,8,C.moon);rc(63,4,4,1,C.moon);rc(62,13,6,1,C.moon);rc(64,5,4,8,C.bg);
+  }
+
+  function drawConfusedCat(t){
+    const cx=30,cy=38;
+    // Body
+    rc(cx,cy,14,8,C.catBody);rc(cx+1,cy+1,12,6,C.catBelly);
+    [4,9].forEach(sx=>px(cx+sx,cy+1,C.catStripe));
+    // Head
+    rc(cx+2,cy-8,10,8,C.catBody);
+    // Ears
+    rc(cx+2,cy-11,3,3,C.catBody);rc(cx+9,cy-11,3,3,C.catBody);
+    px(cx+3,cy-10,'#D0A090');px(cx+10,cy-10,'#D0A090');
+    // Confused eyes (different sizes)
+    const blink=Math.sin(t/300)>0.8;
+    if(blink){
+      px(cx+4,cy-5,C.catDark);px(cx+9,cy-5,C.catDark);
+    }else{
+      px(cx+4,cy-5,C.catEye);px(cx+4,cy-5,C.catPupil);
+      px(cx+9,cy-5,C.catEye);px(cx+9,cy-4,C.catPupil); // looking up
+    }
+    // Nose
+    px(cx+6,cy-3,C.catNose);px(cx+7,cy-3,C.catNose);
+    // Mouth (confused弯弯)
+    px(cx+5,cy-2,C.catDark);px(cx+6,cy-2,C.catNose);px(cx+7,cy-2,C.catNose);px(cx+8,cy-2,C.catDark);
+    // Paws
+    rc(cx+2,cy+7,3,3,C.catPaw);rc(cx+9,cy+7,3,3,C.catPaw);
+    // Tail (curled question mark shape)
+    for(let i=0;i<6;i++){
+      const angle=-Math.PI/2+i*0.3;
+      const tx=cx+14+Math.round(Math.cos(angle)*(4+i*0.5));
+      const ty=cy+2+Math.round(Math.sin(angle)*(4+i*0.5));
+      px(tx,ty,C.catTail);px(tx,ty+1,C.catDark);
+    }
+    // Question mark above head
+    const qy=cy-16+Math.round(Math.sin(t/500)*2);
+    c.fillStyle=C.question;c.font='bold '+P*3+'px Courier New';
+    c.textAlign='center';c.fillText('?',(cx+7)*P,qy*P);c.textAlign='left';
+  }
+
+  function drawBrokenMonitor(t){
+    const mx=50,my=25,mw=22,mh=16;
+    // Stand
+    rc(mx+mw/2-2,my+mh,4,5,C.boxLight);
+    rc(mx+mw/2-4,my+mh+4,8,2,C.boxLight);
+    // Frame
+    rc(mx-1,my-1,mw+2,mh+2,C.box);
+    // Screen (glitching)
+    rc(mx,my,mw,mh,C.boxScreen);
+    // Glitch lines
+    const glitchOff=Math.floor(t/200)%3;
+    for(let i=0;i<mh;i+=3){
+      const offset=(i+glitchOff)%2===0?2:-1;
+      rc(mx+offset,my+i,mw,1,i%6===0?'#C05050':'#1a2a4a');
+    }
+    // 404 text on screen
+    c.fillStyle='#C05050';c.font='bold '+P*3+'px Courier New';
+    c.textAlign='center';c.fillText('404',(mx+mw/2)*P,(my+mh/2+2)*P);
+    c.textAlign='left';
+    // Crack line
+    c.strokeStyle='#555';c.lineWidth=1;
+    c.beginPath();c.moveTo((mx+5)*P,(my)*P);c.lineTo((mx+12)*P,(my+mh)*P);c.stroke();
+  }
+
+  let t=0;
+  function render(){
+    t+=16;
+    c.clearRect(0,0,cv.width,cv.height);
+    // Background
+    rc(0,0,W,H,C.bg);
+    drawStars(t);
+    drawBrokenMonitor(t);
+    drawConfusedCat(t);
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>
