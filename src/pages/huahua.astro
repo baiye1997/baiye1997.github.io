@@ -75,45 +75,85 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <!-- 功能亮点 -->
+  <!-- 界面预览 -->
   <section class="mb-10 reveal">
-    <h2 class="font-serif text-lg font-bold mb-5" style="color: var(--text-primary);">功能亮点</h2>
-    <div class="space-y-0">
-      <div class="flex items-start gap-4 py-4" style="border-bottom: 1px solid var(--border);">
-        <span class="text-2xl flex-shrink-0">📊</span>
-        <div class="flex-1">
-          <h3 class="text-sm font-medium mb-1" style="color: var(--text-primary);">猫猫粮仓 · 持仓总览</h3>
-          <p class="text-xs leading-relaxed" style="color: var(--text-tertiary);">三种显示风格自由切换，支持汇总/分账户查看，标签筛选一目了然</p>
-        </div>
+    <h2 class="font-serif text-lg font-bold mb-5" style="color: var(--text-primary);">界面预览</h2>
+    
+    <!-- 资产页 -->
+    <div class="mb-6">
+      <h3 class="text-sm font-medium mb-3 flex items-center gap-2" style="color: var(--text-secondary);">
+        <span>📊</span> 资产页 · 三种显示风格
+      </h3>
+      <div class="grid grid-cols-3 gap-2">
+        <a href="/huahua-screenshots/01-资产卡片.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
+          <img src="/huahua-screenshots/01-资产卡片.jpg" alt="资产卡片视图" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+        </a>
+        <a href="/huahua-screenshots/02-资列表.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
+          <img src="/huahua-screenshots/02-资列表.jpg" alt="资产列表视图" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+        </a>
+        <a href="/huahua-screenshots/03-资产表格.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
+          <img src="/huahua-screenshots/03-资产表格.jpg" alt="资产表格视图" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+        </a>
       </div>
-      <div class="flex items-start gap-4 py-4" style="border-bottom: 1px solid var(--border);">
-        <span class="text-2xl flex-shrink-0">👁️</span>
-        <div class="flex-1">
-          <h3 class="text-sm font-medium mb-1" style="color: var(--text-primary);">我的关注 · 自选观察</h3>
-          <p class="text-xs leading-relaxed" style="color: var(--text-tertiary);">自选基金实时跟踪，涨跌变动一目了然</p>
-        </div>
+    </div>
+
+    <!-- 自选观察 -->
+    <div class="mb-6">
+      <h3 class="text-sm font-medium mb-3 flex items-center gap-2" style="color: var(--text-secondary);">
+        <span>👁️</span> 我的关注 · 自选观察
+      </h3>
+      <a href="/huahua-screenshots/04-自选观察.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border); max-width: 200px;">
+        <img src="/huahua-screenshots/04-自选观察.jpg" alt="自选观察页" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+      </a>
+    </div>
+
+    <!-- 日历页 -->
+    <div class="mb-6">
+      <h3 class="text-sm font-medium mb-3 flex items-center gap-2" style="color: var(--text-secondary);">
+        <span>📅</span> 猫舍分析 · 日历追踪
+      </h3>
+      <div class="grid grid-cols-3 gap-2">
+        <a href="/huahua-screenshots/05-猫舍分析.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
+          <img src="/huahua-screenshots/05-猫舍分析.jpg" alt="猫舍分析" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+        </a>
+        <a href="/huahua-screenshots/06-打卡日历.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
+          <img src="/huahua-screenshots/06-打卡日历.jpg" alt="打卡日历" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+        </a>
+        <a href="/huahua-screenshots/07-储粮记录.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
+          <img src="/huahua-screenshots/07-储粮记录.jpg" alt="储粮记录" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+        </a>
       </div>
-      <div class="flex items-start gap-4 py-4" style="border-bottom: 1px solid var(--border);">
-        <span class="text-2xl flex-shrink-0">📅</span>
-        <div class="flex-1">
-          <h3 class="text-sm font-medium mb-1" style="color: var(--text-primary);">猫舍分析 · 日历追踪</h3>
-          <p class="text-xs leading-relaxed" style="color: var(--text-tertiary);">收益日历、交易记录汇总、资产分析，AI 喵咪诊断帮你洞察投资行为</p>
-        </div>
+    </div>
+
+    <!-- 市场页 -->
+    <div class="mb-6">
+      <h3 class="text-sm font-medium mb-3 flex items-center gap-2" style="color: var(--text-secondary);">
+        <span>📈</span> 喵市中心 · 市场行情
+      </h3>
+      <div class="grid grid-cols-2 gap-2">
+        <a href="/huahua-screenshots/08-市场全景.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
+          <img src="/huahua-screenshots/08-市场全景.jpg" alt="市场全景" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+        </a>
+        <a href="/huahua-screenshots/09-涨幅排行.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
+          <img src="/huahua-screenshots/09-涨幅排行.jpg" alt="涨幅排行" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+        </a>
+        <a href="/huahua-screenshots/10-板块榜.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
+          <img src="/huahua-screenshots/10-板块榜.jpg" alt="板块榜" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+        </a>
+        <a href="/huahua-screenshots/11-夜盘估算.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
+          <img src="/huahua-screenshots/11-夜盘估算.jpg" alt="夜盘估算" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+        </a>
       </div>
-      <div class="flex items-start gap-4 py-4" style="border-bottom: 1px solid var(--border);">
-        <span class="text-2xl flex-shrink-0">📈</span>
-        <div class="flex-1">
-          <h3 class="text-sm font-medium mb-1" style="color: var(--text-primary);">喵市中心 · 市场行情</h3>
-          <p class="text-xs leading-relaxed" style="color: var(--text-tertiary);">大盘全景、涨跌排行榜、板块榜、QDII 夜盘估算，3692 只基金实时追踪</p>
-        </div>
-      </div>
-      <div class="flex items-start gap-4 py-4">
-        <span class="text-2xl flex-shrink-0">🐾</span>
-        <div class="flex-1">
-          <h3 class="text-sm font-medium mb-1" style="color: var(--text-primary);">我的小窝 · 个性设置</h3>
-          <p class="text-xs leading-relaxed" style="color: var(--text-tertiary);">韭菜投资人格测试、云同步、数据导入导出、AI Agent 集成</p>
-        </div>
-      </div>
+    </div>
+
+    <!-- 设置页 -->
+    <div>
+      <h3 class="text-sm font-medium mb-3 flex items-center gap-2" style="color: var(--text-secondary);">
+        <span>🐾</span> 我的小窝 · 个性设置
+      </h3>
+      <a href="/huahua-screenshots/12-设置页.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border); max-width: 200px;">
+        <img src="/huahua-screenshots/12-设置页.jpg" alt="设置页" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
+      </a>
     </div>
   </section>
 
