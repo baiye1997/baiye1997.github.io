@@ -101,12 +101,6 @@ const categoryColors: Record<string, string> = {
     </div>
   </section>
 
-  <!-- ===== QUOTE / MOTTO ===== -->
-  <section class="mb-14 reveal reveal-delay-1">
-    <p class="font-serif italic text-center text-lg sm:text-xl leading-relaxed" style="color: var(--text-secondary);">
-      「用代码记录生活，用 AI 探索可能。」
-    </p>
-  </section>
 
   <!-- ===== STATS ===== -->
   <section class="mb-14 reveal reveal-delay-1">
@@ -154,58 +148,6 @@ const categoryColors: Record<string, string> = {
     </section>
   )}
 
-  <!-- ===== CURRENTLY ===== -->
-  <section class="mb-14 reveal reveal-delay-3">
-    <div class="dot-divider mb-6">正在做的事</div>
-    <div class="flex flex-wrap gap-x-8 gap-y-3 text-sm" style="color: var(--text-secondary);">
-      <div class="flex items-center gap-2">
-        <span style="color: var(--text-tertiary);">📖</span>
-        <span>正在读</span>
-        <span class="font-medium" style="color: var(--text-primary);">《置身事内》</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <span style="color: var(--text-tertiary);">🧠</span>
-        <span>正在学</span>
-        <span class="font-medium" style="color: var(--text-primary);">AI Agent 开发</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <span style="color: var(--text-tertiary);">🔨</span>
-        <span>正在做</span>
-        <span class="font-medium" style="color: var(--text-primary);">花花日记 v2</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 花花日记 ===== -->
-  <a href="/huahua" class="group block mb-14 reveal reveal-delay-3">
-    <div class="flex items-center gap-4 mb-3">
-      <img src="/huahua-logo.jpg" alt="花花日记" class="w-12 h-12 rounded-xl object-cover" loading="lazy" />
-      <div class="flex-1">
-        <h2 class="font-serif text-xl font-bold group-hover:text-[var(--accent)] transition-colors" style="color: var(--text-primary);">花花日记</h2>
-        <p class="text-sm" style="color: var(--text-tertiary);">基金投资助手 · PWA + Android</p>
-      </div>
-      <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" style="color: var(--border);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 17L17 7M17 7H7M17 7v10" />
-      </svg>
-    </div>
-    <div id="huahua-stats-content" class="grid grid-cols-3 gap-4">
-      <div class="text-center p-3 rounded-xl" style="background: var(--bg-elevated);">
-        <div class="text-lg font-bold" style="color: var(--text-tertiary);">--</div>
-        <div class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">今日访问</div>
-      </div>
-      <div class="text-center p-3 rounded-xl" style="background: var(--bg-elevated);">
-        <div class="text-lg font-bold" style="color: var(--text-tertiary);">--</div>
-        <div class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">今日登录</div>
-      </div>
-      <div class="text-center p-3 rounded-xl" style="background: var(--bg-elevated);">
-        <div class="text-lg font-bold" style="color: var(--text-tertiary);">--</div>
-        <div class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">今日访客</div>
-      </div>
-    </div>
-    <div id="huahua-stats-error" class="hidden text-center py-3 text-sm" style="color: var(--text-tertiary);">
-      暂无数据
-    </div>
-  </a>
 
   <!-- ===== NAVIGATION ===== -->
   <nav class="mb-14 reveal reveal-delay-4">
@@ -241,24 +183,38 @@ const categoryColors: Record<string, string> = {
     </a>
   </nav>
 
-  <!-- ===== ABOUT ===== -->
-  <section class="reveal">
-    <div class="dot-divider mb-8">关于</div>
-    <div class="flex items-start gap-5">
-      <img src="/avatar.jpg" alt="白也" class="w-14 h-14 rounded-2xl object-cover flex-shrink-0" style="border: 2px solid var(--border);" loading="lazy" />
-      <div class="space-y-2 text-sm leading-relaxed" style="color: var(--text-secondary);">
-        <p>
-          安装造价工程师，喜欢用 AI 解决生活中的各种问题，热衷尝试各种 AI 应用。
-        </p>
-        <p>
-          做了<a href="/huahua" class="font-medium transition-colors hover:text-[var(--accent)]" style="color: var(--accent);">花花日记</a>来管理基金投资，用 Obsidian 记录生活和学习笔记，偶尔在 <a href="https://github.com/baiye1997" target="_blank" class="font-medium transition-colors hover:text-[var(--accent)]" style="color: var(--accent);">GitHub</a> 上分享一些项目。
-        </p>
-        <p class="text-xs pt-1" style="color: var(--text-tertiary);">
-          小米 · AI · LOL · 杜兰特 · 花花日记开发者 🐱
-        </p>
+  <!-- ===== 花花日记 ===== -->
+  <a href="/huahua" class="group block mb-14 reveal reveal-delay-3">
+    <div class="flex items-center gap-4 mb-3">
+      <img src="/huahua-logo.jpg" alt="花花日记" class="w-12 h-12 rounded-xl object-cover" loading="lazy" />
+      <div class="flex-1">
+        <h2 class="font-serif text-xl font-bold group-hover:text-[var(--accent)] transition-colors" style="color: var(--text-primary);">花花日记</h2>
+        <p class="text-sm" style="color: var(--text-tertiary);">基金投资助手 · PWA + Android</p>
+      </div>
+      <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" style="color: var(--border);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 17L17 7M17 7H7M17 7v10" />
+      </svg>
+    </div>
+    <div id="huahua-stats-content" class="grid grid-cols-3 gap-4">
+      <div class="text-center p-3 rounded-xl" style="background: var(--bg-elevated);">
+        <div class="text-lg font-bold" style="color: var(--text-tertiary);">--</div>
+        <div class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">今日访问</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background: var(--bg-elevated);">
+        <div class="text-lg font-bold" style="color: var(--text-tertiary);">--</div>
+        <div class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">今日登录</div>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background: var(--bg-elevated);">
+        <div class="text-lg font-bold" style="color: var(--text-tertiary);">--</div>
+        <div class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">今日访客</div>
       </div>
     </div>
-  </section>
+    <div id="huahua-stats-error" class="hidden text-center py-3 text-sm" style="color: var(--text-tertiary);">
+      暂无数据
+    </div>
+  </a>
+
+
 </Layout>
 
 <style>

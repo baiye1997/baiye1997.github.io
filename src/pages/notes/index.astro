@@ -63,7 +63,6 @@ const categoryCounts: Record<string, number> = {};
 categories.forEach((c: string) => {
   categoryCounts[c] = notes.filter((n: any) => n.category === c).length;
 });
-const featuredNotes = notes.filter((n: any) => n.category === '夜航船').slice(0, 3);
 const allTags = [...new Set(notes.flatMap((n: any) => n.tags))].sort();
 const categoryIcons: Record<string, string> = {
   '山水邸报': '📰',
@@ -146,45 +145,6 @@ const categoryColors: Record<string, string> = {
       </div>
     )}
 
-    <!-- Featured notes -->
-    {featuredNotes.length > 0 && (
-      <div class="mb-8 reveal reveal-delay-2">
-        <div class="flex items-center gap-2 mb-4">
-          <span class="text-lg">⛵</span>
-          <h2 class="font-serif text-lg font-semibold" style="color: var(--text-primary);">精选笔记</h2>
-          <div class="flex-1 h-px" style="background: var(--border);"></div>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-3">
-          {featuredNotes.map((note: any, i: number) => (
-            <a
-              href={`/notes/${note.slug}`}
-              class="card block group relative overflow-hidden"
-              style="border-left: 3px solid var(--sage);"
-            >
-              <div class="p-5">
-                <div class="flex items-center gap-1.5 mb-2">
-                  <span class="inline-block w-1.5 h-1.5 rounded-full" style="background: var(--sage);"></span>
-                  <span class="text-[11px] font-medium" style="color: var(--sage);">夜航船</span>
-                  <span class="text-[11px]" style="color: var(--border);">·</span>
-                  <span class="text-[11px]" style="color: var(--text-tertiary);">{note.readingTime} 分钟</span>
-                </div>
-                <h3 class="font-serif font-semibold text-[17px] mb-2 leading-snug group-hover:text-[var(--accent)] transition-colors duration-200" style="color: var(--text-primary);">
-                  {note.title}
-                </h3>
-                <p class="text-sm line-clamp-3" style="color: var(--text-secondary);">{note.excerpt}</p>
-                {note.tags.length > 0 && (
-                  <div class="flex flex-wrap gap-1.5 mt-3">
-                    {note.tags.slice(0, 2).map((tag: string) => (
-                      <span class="tag text-[11px] py-0 px-2 whitespace-nowrap">#{tag}</span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    )}
 
     <!-- Notes list -->
     <div class="space-y-3" id="notes-list">
