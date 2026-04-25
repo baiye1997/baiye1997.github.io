@@ -106,7 +106,11 @@ import Layout from '../layouts/Layout.astro';
     </div>
 
     <h2 class="font-serif text-lg font-bold mb-4" style="color: var(--text-primary);">界面预览</h2>
-    <div class="flex gap-3 overflow-x-auto pb-4 -mx-5 px-5 sm:mx-0 sm:px-0 scrollbar-hide" id="screenshot-scroll">
+    <div class="relative group">
+      <button onclick="scrollScreenshots(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full items-center justify-center shadow-lg transition-all duration-200 hover:scale-110 hidden sm:flex opacity-0 group-hover:opacity-100" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary);">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+      </button>
+      <div class="flex gap-3 overflow-x-auto pb-4 scrollbar-hide scroll-smooth" id="screenshot-scroll">
       <img src="/huahua-screenshots/01-资产卡片.jpg" alt="资产卡片" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
       <img src="/huahua-screenshots/02-资列表.jpg" alt="资产列表" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
       <img src="/huahua-screenshots/03-资产表格.jpg" alt="资产表格" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
@@ -119,6 +123,10 @@ import Layout from '../layouts/Layout.astro';
       <img src="/huahua-screenshots/10-板块榜.jpg" alt="板块榜" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
       <img src="/huahua-screenshots/11-夜盘估算.jpg" alt="夜盘估算" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
       <img src="/huahua-screenshots/12-设置页.jpg" alt="设置页" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      </div>
+      <button onclick="scrollScreenshots(1)" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full items-center justify-center shadow-lg transition-all duration-200 hover:scale-110 hidden sm:flex opacity-0 group-hover:opacity-100" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary);">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      </button>
     </div>
     <p class="text-center text-xs mt-2" style="color: var(--text-tertiary);">← 左右滑动查看更多 →</p>
   </section>
@@ -160,6 +168,10 @@ import Layout from '../layouts/Layout.astro';
       document.body.style.overflow = '';
     }
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+    function scrollScreenshots(dir) {
+      const el = document.getElementById('screenshot-scroll');
+      el.scrollBy({ left: dir * 280, behavior: 'smooth' });
+    }
   </script>
 
   <!-- Testimonials -->
