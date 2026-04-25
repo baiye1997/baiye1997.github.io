@@ -24,13 +24,14 @@ const allNotes: NoteMeta[] = Object.entries(noteFiles)
     const parts = path.split('/');
     const category = parts[parts.length - 2] || '';
     const categoryClean = category.replace(/^[^\u4e00-\u9fff\w]+/, '').trim() || category;
+    const filename = parts.pop()?.replace('.md', '') || 'Untitled';
     const wordCount = (mod.compiledContent?.() || '').length || 0;
     const readingTime = Math.max(1, Math.round(wordCount / 400));
     return {
       title: fm.title || path.split('/').pop()?.replace(/\.md$/, '') || '',
       date: fm.date || '',
       category: categoryClean,
-      slug: path,
+      slug: `${category}/${filename}`,
       readingTime,
     };
   })
