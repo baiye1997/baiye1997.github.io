@@ -77,85 +77,90 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- 界面预览 -->
   <section class="mb-10 reveal">
-    <h2 class="font-serif text-lg font-bold mb-5" style="color: var(--text-primary);">界面预览</h2>
-    
-    <!-- 资产页 -->
-    <div class="mb-6">
-      <h3 class="text-sm font-medium mb-3 flex items-center gap-2" style="color: var(--text-secondary);">
-        <span>📊</span> 资产页 · 三种显示风格
-      </h3>
-      <div class="grid grid-cols-3 gap-2">
-        <a href="/huahua-screenshots/01-资产卡片.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
-          <img src="/huahua-screenshots/01-资产卡片.jpg" alt="资产卡片视图" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-        </a>
-        <a href="/huahua-screenshots/02-资列表.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
-          <img src="/huahua-screenshots/02-资列表.jpg" alt="资产列表视图" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-        </a>
-        <a href="/huahua-screenshots/03-资产表格.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
-          <img src="/huahua-screenshots/03-资产表格.jpg" alt="资产表格视图" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-        </a>
+    <h2 class="font-serif text-lg font-bold mb-4" style="color: var(--text-primary);">功能亮点</h2>
+    <div class="grid grid-cols-2 gap-2 mb-6">
+      <div class="flex items-center gap-2 py-2 px-3 rounded-lg" style="background: var(--bg-elevated);">
+        <span>📊</span>
+        <span class="text-xs" style="color: var(--text-secondary);">三种持仓风格</span>
+      </div>
+      <div class="flex items-center gap-2 py-2 px-3 rounded-lg" style="background: var(--bg-elevated);">
+        <span>👁️</span>
+        <span class="text-xs" style="color: var(--text-secondary);">自选基金观察</span>
+      </div>
+      <div class="flex items-center gap-2 py-2 px-3 rounded-lg" style="background: var(--bg-elevated);">
+        <span>📅</span>
+        <span class="text-xs" style="color: var(--text-secondary);">收益日历追踪</span>
+      </div>
+      <div class="flex items-center gap-2 py-2 px-3 rounded-lg" style="background: var(--bg-elevated);">
+        <span>📈</span>
+        <span class="text-xs" style="color: var(--text-secondary);">市场行情一览</span>
+      </div>
+      <div class="flex items-center gap-2 py-2 px-3 rounded-lg" style="background: var(--bg-elevated);">
+        <span>🤖</span>
+        <span class="text-xs" style="color: var(--text-secondary);">AI 喵咪诊断</span>
+      </div>
+      <div class="flex items-center gap-2 py-2 px-3 rounded-lg" style="background: var(--bg-elevated);">
+        <span>🌙</span>
+        <span class="text-xs" style="color: var(--text-secondary);">QDII 夜盘估算</span>
       </div>
     </div>
 
-    <!-- 自选观察 -->
-    <div class="mb-6">
-      <h3 class="text-sm font-medium mb-3 flex items-center gap-2" style="color: var(--text-secondary);">
-        <span>👁️</span> 我的关注 · 自选观察
-      </h3>
-      <a href="/huahua-screenshots/04-自选观察.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border); max-width: 200px;">
-        <img src="/huahua-screenshots/04-自选观察.jpg" alt="自选观察页" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-      </a>
+    <h2 class="font-serif text-lg font-bold mb-4" style="color: var(--text-primary);">界面预览</h2>
+    <div class="flex gap-3 overflow-x-auto pb-4 -mx-5 px-5 sm:mx-0 sm:px-0 scrollbar-hide" id="screenshot-scroll">
+      <img src="/huahua-screenshots/01-资产卡片.jpg" alt="资产卡片" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/02-资列表.jpg" alt="资产列表" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/03-资产表格.jpg" alt="资产表格" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/04-自选观察.jpg" alt="自选观察" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/05-猫舍分析.jpg" alt="猫舍分析" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/06-打卡日历.jpg" alt="打卡日历" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/07-储粮记录.jpg" alt="储粮记录" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/08-市场全景.jpg" alt="市场全景" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/09-涨幅排行.jpg" alt="涨幅排行" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/10-板块榜.jpg" alt="板块榜" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/11-夜盘估算.jpg" alt="夜盘估算" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
+      <img src="/huahua-screenshots/12-设置页.jpg" alt="设置页" class="screenshot-item flex-shrink-0 rounded-2xl cursor-pointer" style="height: 260px; width: auto; object-fit: cover; border: 1px solid var(--border);" loading="lazy" onclick="openLightbox(this)" />
     </div>
-
-    <!-- 日历页 -->
-    <div class="mb-6">
-      <h3 class="text-sm font-medium mb-3 flex items-center gap-2" style="color: var(--text-secondary);">
-        <span>📅</span> 猫舍分析 · 日历追踪
-      </h3>
-      <div class="grid grid-cols-3 gap-2">
-        <a href="/huahua-screenshots/05-猫舍分析.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
-          <img src="/huahua-screenshots/05-猫舍分析.jpg" alt="猫舍分析" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-        </a>
-        <a href="/huahua-screenshots/06-打卡日历.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
-          <img src="/huahua-screenshots/06-打卡日历.jpg" alt="打卡日历" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-        </a>
-        <a href="/huahua-screenshots/07-储粮记录.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
-          <img src="/huahua-screenshots/07-储粮记录.jpg" alt="储粮记录" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-        </a>
-      </div>
-    </div>
-
-    <!-- 市场页 -->
-    <div class="mb-6">
-      <h3 class="text-sm font-medium mb-3 flex items-center gap-2" style="color: var(--text-secondary);">
-        <span>📈</span> 喵市中心 · 市场行情
-      </h3>
-      <div class="grid grid-cols-2 gap-2">
-        <a href="/huahua-screenshots/08-市场全景.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
-          <img src="/huahua-screenshots/08-市场全景.jpg" alt="市场全景" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-        </a>
-        <a href="/huahua-screenshots/09-涨幅排行.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
-          <img src="/huahua-screenshots/09-涨幅排行.jpg" alt="涨幅排行" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-        </a>
-        <a href="/huahua-screenshots/10-板块榜.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
-          <img src="/huahua-screenshots/10-板块榜.jpg" alt="板块榜" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-        </a>
-        <a href="/huahua-screenshots/11-夜盘估算.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border);">
-          <img src="/huahua-screenshots/11-夜盘估算.jpg" alt="夜盘估算" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-        </a>
-      </div>
-    </div>
-
-    <!-- 设置页 -->
-    <div>
-      <h3 class="text-sm font-medium mb-3 flex items-center gap-2" style="color: var(--text-secondary);">
-        <span>🐾</span> 我的小窝 · 个性设置
-      </h3>
-      <a href="/huahua-screenshots/12-设置页.jpg" target="_blank" class="block rounded-xl overflow-hidden" style="border: 1px solid var(--border); max-width: 200px;">
-        <img src="/huahua-screenshots/12-设置页.jpg" alt="设置页" class="w-full object-cover" loading="lazy" style="aspect-ratio: 9/16;" />
-      </a>
-    </div>
+    <p class="text-center text-xs mt-2" style="color: var(--text-tertiary);">← 左右滑动查看更多 →</p>
   </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="fixed inset-0 z-[999] hidden items-center justify-center" style="background: rgba(0,0,0,0.92); backdrop-filter: blur(8px);" onclick="closeLightbox(event)">
+    <button onclick="closeLightbox(event)" class="absolute top-5 right-5 w-10 h-10 rounded-full flex items-center justify-center z-[1001] transition-all duration-200 hover:scale-110" style="background: rgba(255,255,255,0.15); color: #fff;">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+    </button>
+    <img id="lightbox-img" src="" alt="" class="max-h-[85vh] max-w-[90vw] rounded-2xl shadow-2xl transition-transform duration-300 ease-out" style="object-fit: contain;" onclick="event.stopPropagation()" />
+  </div>
+
+  <style>
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    .screenshot-item { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .screenshot-item:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+    #lightbox { opacity: 0; transition: opacity 0.3s ease; }
+    #lightbox.active { opacity: 1; }
+    #lightbox-img { transform: scale(0.92); opacity: 0; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; }
+    #lightbox.active #lightbox-img { transform: scale(1); opacity: 1; }
+  </style>
+
+  <script is:inline>
+    function openLightbox(el) {
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = el.src;
+      img.alt = el.alt;
+      lb.classList.remove('hidden');
+      lb.classList.add('flex');
+      requestAnimationFrame(() => { lb.classList.add('active'); });
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(e) {
+      const lb = document.getElementById('lightbox');
+      lb.classList.remove('active');
+      setTimeout(() => { lb.classList.add('hidden'); lb.classList.remove('flex'); }, 300);
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
 
   <!-- Testimonials -->
   <section class="mb-10 reveal">
