@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -24,7 +23,6 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="alternate" type="application/rss+xml" title="白也的小窝" href="/rss.xml" />
   <title>{title}</title>
-  <ClientRouter />
   <script is:inline>
     const saved = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
