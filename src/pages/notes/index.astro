@@ -26,7 +26,8 @@ const notes = Object.entries(noteFiles)
     let dateStr = module.frontmatter?.date || '';
     if (dateStr) {
       try {
-        const d = new Date(dateStr);
+        const dateOnly = dateStr.split(' ')[0];
+        const d = new Date(dateOnly);
         if (!isNaN(d.getTime())) {
           const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
           dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} 星期${weekdays[d.getDay()]}`;

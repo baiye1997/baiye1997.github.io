@@ -55,7 +55,9 @@ const greeting = hour < 6 ? '夜深了' : hour < 12 ? '早上好' : hour < 18 ? 
 
 function formatDate(dateStr: string): string {
   if (!dateStr) return '';
-  const d = new Date(dateStr);
+  const dateOnly = dateStr.split(' ')[0];
+  const d = new Date(dateOnly);
+  if (isNaN(d.getTime())) return '';
   return `${d.getMonth() + 1}月${d.getDate()}日`;
 }
 
