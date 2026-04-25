@@ -103,19 +103,12 @@ const categoryColors: Record<string, string> = {
 
   <!-- ===== STATS ===== -->
   <section class="mb-14 reveal reveal-delay-1">
-    <div class="grid grid-cols-3 gap-3">
-      <a href="/notes" class="text-center py-4 rounded-xl group transition-all duration-200 hover:scale-[1.02]" style="background: var(--bg-card); border: 1px solid var(--border);">
-        <div class="font-serif text-2xl font-bold group-hover:text-[var(--accent)] transition-colors" style="color: var(--text-primary);">{noteCount}</div>
-        <div class="text-[11px] mt-1" style="color: var(--text-tertiary);">篇笔记</div>
-      </a>
-      <a href="/repos" class="text-center py-4 rounded-xl group transition-all duration-200 hover:scale-[1.02]" style="background: var(--bg-card); border: 1px solid var(--border);">
-        <div class="font-serif text-2xl font-bold group-hover:text-[var(--sage)] transition-colors" style="color: var(--text-primary);">{repoCount || '—'}</div>
-        <div class="text-[11px] mt-1" style="color: var(--text-tertiary);">个开源项目</div>
-      </a>
-      <a href="/huahua" class="text-center py-4 rounded-xl group transition-all duration-200 hover:scale-[1.02]" style="background: var(--bg-card); border: 1px solid var(--border);">
-        <div class="font-serif text-2xl font-bold group-hover:text-[var(--accent)] transition-colors" style="color: var(--text-primary);">🐱</div>
-        <div class="text-[11px] mt-1" style="color: var(--text-tertiary);">花花日记</div>
-      </a>
+    <div class="flex items-baseline gap-1.5 flex-wrap">
+      <span class="font-serif text-3xl font-bold" style="color: var(--accent);">{noteCount}</span>
+      <span class="text-sm" style="color: var(--text-tertiary);">篇笔记</span>
+      <span class="mx-2 text-sm" style="color: var(--border);">·</span>
+      <span class="font-serif text-3xl font-bold" style="color: var(--sage);">{repoCount || '—'}</span>
+      <span class="text-sm" style="color: var(--text-tertiary);">个开源项目</span>
     </div>
   </section>
 
