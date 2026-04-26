@@ -42,8 +42,8 @@ jobs:
 
           for dir in /tmp/obsidian-vault/*/; do
             dirname=$(basename "$dir")
-            if [[ "$dirname" == *"二掌柜"* ]] || [[ "$dirname" == ".*" ]]; then
-              echo "⏭️ 跳过私密: $dirname"
+            if [[ "$dirname" == *"二掌柜"* ]] || [[ "$dirname" == *"金精铜钱"* ]] || [[ "$dirname" == ".*" ]]; then
+              echo "⏭️ 跳过不同步: $dirname"
               continue
             fi
             # 展平子目录：所有 md 文件直接放到分类文件夹下
