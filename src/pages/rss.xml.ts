@@ -38,7 +38,17 @@ function getNotes() {
         const dateMatch = fm.match(/date:\s*(.+)/);
         const tagsMatch = fm.match(/tags:\s*\[([^\]]*)\]/);
         if (titleMatch) title = titleMatch[1].trim();
-        if (dateMatch) date = dateMatch[1].trim().split(' ')[0];
+        if (dateMatch) {
+          let rawDate = dateMatch[1].trim();
+          // Handle non-standard formats like "2026 第17周 (4.20-4.26)"
+          const weekMatch = rawDate.match(/(\d{1,2})\.(\d{1,2})-(\d{1,2})/);
+          if (weekMatch) {
+            const year = rawDate.match(/(\d{4})/)?.[1] || new Date().getFullYear();
+            date = `${year}-${weekMatch[2].padStart(2, '0')}-${weekMatch[3].padStart(2, '0')}`;
+          } else {
+            date = rawDate.split(' ')[0];
+          }
+        }
         if (tagsMatch) tags = tagsMatch[1].split(',').map(t => t.trim().replace(/['"]/g, ''));
       }
 
