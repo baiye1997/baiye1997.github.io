@@ -1,11 +1,18 @@
 #!/usr/bin/env node
-// Prebuild script: generate git-lastmod.json mapping file paths to last commit timestamps
+// Prebuild script: generate git-lastmod.ts mapping file paths to last commit timestamps
+// Usage:
+//   node scripts/git-lastmod.mjs                     # Use blog repo git history
+//   node scripts/git-lastmod.mjs --vault /tmp/vault  # Use vault repo git history (for CI)
 import { execSync } from 'node:child_process';
-import { readdirSync, statSync, writeFileSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { readdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+const args = process.argv.slice(2);
+const vaultIdx = args.indexOf('--vault');
+const vaultDir = vaultIdx !== -1 ? args[vaultIdx + 1] : null;
 
 const notesDir = 'src/content/notes';
-const outputFile = 'src/data/git-lastmod.json';
+const outputFile = 'src/data/git-lastmod.ts';
 
 function walk(dir) {
   const results = [];
@@ -25,11 +32,15 @@ const lastmod = {};
 
 for (const file of files) {
   try {
-    // Get the last commit timestamp for this file
-    const stdout = execSync('git log -1 --format="%aI" -- "' + file + '"', {
-      encoding: 'utf-8',
-      timeout: 5000,
-    }).trim();
+    let cmd;
+    if (vaultDir) {
+      // Map blog path to vault path: src/content/notes/xxx.md → vaultDir/xxx.md
+      const relPath = file.replace(/^src\/content\/notes\//, '');
+      cmd = `git -C "${vaultDir}" log -1 --format="%aI" -- "${relPath}"`;
+    } else {
+      cmd = `git log -1 --format="%aI" -- "${file}"`;
+    }
+    const stdout = execSync(cmd, { encoding: 'utf-8', timeout: 5000 }).trim();
     if (stdout) {
       lastmod[file] = stdout;
     }
@@ -38,5 +49,11 @@ for (const file of files) {
   }
 }
 
-writeFileSync(outputFile, JSON.stringify(lastmod, null, 2));
+// Generate TypeScript module (import-friendly)
+const lines = Object.entries(lastmod).map(
+  ([path, ts]) => `  "${path}": "${ts}"`
+);
+const tsContent = `const gitLastmod: Record<string, string> = {\n${lines.join(',\n')}\n};\nexport default gitLastmod;\n`;
+
+writeFileSync(outputFile, tsContent);
 console.log(`✅ Generated ${outputFile} with ${Object.keys(lastmod).length} entries`);

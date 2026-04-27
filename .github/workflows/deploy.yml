@@ -80,6 +80,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate lastmod timestamps
+        run: node scripts/git-lastmod.mjs --vault /tmp/obsidian-vault
+
       - name: Build
         run: npm run build
 
