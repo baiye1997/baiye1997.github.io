@@ -29,13 +29,21 @@ for (const [path, module] of Object.entries(noteFiles)) {
   // Extract path relative to src/content/notes/ for git-lastmod lookup
   const notesRelPath = 'src/content/notes/' + path.split('src/content/notes/')[1];
   const lastmod = (gitLastmod as Record<string, string>)[notesRelPath] || '';
+  const title = module.frontmatter?.title || filename;
+  let content = convertWikilinks(typeof rawHtml === 'string' ? rawHtml : '');
+  // Strip first h1 if it matches the title (avoids duplicate heading)
+  const titleClean = title.replace(/\s+/g, ' ').trim();
+  content = content.replace(/^(\s*<h1[^>]*>)(.*?)(<\/h1>)/, (m: string, open: string, text: string, close: string) => {
+    if (text.replace(/\s+/g, ' ').trim() === titleClean) return '';
+    return m;
+  });
   const noteData = {
-    title: module.frontmatter?.title || filename,
+    title,
     date: module.frontmatter?.date || '',
     lastmod,
     tags: module.frontmatter?.tags || [],
     category,
-    content: convertWikilinks(typeof rawHtml === 'string' ? rawHtml : ''),
+    content,
     slug,
   };
   allNotes[slug] = noteData;
