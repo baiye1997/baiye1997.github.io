@@ -27,21 +27,21 @@ const notes = Object.entries(noteFiles)
     let sortDate = '';
     if (dateStr) {
       try {
-        // Try standard date format first
-        const dateOnly = dateStr.split(' ')[0];
-        let d = new Date(dateOnly);
-        // Fallback: extract date from non-standard formats like "2026 第17周 (4.20-4.26)"
-        if (isNaN(d.getTime())) {
-          // Match M.DD-M.DD (e.g. "4.20-4.26") → use start date
-          const m = dateStr.match(/(\d{1,2})\.(\d{1,2})\s*-\s*(\d{1,2})(?:\.(\d{1,2}))?/);
-          if (m) {
-            const year = dateStr.match(/(\d{4})/)?.[1] || new Date().getFullYear();
-            const month = m[1];
-            const day = m[4] || m[2]; // end day if "M.DD-M.DD", else start day
-            d = new Date(`${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}`);
-          }
+        let d: Date | null = null;
+        // Try non-standard format first: "2026 第17周 (4.20-4.26)" → M.DD-M.DD
+        const m = dateStr.match(/(\d{1,2})\.(\d{1,2})\s*-\s*(\d{1,2})(?:\.(\d{1,2}))?/);
+        if (m) {
+          const year = dateStr.match(/(\d{4})/)?.[1] || new Date().getFullYear();
+          const month = m[1];
+          const day = m[4] || m[2];
+          d = new Date(`${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}`);
         }
-        if (!isNaN(d.getTime())) {
+        // Fallback: standard date format
+        if (!d || isNaN(d.getTime())) {
+          const dateOnly = dateStr.split(' ')[0];
+          d = new Date(dateOnly);
+        }
+        if (d && !isNaN(d.getTime())) {
           const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
           dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} 星期${weekdays[d.getDay()]}`;
           sortDate = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
