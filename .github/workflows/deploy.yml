@@ -81,15 +81,7 @@ jobs:
         run: npm ci
 
       - name: Generate lastmod timestamps
-        run: |
-          node scripts/git-lastmod.mjs --vault /tmp/obsidian-vault
-          echo "--- JSON preview ---"
-          head -c 500 src/data/git-lastmod.json
-          echo ""
-          echo "--- total entries ---"
-          node -e "const j=require('./src/data/git-lastmod.json'); console.log(Object.keys(j).length, 'entries')"
-          echo "--- sample key check ---"
-          node -e "const j=require('./src/data/git-lastmod.json'); const k=Object.keys(j).find(k=>k.includes('从零搭建')); console.log('Found key:', k, '→', j[k])"
+        run: node scripts/git-lastmod.mjs --vault /tmp/obsidian-vault
 
       - name: Build
         run: npm run build
