@@ -75,6 +75,23 @@ const categoryColors: Record<string, string> = {
   '金精铜钱': '#D4A03A',
 };
 
+// Format date: "2026-04-27T00:00:00.000Z" → "2026-04-27"
+function formatDate(raw: any): string {
+  if (!raw) return '';
+  const s = String(raw);
+  // Already simple date like "2026-04-27"
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  // ISO timestamp or Date object
+  try {
+    const d = new Date(s);
+    if (!isNaN(d.getTime())) {
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    }
+  } catch {}
+  // Fallback: extract date part before any space or T
+  return s.split(/[T\s]/)[0] || s;
+}
+
 // Convert Obsidian [[#heading]] wikilinks to HTML anchor links
 function convertWikilinks(html: string): string {
   if (typeof html !== 'string') return html || '';
@@ -100,7 +117,7 @@ function convertWikilinks(html: string): string {
       <span class="inline-block w-2 h-2 rounded-full" style={`background: ${categoryColors[note.category] || 'var(--text-tertiary)'};`}></span>
       <span class="text-xs font-medium" style="color: var(--text-tertiary);">{note.category}</span>
       {note.date && <span class="text-xs" style="color: var(--border);">·</span>}
-      {note.date && <span class="text-xs" style="color: var(--text-tertiary);">{note.date}</span>}
+      {note.date && <span class="text-xs" style="color: var(--text-tertiary);">{formatDate(note.date)}</span>}
     </div>
     
     <h1 class="font-serif text-[24px] sm:text-[30px] font-bold tracking-tight mb-4 leading-tight" style="color: var(--text-primary);">{note.title}</h1>
