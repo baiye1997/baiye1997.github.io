@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { slug as githubSlug } from 'github-slugger';
 
 const noteFiles = import.meta.glob('../../../src/content/notes/**/*.md', { eager: true });
 
@@ -23,12 +24,13 @@ for (const [path, module] of Object.entries(noteFiles)) {
   const filename = parts.pop()?.replace('.md', '') || 'index';
   const slug = `${category}/${filename}`;
   
+  const rawHtml = await module.compiledContent?.() || '';
   const noteData = {
     title: module.frontmatter?.title || filename,
     date: module.frontmatter?.date || '',
     tags: module.frontmatter?.tags || [],
     category,
-    content: module.compiledContent?.() || '',
+    content: convertWikilinks(typeof rawHtml === 'string' ? rawHtml : ''),
     slug,
   };
   allNotes[slug] = noteData;
@@ -72,6 +74,15 @@ const categoryColors: Record<string, string> = {
   '学海无涯': '#D4A03A',
   '金精铜钱': '#D4A03A',
 };
+
+// Convert Obsidian [[#heading]] wikilinks to HTML anchor links
+function convertWikilinks(html: string): string {
+  if (typeof html !== 'string') return html || '';
+  return html.replace(/\[\[#([^\]]+)\]\]/g, (_match: string, heading: string) => {
+    const slug = githubSlug(heading);
+    return `<a href="#${slug}">${heading}</a>`;
+  });
+}
 ---
 
 <Layout title={`${note.title} - 白也`}>
@@ -106,7 +117,7 @@ const categoryColors: Record<string, string> = {
     
     <!-- Note content -->
     <div class="note-content leading-relaxed" style="color: var(--text-primary);">
-      <Fragment set:html={note.content} />
+      <Fragment set:html={convertWikilinks(note.content)} />
     </div>
   </article>
 
@@ -285,3 +296,72 @@ const categoryColors: Record<string, string> = {
     overflow: hidden;
   }
 </style>
+
+<script is:inline>
+  // Client-side fallback: fix any [[#...]] links the server-side missed
+  document.addEventListener('DOMContentLoaded', () => {
+    const content = document.querySelector('.note-content');
+    if (!content) return;
+
+    // Build a map of all heading IDs on the page
+    const headings = {};
+    content.querySelectorAll('h1, h2, h3, h4').forEach(h => {
+      if (h.id) {
+        headings[h.id.toLowerCase()] = h.id;
+      }
+    });
+
+    // Find broken anchor links (pointing to non-existent IDs)
+    content.querySelectorAll('a[href^="#"]').forEach(link => {
+      const targetId = decodeURIComponent(link.getAttribute('href').slice(1));
+      if (!document.getElementById(targetId)) {
+        // Try to find a matching heading
+        const linkText = link.textContent.toLowerCase().trim();
+        for (const [slug, id] of Object.entries(headings)) {
+          if (linkText.includes(slug.replace(/-/g, '')) || slug.includes(linkText.replace(/\s+/g, '-'))) {
+            link.setAttribute('href', '#' + id);
+            return;
+          }
+        }
+      }
+    });
+
+    // Also handle any remaining raw [[#...]] text (shouldn't happen after server-side, but just in case)
+    const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+    textNodes.forEach(node => {
+      const text = node.textContent;
+      if (!text.includes('[[')) return;
+      const regex = /\[\[#([^\]]+)\]\]/g;
+      let match;
+      const parts = [];
+      let lastIndex = 0;
+      while ((match = regex.exec(text)) !== null) {
+        if (match.index > lastIndex) parts.push(document.createTextNode(text.slice(lastIndex, match.index)));
+        const heading = match[1];
+        let slug = heading.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}]/gu, '').replace(/[^\w\s\u4e00-\u9fff-]/gu, '').toLowerCase().replace(/\s+/g, '-');
+        // Find matching heading
+        let href = '#' + slug;
+        for (const [s, id] of Object.entries(headings)) {
+          if (s === slug || s === slug.toLowerCase() || heading.toLowerCase().includes(s.replace(/-/g, ''))) {
+            href = '#' + id;
+            break;
+          }
+        }
+        const a = document.createElement('a');
+        a.href = href;
+        a.textContent = heading;
+        parts.push(a);
+        lastIndex = match.index + match[0].length;
+      }
+      if (lastIndex < text.length) parts.push(document.createTextNode(text.slice(lastIndex)));
+      if (parts.length > 0) {
+        const frag = document.createDocumentFragment();
+        parts.forEach(p => frag.appendChild(p));
+        node.parentNode.replaceChild(frag, node);
+      }
+    });
+  });
+</script>
