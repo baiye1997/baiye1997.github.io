@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Prebuild script: generate git-lastmod.ts mapping file paths to last commit timestamps
+// Prebuild script: generate git-lastmod.json mapping file paths to last commit timestamps
 // Usage:
 //   node scripts/git-lastmod.mjs                     # Use blog repo git history
 //   node scripts/git-lastmod.mjs --vault /tmp/vault  # Use vault repo git history (for CI)
@@ -12,7 +12,7 @@ const vaultIdx = args.indexOf('--vault');
 const vaultDir = vaultIdx !== -1 ? args[vaultIdx + 1] : null;
 
 const notesDir = 'src/content/notes';
-const outputFile = 'src/data/git-lastmod.ts';
+const outputFile = 'src/data/git-lastmod.json';
 
 function walk(dir) {
   const results = [];
@@ -45,7 +45,8 @@ for (const file of files) {
         timeout: 5000,
       }).trim();
     }
-    if (stdout) {
+    // Validate: must look like an ISO timestamp
+    if (stdout && /^\d{4}-\d{2}-\d{2}T/.test(stdout)) {
       lastmod[file] = stdout;
     }
   } catch {
@@ -53,11 +54,5 @@ for (const file of files) {
   }
 }
 
-// Generate TypeScript module (import-friendly)
-const lines = Object.entries(lastmod).map(
-  ([path, ts]) => `  "${path}": "${ts}"`
-);
-const tsContent = `const gitLastmod: Record<string, string> = {\n${lines.join(',\n')}\n};\nexport default gitLastmod;\n`;
-
-writeFileSync(outputFile, tsContent);
+writeFileSync(outputFile, JSON.stringify(lastmod));
 console.log(`✅ Generated ${outputFile} with ${Object.keys(lastmod).length} entries`);

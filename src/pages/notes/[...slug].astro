@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { slug as githubSlug } from 'github-slugger';
-import gitLastmod from '../../data/git-lastmod.ts';
+import gitLastmod from '../../data/git-lastmod.json';
 
 const noteFiles = import.meta.glob('../../../src/content/notes/**/*.md', { eager: true });
 
