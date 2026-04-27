@@ -183,7 +183,7 @@ body::before {
     transform: scale(0.98);
     transition: transform 0.1s;
   }
-  .card:active {
+  .card:active:not(.note-article) {
     transform: scale(0.98);
     transition: transform 0.1s;
   }

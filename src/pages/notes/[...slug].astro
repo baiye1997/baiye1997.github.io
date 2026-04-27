@@ -123,7 +123,7 @@ function convertWikilinks(html: string): string {
   </a>
 
   <!-- Note header -->
-  <article class="card mb-6">
+  <article class="card mb-6 note-article">
     <div class="flex items-center gap-2 mb-3">
       <span class="inline-block w-2 h-2 rounded-full" style={`background: ${categoryColors[note.category] || 'var(--text-tertiary)'};`}></span>
       <span class="text-xs font-medium" style="color: var(--text-tertiary);">{note.category}</span>
