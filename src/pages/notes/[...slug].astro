@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { slug as githubSlug } from 'github-slugger';
+import gitLastmod from '../../data/git-lastmod.ts';
 
 const noteFiles = import.meta.glob('../../../src/content/notes/**/*.md', { eager: true });
 
@@ -25,9 +26,13 @@ for (const [path, module] of Object.entries(noteFiles)) {
   const slug = `${category}/${filename}`;
   
   const rawHtml = await module.compiledContent?.() || '';
+  // Extract path relative to src/content/notes/ for git-lastmod lookup
+  const notesRelPath = 'src/content/notes/' + path.split('src/content/notes/')[1];
+  const lastmod = (gitLastmod as Record<string, string>)[notesRelPath] || '';
   const noteData = {
     title: module.frontmatter?.title || filename,
     date: module.frontmatter?.date || '',
+    lastmod,
     tags: module.frontmatter?.tags || [],
     category,
     content: convertWikilinks(typeof rawHtml === 'string' ? rawHtml : ''),
@@ -75,8 +80,8 @@ const categoryColors: Record<string, string> = {
   '金精铜钱': '#D4A03A',
 };
 
-// Format date: "2026-04-27T00:00:00.000Z" → "2026-04-27"
-function formatDate(raw: any): string {
+// Format date: "2026-04-27T00:00:00.000Z" → "2026-04-27" or "2026-04-27 18:57"
+function formatDate(raw: any, includeTime = false): string {
   if (!raw) return '';
   const s = String(raw);
   // Already simple date like "2026-04-27"
@@ -85,7 +90,13 @@ function formatDate(raw: any): string {
   try {
     const d = new Date(s);
     if (!isNaN(d.getTime())) {
-      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      const date = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      if (includeTime) {
+        const hours = d.getHours();
+        const mins = String(d.getMinutes()).padStart(2,'0');
+        return `${date} ${String(hours).padStart(2,'0')}:${mins}`;
+      }
+      return date;
     }
   } catch {}
   // Fallback: extract date part before any space or T
@@ -118,6 +129,9 @@ function convertWikilinks(html: string): string {
       <span class="text-xs font-medium" style="color: var(--text-tertiary);">{note.category}</span>
       {note.date && <span class="text-xs" style="color: var(--border);">·</span>}
       {note.date && <span class="text-xs" style="color: var(--text-tertiary);">{formatDate(note.date)}</span>}
+      {note.lastmod && (
+        <span class="text-xs" style="color: var(--text-tertiary);">· 更新于 {formatDate(note.lastmod, true)}</span>
+      )}
     </div>
     
     <h1 class="font-serif text-[24px] sm:text-[30px] font-bold tracking-tight mb-4 leading-tight" style="color: var(--text-primary);">{note.title}</h1>
