@@ -3,7 +3,7 @@
 // Usage:
 //   node scripts/git-lastmod.mjs                     # Use blog repo git history
 //   node scripts/git-lastmod.mjs --vault /tmp/vault  # Use vault repo git history (for CI)
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -32,15 +32,19 @@ const lastmod = {};
 
 for (const file of files) {
   try {
-    let cmd;
+    let stdout;
     if (vaultDir) {
-      // Map blog path to vault path: src/content/notes/xxx.md → vaultDir/xxx.md
       const relPath = file.replace(/^src\/content\/notes\//, '');
-      cmd = `git -C "${vaultDir}" log -1 --format="%aI" -- "${relPath}"`;
+      stdout = execFileSync('git', ['-C', vaultDir, 'log', '-1', '--format=%aI', '--', relPath], {
+        encoding: 'utf-8',
+        timeout: 5000,
+      }).trim();
     } else {
-      cmd = `git log -1 --format="%aI" -- "${file}"`;
+      stdout = execFileSync('git', ['log', '-1', '--format=%aI', '--', file], {
+        encoding: 'utf-8',
+        timeout: 5000,
+      }).trim();
     }
-    const stdout = execSync(cmd, { encoding: 'utf-8', timeout: 5000 }).trim();
     if (stdout) {
       lastmod[file] = stdout;
     }
