@@ -141,6 +141,7 @@ const categoryColors: Record<string, string> = {
       <span class="text-[10px]" style="color: var(--text-tertiary);">多</span>
     </div>
   </div>
+  <script type="application/json" id="heatmap-data" set:html={heatmapJSON}></script>
 
   {notes.length === 0 ? (
     <div class="card p-10 text-center reveal reveal-delay-1">
@@ -336,7 +337,8 @@ const categoryColors: Record<string, string> = {
   (function renderHeatmap() {
     const container = document.getElementById('note-heatmap');
     if (!container) return;
-    const data = {heatmapJSON};
+    const dataEl = document.getElementById('heatmap-data');
+    const data = dataEl ? JSON.parse(dataEl.textContent) : {};
     const today = new Date();
     const weeks = 26; // ~6 months
     const startDate = new Date(today);
