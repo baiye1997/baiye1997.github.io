@@ -24,13 +24,24 @@ const notes = Object.entries(noteFiles)
     const slug = `${category}/${filename}`;
     
     let dateStr = module.frontmatter?.date || '';
+    let sortDate = '';
     if (dateStr) {
       try {
+        // Try standard date format first
         const dateOnly = dateStr.split(' ')[0];
-        const d = new Date(dateOnly);
+        let d = new Date(dateOnly);
+        // Fallback: extract date from non-standard formats like "2026 第17周 (4.20-4.26)"
+        if (isNaN(d.getTime())) {
+          const m = dateStr.match(/(\d{1,2})\.(\d{1,2})-(\d{1,2})/);
+          if (m) {
+            const year = dateStr.match(/(\d{4})/)?.[1] || new Date().getFullYear();
+            d = new Date(`${year}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`);
+          }
+        }
         if (!isNaN(d.getTime())) {
           const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
           dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} 星期${weekdays[d.getDay()]}`;
+          sortDate = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
         }
       } catch {}
     }
@@ -48,6 +59,7 @@ const notes = Object.entries(noteFiles)
     return {
       title: module.frontmatter?.title || filename,
       date: dateStr,
+      sortDate,
       tags: module.frontmatter?.tags || [],
       excerpt,
       fullText: '',
@@ -57,7 +69,15 @@ const notes = Object.entries(noteFiles)
       categoryRaw: category,
     };
   })
-  .sort((a: any, b: any) => (b.date > a.date ? 1 : -1));
+  .sort((a: any, b: any) => {
+    // Pin latest 本周必读 at top in "all" view
+    if (a.category === '本周必读' && b.category !== '本周必读') return -1;
+    if (a.category !== '本周必读' && b.category === '本周必读') return 1;
+    // Then sort by date descending
+    const da = a.sortDate || a.date;
+    const db = b.sortDate || b.date;
+    return db > da ? 1 : -1;
+  });
 
 const categories = [...new Set(notes.map((n: any) => n.category))];
 const categoryCounts: Record<string, number> = {};
@@ -65,6 +85,16 @@ categories.forEach((c: string) => {
   categoryCounts[c] = notes.filter((n: any) => n.category === c).length;
 });
 const allTags = [...new Set(notes.flatMap((n: any) => n.tags))].sort();
+
+// Build heatmap data: count notes per day (last 180 days)
+const heatmapData: Record<string, number> = {};
+notes.forEach((n: any) => {
+  const d = n.sortDate || n.date?.split(' ')[0];
+  if (d && /^\d{4}-\d{2}-\d{2}$/.test(d)) {
+    heatmapData[d] = (heatmapData[d] || 0) + 1;
+  }
+});
+const heatmapJSON = JSON.stringify(heatmapData);
 const categoryIcons: Record<string, string> = {
   '山水邸报': '📰',
   '本周必读': '📖',
@@ -93,6 +123,24 @@ const categoryColors: Record<string, string> = {
     <p class="text-sm" style="color: var(--text-tertiary);">来自 Obsidian 的知识沉淀，共 {notes.length} 篇</p>
     <p class="text-xs mt-1" style="color: var(--text-tertiary);">记录投资、学习、生活的所思所想</p>
   </section>
+
+  <!-- Note Heatmap -->
+  <div class="mb-8 card p-5 reveal reveal-delay-1">
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="text-sm font-medium" style="color: var(--text-secondary);">📅 笔记热力图</h3>
+      <span class="text-[11px]" style="color: var(--text-tertiary);" id="heatmap-total"></span>
+    </div>
+    <div id="note-heatmap" class="overflow-x-auto scrollbar-hide -mx-1 px-1"></div>
+    <div class="flex items-center gap-1.5 mt-2.5 justify-end">
+      <span class="text-[10px]" style="color: var(--text-tertiary);">少</span>
+      <div class="w-2.5 h-2.5 rounded-sm" style="background: var(--bg-elevated); border: 1px solid var(--border);"></div>
+      <div class="w-2.5 h-2.5 rounded-sm" style="background: #4169E1/20;"></div>
+      <div class="w-2.5 h-2.5 rounded-sm" style="background: #4169E1/45;"></div>
+      <div class="w-2.5 h-2.5 rounded-sm" style="background: #4169E1/75;"></div>
+      <div class="w-2.5 h-2.5 rounded-sm" style="background: #4169E1;"></div>
+      <span class="text-[10px]" style="color: var(--text-tertiary);">多</span>
+    </div>
+  </div>
 
   {notes.length === 0 ? (
     <div class="card p-10 text-center reveal reveal-delay-1">
@@ -160,10 +208,14 @@ const categoryColors: Record<string, string> = {
           data-title={note.title.toLowerCase()}
           data-excerpt={note.excerpt.toLowerCase()}
           data-fulltext={note.fullText}
+          data-is-weekly={note.category === '本周必读' ? 'true' : 'false'}
         >
           <div class="flex items-start justify-between gap-3">
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-1.5">
+                {note.category === '本周必读' && (
+                  <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium" style="background: #7C5CFC/15; color: #7C5CFC;">📌 置顶</span>
+                )}
                 <span class="inline-block w-1.5 h-1.5 rounded-full" style={`background: ${categoryColors[note.category] || 'var(--text-tertiary)'};`}></span>
                 <span class="text-xs font-medium" style="color: var(--text-tertiary);">{note.category}</span>
                 {note.date && <span class="text-xs" style="color: var(--border);">·</span>}
@@ -279,4 +331,48 @@ const categoryColors: Record<string, string> = {
   });
 
   document.getElementById('search-input')?.addEventListener('input', filterNotes);
+
+  // === Note Heatmap ===
+  (function renderHeatmap() {
+    const container = document.getElementById('note-heatmap');
+    if (!container) return;
+    const data = {heatmapJSON};
+    const today = new Date();
+    const weeks = 26; // ~6 months
+    const startDate = new Date(today);
+    startDate.setDate(startDate.getDate() - (weeks * 7) + (7 - startDate.getDay()));
+    
+    let html = '<div style="display:grid; grid-template-rows: repeat(7, 1fr); grid-auto-flow: column; grid-auto-columns: 11px; gap: 2.5px;">';
+    const dayLabels = ['', '一', '', '三', '', '五', ''];
+    const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+    let lastMonth = -1;
+    let totalNotes = 0;
+    const d = new Date(startDate);
+    
+    while (d <= today) {
+      const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      const count = data[dateStr] || 0;
+      totalNotes += count;
+      
+      let opacity = '0';
+      let border = '1px solid var(--border)';
+      if (count === 1) { opacity = '0.2'; border = 'none'; }
+      else if (count === 2) { opacity = '0.45'; border = 'none'; }
+      else if (count >= 3) { opacity = count >= 5 ? '1' : '0.75'; border = 'none'; }
+      
+      const bg = count === 0 ? 'var(--bg-elevated)' : '#4169E1';
+      const dayOfWeek = d.getDay();
+      
+      html += `<div style="width:11px;height:11px;border-radius:2px;background:${bg};opacity:${opacity === '0' ? '1' : opacity};border:${border};position:relative;" 
+        title="${dateStr}: ${count} 篇笔记"
+        data-date="${dateStr}" data-count="${count}"></div>`;
+      
+      d.setDate(d.getDate() + 1);
+    }
+    html += '</div>';
+    container.innerHTML = html;
+    
+    const totalEl = document.getElementById('heatmap-total');
+    if (totalEl) totalEl.textContent = `共 ${totalNotes} 篇`;
+  })();
 </script>
