@@ -29,6 +29,9 @@ for (const [path, module] of Object.entries(noteFiles)) {
   // Extract path relative to src/content/notes/ for git-lastmod lookup
   const notesRelPath = 'src/content/notes/' + path.split('src/content/notes/')[1];
   const lastmod = (gitLastmod as Record<string, string>)[notesRelPath] || '';
+  if (slug.includes('从零搭建')) {
+    console.log('[DEBUG lastmod]', { path, notesRelPath, lastmod, jsonKeys: Object.keys(gitLastmod).length });
+  }
   const title = module.frontmatter?.title || filename;
   let content = convertWikilinks(typeof rawHtml === 'string' ? rawHtml : '');
   // Strip first h1 if it matches the title (avoids duplicate heading)
