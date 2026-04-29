@@ -29,8 +29,15 @@ const langColors: Record<string, string> = {
   Astro: '#FF5D01',
 };
 
-const featured = repos[0];
-const otherRepos = repos.slice(1);
+// Featured: baiye-hermes-skills, then mihomo-rules first in others
+const featuredName = 'baiye-hermes-skills';
+const featured = repos.find((r: any) => r.name === featuredName) || repos[0];
+const mihomoName = 'baiye-mihomo-rules';
+const mihomo = repos.find((r: any) => r.name === mihomoName);
+const otherRepos = [
+  ...(mihomo && mihomo.name !== featuredName ? [mihomo] : []),
+  ...repos.filter((r: any) => r.name !== featuredName && r.name !== mihomoName),
+];
 ---
 
 <Layout title="项目 - 白也">
@@ -59,7 +66,7 @@ const otherRepos = repos.slice(1);
             {featured.description || '暂无描述'}
           </p>
           <p class="text-sm mb-5 leading-relaxed" style="color: var(--text-tertiary);">
-            一个用于管理 Clash/Mihomo 订阅规则的工具项目，帮助用户更好地管理和自定义代理规则。
+            自研 Hermes Agent 技能库 — AI + Obsidian 驱动的个人生活管理系统，涵盖投资、笔记、日常自动化。
           </p>
           <div class="flex flex-wrap items-center gap-4 text-sm" style="color: var(--text-tertiary);">
             {featured.language && (
