@@ -101,11 +101,16 @@ function formatDate(raw: any, includeTime = false): string {
   try {
     const d = new Date(s);
     if (!isNaN(d.getTime())) {
-      const date = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      // Always display in Beijing time (Asia/Shanghai)
+      const parts = new Intl.DateTimeFormat('zh-CN', {
+        timeZone: 'Asia/Shanghai',
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        ...(includeTime ? { hour: '2-digit', minute: '2-digit', hour12: false } : {})
+      }).formatToParts(d);
+      const get = (type: string) => parts.find(p => p.type === type)?.value || '';
+      const date = `${get('year')}-${get('month')}-${get('day')}`;
       if (includeTime) {
-        const hours = d.getHours();
-        const mins = String(d.getMinutes()).padStart(2,'0');
-        return `${date} ${String(hours).padStart(2,'0')}:${mins}`;
+        return `${date} ${get('hour')}:${get('minute')}`;
       }
       return date;
     }
