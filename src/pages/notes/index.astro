@@ -33,7 +33,7 @@ const notes = Object.entries(noteFiles)
         if (m) {
           const year = dateStr.match(/(\d{4})/)?.[1] || new Date().getFullYear();
           const month = m[1];
-          const day = m[4] || m[2];
+          const day = m[2]; // Use start date of range, not end date
           d = new Date(`${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}`);
         }
         // Fallback: standard date format
