@@ -33,7 +33,7 @@ jobs:
           fi
 
           echo "📥 克隆 Obsidian vault..."
-          if ! git clone "https://x-access-token:${OBSIDIAN_VAULT_TOKEN}@github.com/${OBSIDIAN_VAULT_REPO}" /tmp/obsidian-vault --depth 1 2>&1; then
+          if ! git clone "https://x-access-token:${OBSIDIAN_VAULT_TOKEN}@github.com/${OBSIDIAN_VAULT_REPO}" /tmp/obsidian-vault 2>&1; then
             echo "❌ Vault 克隆失败，使用仓库中已有笔记"
             exit 0
           fi
